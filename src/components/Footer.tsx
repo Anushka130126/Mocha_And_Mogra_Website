@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-5">
               <img
-                src="/images/image.png"
+                src="/images/mnmlogo-Photoroom.webp"
                 alt="Mocha & Mogra"
                 className="h-10 w-10 object-contain brightness-0 invert opacity-80"
               />
