@@ -276,9 +276,9 @@ export default function Contact() {
       {/* Bottom image strip */}
       <div className="mt-24 grid grid-cols-3 h-48 lg:h-64 overflow-hidden">
         {[
-          '/images/products/files_10993037-2026-07-15T12-23-45-335Z-image.webp',
-          '/images/products/files_10993037-2026-07-15T12-23-40-067Z-image.webp',
-          '/images/products/files_10993037-2026-07-15T12-23-38-856Z-image.webp',
+          '/images/modelwalkinginriwaayat.webp',
+          '/images/modelbuttermogra.webp',
+          '/images/modelrubydoe.webp',
         ].map((src, i) => (
           <div key={i} className="overflow-hidden bg-mocha-100">
             <img
