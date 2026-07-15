@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-mocha: #3D2814;
+    --color-gold-light: #FFF8D6;
+    --color-gold-mid: #FDF5E6;
+    --color-gold-accent: #C99A2E;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: radial-gradient(ellipse at 20% 10%, #FFFEF7 0%, #FFF8D6 30%, #FDF5E6 60%, #FCEABB 85%, #FFF8D6 100%);
+    background-attachment: fixed;
+    color: #3D2814;
+    font-family: 'Lora', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+@layer components {
+  .arch-container {
+    border-radius: 50% 50% 4px 4px / 42% 42% 4px 4px;
+    overflow: hidden;
+  }
+
+  .arch-container-lg {
+    border-radius: 48% 48% 4px 4px / 38% 38% 4px 4px;
+    overflow: hidden;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 border border-mocha-800 text-mocha-800 px-8 py-3 text-xs tracking-[0.2em] font-cinzel uppercase transition-all duration-300 hover:bg-mocha-800 hover:text-gold-100;
+  }
+
+  .btn-primary-filled {
+    @apply inline-flex items-center gap-2 bg-mocha-800 text-gold-100 px-8 py-3 text-xs tracking-[0.2em] font-cinzel uppercase transition-all duration-300 hover:bg-mocha-700;
+  }
+
+  .section-label {
+    @apply font-cinzel text-xs tracking-[0.3em] uppercase text-mocha-600;
+  }
+
+  .page-heading {
+    @apply font-cinzel text-4xl md:text-5xl tracking-widest text-mocha-900 uppercase;
+  }
+
+  .silk-divider {
+    @apply flex items-center gap-3 my-6;
+  }
+
+  .silk-divider::before,
+  .silk-divider::after {
+    content: '';
+    @apply flex-1 h-px bg-mocha-300;
+  }
+
+  .nav-link {
+    @apply font-lora text-sm text-mocha-700 hover:text-mocha-900 transition-colors duration-200 relative;
+  }
+
+  .nav-link.active::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 right-0 h-px bg-mocha-700;
+  }
+
+  .input-field {
+    @apply w-full border-0 border-b border-mocha-300 bg-transparent py-3 text-mocha-800 font-lora text-sm placeholder-mocha-400 focus:outline-none focus:border-mocha-700 transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  .text-shadow-gold {
+    text-shadow: 0 1px 3px rgba(200, 154, 46, 0.15);
+  }
+
+  .shimmer-bg {
+    background: linear-gradient(135deg, #FFFEF7 0%, #FFF8D6 25%, #FDF5E6 50%, #FCEABB 60%, #FFF8D6 80%, #FFFEF7 100%);
+    background-size: 200% 200%;
+  }
+
+  .gold-border {
+    border-color: #C99A2E;
+  }
+}
