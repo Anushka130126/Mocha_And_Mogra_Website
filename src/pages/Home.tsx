@@ -159,7 +159,7 @@ export default function Home() {
                 transition={{ duration: 0.7 }}
               >
                 <img
-                  src="/images/jalparie.webp"
+                  src="/images/coverpicrubydoecloseup.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
@@ -185,7 +185,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
                 <img
-                  src="/images/coverpicrubydoecloseup.webp"
+                  src="/images/jalparie.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
