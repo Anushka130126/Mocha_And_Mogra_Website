@@ -101,7 +101,7 @@ export const products: Product[] = [
     story:
       'Butter Mogra is the feeling of a perfect morning — warm, unhurried, bright without effort. The pineapple, a symbol of hospitality and warmth across cultures, appears in playful precision across soft butter-yellow silk. This is the saree you reach for when you want to feel like sunshine.',
     wearFor: 'Daytime celebrations, baby showers, festive mornings, haldi ceremonies.',
-    image: '/images/products/butter_mogra.webp',
+    image: '/images/butter_mogra.webp',
     color: '#D4C08A',
   },
   {
