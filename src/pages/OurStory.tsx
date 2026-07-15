@@ -48,7 +48,7 @@ export default function OurStory() {
         className="w-full h-[50vh] lg:h-[65vh] overflow-hidden mb-24 bg-mocha-100"
       >
         <img
-          src="/images/products/files_10993037-2026-07-15T12-23-38-856Z-image.webp"
+          src="/images/machine.jpg"
           alt="Mocha & Mogra atelier"
           className="w-full h-full object-cover object-center"
         />
@@ -109,7 +109,7 @@ export default function OurStory() {
             style={{ aspectRatio: '4/5' }}
           >
             <img
-              src="/images/products/files_10993037-2026-07-15T12-23-20-266Z-image.webp"
+              src="/images/modelsapphiremogra.webp"
               alt="The Founder"
               className="w-full h-full object-cover"
             />
@@ -182,7 +182,7 @@ export default function OurStory() {
               style={{ aspectRatio: '4/5' }}
             >
               <img
-                src="/images/products/files_10993037-2026-07-15T12-23-11-827Z-image.webp"
+                src="/images/modelsundowner.webp"
                 alt="Artisan craftsmanship"
                 className="w-full h-full object-cover opacity-90"
               />
