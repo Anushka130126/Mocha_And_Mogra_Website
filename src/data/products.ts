@@ -26,7 +26,7 @@ export const products: Product[] = [
     story:
       'Jalparié is named for the water-spirit of old Indian folklore — graceful, elusive, and utterly compelling. The seahorse motif, rendered in meticulous artisan embroidery, speaks to those who move through the world with effortless refinement. She does not seek attention. She commands it.',
     wearFor: 'Intimate dinners, art gallery openings, quiet celebrations of the self.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-11-827Z-image.webp',
+    image: '/images/jalparie.webp',
     color: '#D4C5B0',
   },
   {
@@ -41,7 +41,7 @@ export const products: Product[] = [
     story:
       'The owl has long been the keeper of wisdom — but Rosé Mogra knows that wisdom can be joyful. Blush undertones meet crisp ivory silk in a saree that is at once serious and delightful. She is the woman in the room who has read every book and still laughs the loudest.',
     wearFor: 'Weddings you attend as a guest worth remembering. Board presentations. Sunset ceremonies.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-20-266Z-image.webp',
+    image: '/images/rose_mogra.webp',
     color: '#C9B5A8',
   },
   {
@@ -56,7 +56,7 @@ export const products: Product[] = [
     story:
       'Riwaayat means tradition — but not the kind that binds. The kind that grounds. The elephant, India\'s most sacred symbol of memory and matriarchal strength, is woven into every drape of this saree. For the woman who carries history forward without being weighed down by it.',
     wearFor: 'Family milestones. Temple visits. The moments you want to remember forever.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-38-856Z-image.webp',
+    image: '/images/riwaayat.webp',
     color: '#B8A898',
   },
   {
@@ -71,7 +71,7 @@ export const products: Product[] = [
     story:
       'Sunset light on still water. That is the feeling Sundowner Silk was made to hold. The fish motif dances across the fabric like ripples — fluid, carefree, impossible to pin down. For the creative soul who dresses like a poem.',
     wearFor: 'Rooftop evenings, art shows, the kind of gatherings that turn into memories.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-40-067Z-image.webp',
+    image: '/images/sundowner_silk.webp',
     color: '#C4A882',
   },
   {
@@ -86,7 +86,7 @@ export const products: Product[] = [
     story:
       'Ruby Doe is a love letter — to softness, to femininity, to the beauty of vulnerability worn with grace. The deer motif is delicate yet present, much like the woman who wears this saree: gentle in spirit, certain in presence. Deep ruby silk warms the skin like late afternoon light.',
     wearFor: 'Engagement ceremonies, anniversary dinners, moments of quiet romance.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-45-335Z-image.webp',
+    image: '/images/ruby_doe.webp',
     color: '#B89090',
   },
   {
@@ -101,7 +101,7 @@ export const products: Product[] = [
     story:
       'Butter Mogra is the feeling of a perfect morning — warm, unhurried, bright without effort. The pineapple, a symbol of hospitality and warmth across cultures, appears in playful precision across soft butter-yellow silk. This is the saree you reach for when you want to feel like sunshine.',
     wearFor: 'Daytime celebrations, baby showers, festive mornings, haldi ceremonies.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-11-827Z-image.webp',
+    image: '/images/products/butter_mogra.webp',
     color: '#D4C08A',
   },
   {
@@ -116,7 +116,7 @@ export const products: Product[] = [
     story:
       'The cage motif on Sapphire Mogra is not about confinement — it is about choice. She who wears this saree opens every door herself. Deep sapphire silk grounds the design with commanding authority while the geometric embroidery speaks a contemporary language rooted in ancient craft.',
     wearFor: 'Power meetings, cultural events, evenings where you intend to be unforgettable.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-20-266Z-image.webp',
+    image: '/images/sapphire_mogra.webp',
     color: '#8898B8',
   },
   {
@@ -131,7 +131,7 @@ export const products: Product[] = [
     story:
       'Every great story has a foundation. Chaandini — moonlit, luminous — is the underskirt your saree deserves. Designed to drape perfectly and move gracefully, it is crafted in the same premium silk sensibility as every Mocha & Mogra piece. Because the details that no one sees matter most.',
     wearFor: 'The perfect companion to any Mocha & Mogra saree.',
-    image: '/images/products/files_10993037-2026-07-15T12-23-38-856Z-image.webp',
+    image: '/images/chaandini.webp',
     color: '#D8D0C4',
   },
 ];
