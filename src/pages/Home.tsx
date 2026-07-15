@@ -107,7 +107,7 @@ export default function Home() {
                   style={{ aspectRatio: '3/4' }}
                 >
                   <img
-                    src="/images/products/files_10993037-2026-07-15T12-23-40-067Z-image.webp"
+                    src="/images/modelslandscape.webp"
                     alt="Mocha & Mogra saree"
                     className="w-full h-full object-cover"
                   />
@@ -159,7 +159,7 @@ export default function Home() {
                 transition={{ duration: 0.7 }}
               >
                 <img
-                  src="/images/products/files_10993037-2026-07-15T12-23-20-266Z-image.webp"
+                  src="/images/jalparie.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
@@ -172,7 +172,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.15 }}
               >
                 <img
-                  src="/images/products/files_10993037-2026-07-15T12-23-45-335Z-image.webp"
+                  src="/images/coverpiccloseup.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
@@ -185,7 +185,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
                 <img
-                  src="/images/products/files_10993037-2026-07-15T12-23-11-827Z-image.webp"
+                  src="/images/coverpicrubydoecloseup.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
