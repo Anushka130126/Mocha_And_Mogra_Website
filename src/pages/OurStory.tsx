@@ -79,7 +79,7 @@ export default function OurStory() {
       <div className="flex justify-center mb-24">
         <div className="flex items-center gap-4">
           <div className="w-16 h-px bg-mocha-300" />
-          <img src="/images/image.png" alt="" className="h-8 w-8 object-contain opacity-40" />
+          <img src="/images/mnmlogo-Photoroom.webp" alt="" className="h-8 w-8 object-contain opacity-40" />
           <div className="w-16 h-px bg-mocha-300" />
         </div>
       </div>
