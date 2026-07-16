@@ -155,9 +155,9 @@ export default function OrderConfirmation() {
           className="mt-20 grid grid-cols-3 gap-3"
         >
           {[
-            '/images/products/files_10993037-2026-07-15T12-23-45-335Z-image.webp',
-            '/images/products/files_10993037-2026-07-15T12-23-11-827Z-image.webp',
-            '/images/products/files_10993037-2026-07-15T12-23-40-067Z-image.webp',
+            '/images/ruby_doe.webp',
+            '/images/butter_mogra.webp',
+            '/images/sundowner_silk.webp',
           ].map((src, i) => (
             <div
               key={i}

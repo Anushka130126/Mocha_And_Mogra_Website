@@ -107,7 +107,7 @@ export default function Home() {
                   style={{ aspectRatio: '3/4' }}
                 >
                   <img
-                    src="/images/modelslandscape.webp"
+                    src="/images/modelsundowner.webp"
                     alt="Mocha & Mogra saree"
                     className="w-full h-full object-cover"
                   />
@@ -159,7 +159,7 @@ export default function Home() {
                 transition={{ duration: 0.7 }}
               >
                 <img
-                  src="/images/coverpicrubydoecloseup.webp"
+                  src="/images/models.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
@@ -172,7 +172,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.15 }}
               >
                 <img
-                  src="/images/coverpiccloseup.webp"
+                  src="/images/modelrubydoe.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />
@@ -185,7 +185,7 @@ export default function Home() {
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
                 <img
-                  src="/images/jalparie.webp"
+                  src="/images/modelbuttermogra.webp"
                   alt="Saree"
                   className="w-full h-full object-cover"
                 />

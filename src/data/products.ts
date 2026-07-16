@@ -131,7 +131,7 @@ export const products: Product[] = [
     story:
       'Every great story has a foundation. Chaandini — moonlit, luminous — is the underskirt your saree deserves. Designed to drape perfectly and move gracefully, it is crafted in the same premium silk sensibility as every Mocha & Mogra piece. Because the details that no one sees matter most.',
     wearFor: 'The perfect companion to any Mocha & Mogra saree.',
-    image: '/images/chaandini.webp',
+    image: '/images/riwaayat.webp',
     color: '#D8D0C4',
   },
 ];
