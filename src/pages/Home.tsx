@@ -85,12 +85,6 @@ export default function Home() {
                   Explore Collection
                   <ArrowRight size={14} strokeWidth={1.5} />
                 </button>
-                <button
-                  onClick={() => navigate('/our-story')}
-                  className="font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-500 hover:text-mocha-800 transition-colors py-3 flex items-center gap-2"
-                >
-                  Our Story
-                </button>
               </motion.div>
             </div>
 
@@ -103,17 +97,20 @@ export default function Home() {
             >
               <div className="relative w-full max-w-sm">
                 <div
-                  className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
+                  className="arch-container-lg w-full h-full overflow-hidden bg-mocha-100 shadow-2xl relative"
                   style={{ aspectRatio: '3/4' }}
                 >
-                  <video
-                    src="/images/coverreel1.webm"
-                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <video
+                      src="/images/coverreel1.webm"
+                      className="w-[135%] h-[135%] max-w-none object-cover -rotate-90"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    />
+                  </div>
                 </div>
                 {/* Floating tag */}
                 <motion.div
@@ -154,57 +151,55 @@ export default function Home() {
             {/* Image grid */}
             <div className="grid grid-cols-2 gap-4">
               <motion.div
-                className="arch-container overflow-hidden bg-mocha-100 col-span-1 row-span-2"
-                style={{ aspectRatio: '3/5' }}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
+                className="arch-container overflow-hidden bg-mocha-100 col-span-1 row-span-2 relative"
               >
-                <div className="relative w-full h-full">
+                <div className="absolute inset-0 flex items-center justify-center">
                   <video
                     src="/images/coverreel2.webm"
-                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    className="w-[135%] h-[135%] max-w-none object-cover -rotate-90"
                     autoPlay
                     muted
                     loop
                     playsInline
+                    preload="metadata"
                   />
                 </div>
               </motion.div>
               <motion.div
-                className="arch-container overflow-hidden bg-mocha-50 aspect-square relative"
+                className="arch-container overflow-hidden bg-mocha-50 relative aspect-square"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.15 }}
               >
-                <div className="relative w-full h-full">
+                <div className="absolute inset-0 flex items-center justify-center">
                   <video
                     src="/images/coverreel3.webm"
-                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    className="w-[135%] h-[135%] max-w-none object-cover -rotate-90"
                     autoPlay
                     muted
                     loop
                     playsInline
+                    preload="metadata"
                   />
                 </div>
               </motion.div>
               <motion.div
-                className="arch-container overflow-hidden bg-mocha-100 aspect-square relative"
+                className="arch-container overflow-hidden bg-mocha-100 relative aspect-square"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
-                <div className="relative w-full h-full">
+                <div className="absolute inset-0">
                   <video
                     src="/images/sm2.webm"
-                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    className="w-full h-full object-cover"
                     autoPlay
                     muted
                     loop
                     playsInline
+                    preload="metadata"
                   />
                 </div>
               </motion.div>

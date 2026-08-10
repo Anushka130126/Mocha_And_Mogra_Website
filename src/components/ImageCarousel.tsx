@@ -49,6 +49,7 @@ export default function ImageCarousel({ media, alt = 'Product Image', className 
               src={currentMedia}
               alt={`${alt} - ${currentIndex + 1}`}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           )}
         </motion.div>

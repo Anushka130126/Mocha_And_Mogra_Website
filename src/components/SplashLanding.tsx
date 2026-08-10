@@ -54,11 +54,6 @@ export default function SplashLanding() {
     navigate('/shop');
   };
 
-  const handleNewIn = () => {
-    setVisible(false);
-    navigate('/shop'); // You can point this to a specific filtered route if needed
-  };
-
   return (
     <AnimatePresence>
       {visible && (
@@ -101,18 +96,12 @@ export default function SplashLanding() {
           </motion.div>
 
           {/* Actions */}
-          <div className="relative z-10 px-8 pb-16 md:pb-12 flex flex-col items-center md:flex-row md:justify-center gap-4 max-w-lg mx-auto w-full">
+          <div className="relative z-10 px-8 pb-16 md:pb-12 flex justify-center max-w-lg mx-auto w-full">
             <button
               onClick={handleExplore}
-              className="w-full md:w-auto flex-1 bg-gold-500 hover:bg-gold-400 text-mocha-900 font-cinzel text-xs tracking-[0.2em] uppercase py-4 px-8 transition-colors flex items-center justify-center gap-2"
+              className="w-full md:w-auto bg-gold-500 hover:bg-gold-400 text-mocha-900 font-cinzel text-xs tracking-[0.2em] uppercase py-4 px-12 transition-colors flex items-center justify-center gap-2"
             >
               Explore Collection <ArrowRight size={14} strokeWidth={2} />
-            </button>
-            <button
-              onClick={handleNewIn}
-              className="w-full md:w-auto flex-1 border border-gold-500/50 hover:border-gold-500 text-gold-200 font-cinzel text-xs tracking-[0.2em] uppercase py-4 px-8 transition-colors bg-mocha-900/20 backdrop-blur-sm"
-            >
-              New In
             </button>
           </div>
         </motion.div>
