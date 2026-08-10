@@ -14,6 +14,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
+import SplashLanding from './components/SplashLanding';
 import type { Product } from './data/products';
 
 function ScrollToTop() {
@@ -35,6 +36,7 @@ function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {location.pathname === '/' && <SplashLanding />}
       <Navbar onSearchOpen={() => setSearchOpen(true)} />
       <main className="flex-1">
         <Routes>
