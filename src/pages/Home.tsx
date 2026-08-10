@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Feather } from 'lucide-react';
@@ -17,6 +18,7 @@ const motifIcons = ['Fish', 'Pineapple', 'Owl', 'Elephant', 'Seahorse'];
 export default function Home() {
   const navigate = useNavigate();
   const featured = products.slice(0, 3);
+  const [teaserInView, setTeaserInView] = useState(false);
 
   return (
     <div className="pt-20">
@@ -97,20 +99,18 @@ export default function Home() {
             >
               <div className="relative w-full max-w-sm">
                 <div
-                  className="arch-container-lg w-full h-full overflow-hidden bg-mocha-100 shadow-2xl relative"
-                  style={{ aspectRatio: '3/4' }}
+                  className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
+                  style={{ aspectRatio: '9/16' }}
                 >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <video
-                      src="/images/coverreel1.webm"
-                      className="w-[135%] h-[135%] max-w-none object-cover -rotate-90"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                    />
-                  </div>
+                  <video
+                    src="/images/coverreel1.webm"
+                    className="absolute top-1/2 left-1/2 max-w-none"
+                    style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
                 </div>
                 {/* Floating tag */}
                 <motion.div
@@ -149,60 +149,75 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <motion.div
-                className="arch-container overflow-hidden bg-mocha-100 col-span-1 row-span-2 relative"
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <video
-                    src="/images/coverreel2.webm"
-                    className="w-[135%] h-[135%] max-w-none object-cover -rotate-90"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  />
-                </div>
-              </motion.div>
-              <motion.div
-                className="arch-container overflow-hidden bg-mocha-50 relative aspect-square"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.15 }}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <video
-                    src="/images/coverreel3.webm"
-                    className="w-[135%] h-[135%] max-w-none object-cover -rotate-90"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  />
-                </div>
-              </motion.div>
-              <motion.div
-                className="arch-container overflow-hidden bg-mocha-100 relative aspect-square"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-              >
-                <div className="absolute inset-0">
-                  <video
-                    src="/images/sm2.webm"
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  />
-                </div>
-              </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8">
+              {/* Left Column */}
+              <div className="flex flex-col">
+                <motion.div
+                  className="arch-container overflow-hidden bg-mocha-100 relative w-full"
+                  style={{ aspectRatio: '9/16' }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "200px" }}
+                  onViewportEnter={() => setTeaserInView(true)}
+                  transition={{ duration: 0.7 }}
+                >
+                  {teaserInView && (
+                    <video
+                      src="/images/coverreel2.webm"
+                      className="absolute top-1/2 left-1/2 max-w-none"
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  )}
+                </motion.div>
+              </div>
+
+              {/* Right Column */}
+              <div className="flex flex-col gap-4 lg:gap-8 pt-0 md:pt-16">
+                <motion.div
+                  className="arch-container overflow-hidden bg-mocha-50 relative w-full"
+                  style={{ aspectRatio: '9/16' }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "200px" }}
+                  transition={{ duration: 0.7, delay: 0.15 }}
+                >
+                  {teaserInView && (
+                    <video
+                      src="/images/coverreel3.webm"
+                      className="absolute top-1/2 left-1/2 max-w-none"
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  )}
+                </motion.div>
+
+                <motion.div
+                  className="arch-container overflow-hidden bg-mocha-100 relative w-full"
+                  style={{ aspectRatio: '16/9' }}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "200px" }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                >
+                  {teaserInView && (
+                    <video
+                      src="/images/sm2.webm"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  )}
+                </motion.div>
+              </div>
             </div>
 
             {/* Text */}
@@ -265,6 +280,7 @@ export default function Home() {
                     src={product.image}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
                   />
                 </div>
                 <p className="font-cinzel text-xs tracking-[0.2em] uppercase text-gold-400 mb-1">
