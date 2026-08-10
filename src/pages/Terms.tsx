@@ -1,9 +1,17 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 export default function Terms() {
   return (
     <div className="pt-24 pb-20 min-h-screen">
       <div className="max-w-4xl mx-auto px-6 lg:px-10">
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-400 hover:text-mocha-700 transition-colors mb-12"
+        >
+          <ArrowLeft size={14} /> Back to Home
+        </Link>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

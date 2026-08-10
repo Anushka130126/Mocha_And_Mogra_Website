@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Clock, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Clock, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { z } from 'zod';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -19,17 +20,42 @@ const subjects = [
   'Other',
 ];
 
+const contactSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').max(50, 'Name is too long').regex(/^[a-zA-Z\s]*$/, 'Name can only contain letters'),
+  email: z.string().email('Please enter a valid email address').max(100, 'Email is too long'),
+  subject: z.string().min(1, 'Please select a subject'),
+  message: z.string().min(10, 'Message must be at least 10 characters').max(1000, 'Message is too long (max 1000 characters)'),
+});
+
+type ContactForm = z.infer<typeof contactSchema>;
+
 export default function Contact() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<ContactForm>({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactForm, string>>>({});
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    
+    // Secure Input Validation
+    const result = contactSchema.safeParse(form);
+    
+    if (!result.success) {
+      const formattedErrors: Record<string, string> = {};
+      result.error.issues.forEach((issue) => {
+        formattedErrors[issue.path[0] as string] = issue.message;
+      });
+      setErrors(formattedErrors);
+      return;
+    }
+
+    // Process sanitized and validated data
     setSubmitted(true);
   };
 
@@ -102,12 +128,16 @@ export default function Contact() {
                     </label>
                     <input
                       type="text"
-                      required
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Your name"
-                      className="input-field"
+                      className={`input-field ${errors.name ? 'border-red-500' : ''}`}
                     />
+                    {errors.name && (
+                      <p className="flex items-center gap-1 text-red-500 text-[10px] mt-2 font-lora">
+                        <AlertCircle size={10} /> {errors.name}
+                      </p>
+                    )}
                   </motion.div>
 
                   <motion.div
@@ -121,12 +151,16 @@ export default function Contact() {
                     </label>
                     <input
                       type="email"
-                      required
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="you@example.com"
-                      className="input-field"
+                      className={`input-field ${errors.email ? 'border-red-500' : ''}`}
                     />
+                    {errors.email && (
+                      <p className="flex items-center gap-1 text-red-500 text-[10px] mt-2 font-lora">
+                        <AlertCircle size={10} /> {errors.email}
+                      </p>
+                    )}
                   </motion.div>
                 </div>
 
@@ -142,7 +176,7 @@ export default function Contact() {
                   <select
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="input-field bg-transparent cursor-pointer appearance-none"
+                    className={`input-field bg-transparent cursor-pointer appearance-none ${errors.subject ? 'border-red-500' : ''}`}
                   >
                     <option value="">Select a subject</option>
                     {subjects.map((s) => (
@@ -151,6 +185,11 @@ export default function Contact() {
                       </option>
                     ))}
                   </select>
+                  {errors.subject && (
+                    <p className="flex items-center gap-1 text-red-500 text-[10px] mt-2 font-lora">
+                      <AlertCircle size={10} /> {errors.subject}
+                    </p>
+                  )}
                 </motion.div>
 
                 <motion.div
@@ -163,13 +202,17 @@ export default function Contact() {
                     Message
                   </label>
                   <textarea
-                    required
                     rows={6}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Share your thoughts, questions, or the story you want to wear..."
-                    className="input-field resize-none"
+                    className={`input-field resize-none ${errors.message ? 'border-red-500' : ''}`}
                   />
+                  {errors.message && (
+                    <p className="flex items-center gap-1 text-red-500 text-[10px] mt-2 font-lora">
+                      <AlertCircle size={10} /> {errors.message}
+                    </p>
+                  )}
                 </motion.div>
 
                 <motion.div
