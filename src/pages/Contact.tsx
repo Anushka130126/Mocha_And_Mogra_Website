@@ -276,7 +276,7 @@ export default function Contact() {
       {/* Bottom image strip */}
       <div className="mt-24 grid grid-cols-3 gap-1 overflow-hidden">
         {[
-          '/images/coverpicrubydoecloseup.webp',
+          '/images/jp1.webp',
           '/images/multisareepic.webp',
           '/images/coverpiccloseup.webp',
         ].map((src, i) => (

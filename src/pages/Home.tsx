@@ -100,12 +100,12 @@ export default function Home() {
               <div className="relative w-full max-w-sm">
                 <div
                   className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
-                  style={{ aspectRatio: '4/5' }}
+                  style={{ aspectRatio: '3/4' }}
                 >
                   <video
                     src="/images/coverreel1.webm"
                     className="absolute top-1/2 left-1/2 max-w-none"
-                    style={{ width: '177.77%', height: '80%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                    style={{ width: '133.33%', height: '75%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                     autoPlay
                     muted
                     loop
@@ -146,12 +146,12 @@ export default function Home() {
 
       {/* Brand Teaser */}
       <section className="py-24 lg:py-36">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="max-w-[90rem] mx-auto px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
-            <div className="grid grid-cols-3 gap-2 lg:gap-4 w-full">
-              {/* Left Column - coverreel2 */}
-              <div className="flex flex-col mt-0">
+            <div className="lg:col-span-7 grid grid-cols-3 gap-2 md:gap-4 lg:gap-6 w-full">
+              {/* Left Column - coverreel2 (Lowest) */}
+              <div className="flex flex-col mt-24 md:mt-32 lg:mt-48">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
@@ -175,8 +175,8 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Middle Column - sm2 (blue one) */}
-              <div className="flex flex-col mt-12 md:mt-16 lg:mt-24">
+              {/* Middle Column - sm2 (Highest) */}
+              <div className="flex flex-col mt-0">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
@@ -198,8 +198,8 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Right Column - coverreel3 */}
-              <div className="flex flex-col mt-6 md:mt-8 lg:mt-12">
+              {/* Right Column - coverreel3 (Lower than Mid) */}
+              <div className="flex flex-col mt-12 md:mt-16 lg:mt-24">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-50 relative w-full"
                   style={{ aspectRatio: '9/16' }}
@@ -225,6 +225,7 @@ export default function Home() {
 
             {/* Text */}
             <motion.div
+              className="lg:col-span-5 lg:pl-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
