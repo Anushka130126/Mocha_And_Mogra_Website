@@ -346,12 +346,15 @@ interface ProductCardProps {
 
 function ProductCard({ product, index, onSelect }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
+  const [inView, setInView] = useState(false);
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "200px" }}
+      onViewportEnter={() => setInView(true)}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
       className="group cursor-pointer"
@@ -363,11 +366,13 @@ function ProductCard({ product, index, onSelect }: ProductCardProps) {
         className="arch-container overflow-hidden bg-mocha-100 mb-4 relative"
         style={{ aspectRatio: '3/4' }}
       >
-        <ImageCarousel 
-          media={product.images || [product.image]} 
-          alt={product.name} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        {inView && (
+          <ImageCarousel 
+            media={product.images || [product.image]} 
+            alt={product.name} 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        )}
         <motion.div
           initial={false}
           animate={{ opacity: hovered ? 1 : 0 }}

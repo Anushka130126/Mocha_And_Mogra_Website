@@ -105,7 +105,7 @@ export default function Home() {
                   <video
                     src="/images/coverreel1.webm"
                     className="absolute top-1/2 left-1/2 max-w-none"
-                    style={{ width: '133.33%', height: '75%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                    style={{ width: '177.77%', height: '75%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                     autoPlay
                     muted
                     loop
@@ -150,8 +150,8 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
             <div className="lg:col-span-7 grid grid-cols-3 gap-2 md:gap-4 lg:gap-6 w-full">
-              {/* Left Column - coverreel2 (Lowest) */}
-              <div className="flex flex-col mt-24 md:mt-32 lg:mt-48">
+              {/* Left Column - coverreel2 (Symmetrical to Right) */}
+              <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
@@ -198,8 +198,8 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Right Column - coverreel3 (Lower than Mid) */}
-              <div className="flex flex-col mt-12 md:mt-16 lg:mt-24">
+              {/* Right Column - coverreel3 (Symmetrical to Left) */}
+              <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-50 relative w-full"
                   style={{ aspectRatio: '9/16' }}
