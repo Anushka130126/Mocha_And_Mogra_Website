@@ -103,13 +103,16 @@ export default function Home() {
             >
               <div className="relative w-full max-w-sm">
                 <div
-                  className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl"
+                  className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
                   style={{ aspectRatio: '3/4' }}
                 >
-                  <img
-                    src="/images/modelsundowner.webp"
-                    alt="Mocha & Mogra saree"
-                    className="w-full h-full object-cover"
+                  <video
+                    src="/images/coverreel1.webm"
+                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
                   />
                 </div>
                 {/* Floating tag */}
@@ -158,37 +161,52 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
               >
-                <img
-                  src="/images/models.webp"
-                  alt="Saree"
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <video
+                    src="/images/coverreel2.webm"
+                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                </div>
               </motion.div>
               <motion.div
-                className="arch-container overflow-hidden bg-mocha-50 aspect-square"
+                className="arch-container overflow-hidden bg-mocha-50 aspect-square relative"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.15 }}
               >
-                <img
-                  src="/images/modelrubydoe.webp"
-                  alt="Saree"
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <video
+                    src="/images/coverreel3.webm"
+                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                </div>
               </motion.div>
               <motion.div
-                className="arch-container overflow-hidden bg-mocha-100 aspect-square"
+                className="arch-container overflow-hidden bg-mocha-100 aspect-square relative"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.3 }}
               >
-                <img
-                  src="/images/modelbuttermogra.webp"
-                  alt="Saree"
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <video
+                    src="/images/sm2.webm"
+                    className="absolute top-1/2 left-1/2 w-[200%] h-[200%] object-cover -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                </div>
               </motion.div>
             </div>
 
