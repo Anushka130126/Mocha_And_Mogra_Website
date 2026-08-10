@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Instagram, Mail } from 'lucide-react';
 
 export default function Footer() {
@@ -30,7 +30,9 @@ export default function Footer() {
                 <Mail size={18} strokeWidth={1.5} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/mocha.n.mogra/"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="text-mocha-400 hover:text-gold-300 transition-colors"
               >
@@ -80,13 +82,16 @@ export default function Footer() {
               Legal
             </h4>
             <ul className="space-y-3">
-              {['Privacy Policy', 'Terms of Service'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link to="/privacy" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

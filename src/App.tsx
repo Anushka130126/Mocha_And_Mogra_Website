@@ -15,6 +15,8 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
 import SplashLanding from './components/SplashLanding';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import type { Product } from './data/products';
 
 function ScrollToTop() {
@@ -47,6 +49,8 @@ function Layout() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

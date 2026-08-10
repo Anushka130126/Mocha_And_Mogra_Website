@@ -1,0 +1,40 @@
+import { motion } from 'framer-motion';
+
+export default function Terms() {
+  return (
+    <div className="pt-24 pb-20 min-h-screen">
+      <div className="max-w-4xl mx-auto px-6 lg:px-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="font-cinzel text-3xl md:text-4xl tracking-widest text-mocha-900 uppercase mb-8">
+            Terms of Service
+          </h1>
+          <div className="font-lora text-mocha-600 space-y-6 leading-relaxed">
+            <p>
+              Welcome to Mocha & Mogra. By accessing or using our website and services, you agree to comply with and be bound by the following Terms of Service.
+            </p>
+            <h2 className="font-cinzel text-xl text-mocha-900 tracking-wider uppercase mt-8 mb-4">Intellectual Property</h2>
+            <p>
+              All content on this website, including but not limited to designs, images, text, and logos, is the exclusive property of Mocha & Mogra. Any unauthorized reproduction or use of our intellectual property is strictly prohibited.
+            </p>
+            <h2 className="font-cinzel text-xl text-mocha-900 tracking-wider uppercase mt-8 mb-4">Purchases and Returns</h2>
+            <p>
+              Every saree is crafted with artisan-led embroidery. Slight variations in craftsmanship are a hallmark of our premium, handcrafted process. Returns and exchanges are handled on a case-by-case basis as detailed in our return policy.
+            </p>
+            <h2 className="font-cinzel text-xl text-mocha-900 tracking-wider uppercase mt-8 mb-4">Limitation of Liability</h2>
+            <p>
+              Mocha & Mogra shall not be liable for any indirect, incidental, or consequential damages resulting from the use of our website or products.
+            </p>
+            <h2 className="font-cinzel text-xl text-mocha-900 tracking-wider uppercase mt-8 mb-4">Changes to Terms</h2>
+            <p>
+              We reserve the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting to the website. Your continued use of the site constitutes acceptance of the updated terms.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
