@@ -5,6 +5,7 @@ import { products } from '../data/products';
 import type { Product } from '../data/products';
 import ProductModal from '../components/ProductModal';
 import AddedToCartToast from '../components/AddedToCartToast';
+import ImageCarousel from '../components/ImageCarousel';
 
 const CATEGORIES = ['Saree', 'Underskirt'];
 const PRICE_RANGES = [
@@ -362,9 +363,9 @@ function ProductCard({ product, index, onSelect }: ProductCardProps) {
         className="arch-container overflow-hidden bg-mocha-100 mb-4 relative"
         style={{ aspectRatio: '3/4' }}
       >
-        <img
-          src={product.image}
-          alt={product.name}
+        <ImageCarousel 
+          media={product.images || [product.image]} 
+          alt={product.name} 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <motion.div

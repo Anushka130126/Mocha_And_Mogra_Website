@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
+import ImageCarousel from './ImageCarousel';
 
 interface ProductModalProps {
   product: Product | null;
@@ -89,9 +90,9 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
                 className="arch-container-lg w-full overflow-hidden bg-mocha-100"
                 style={{ aspectRatio: '3/4' }}
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
+                <ImageCarousel 
+                  media={product.images || [product.image]} 
+                  alt={product.name} 
                   className="w-full h-full object-cover"
                 />
               </div>
