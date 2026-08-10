@@ -100,12 +100,12 @@ export default function Home() {
               <div className="relative w-full max-w-sm">
                 <div
                   className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
-                  style={{ aspectRatio: '9/16' }}
+                  style={{ aspectRatio: '4/5' }}
                 >
                   <video
                     src="/images/coverreel1.webm"
                     className="absolute top-1/2 left-1/2 max-w-none"
-                    style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                    style={{ width: '177.77%', height: '80%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                     autoPlay
                     muted
                     loop
@@ -149,9 +149,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8">
-              {/* Left Column */}
-              <div className="flex flex-col">
+            <div className="grid grid-cols-3 gap-2 lg:gap-4 w-full">
+              {/* Left Column - coverreel2 */}
+              <div className="flex flex-col mt-0">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
@@ -175,10 +175,10 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Right Column */}
-              <div className="flex flex-col gap-4 lg:gap-8 pt-0 md:pt-16">
+              {/* Middle Column - sm2 (blue one) */}
+              <div className="flex flex-col mt-12 md:mt-16 lg:mt-24">
                 <motion.div
-                  className="arch-container overflow-hidden bg-mocha-50 relative w-full"
+                  className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -187,9 +187,8 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="/images/coverreel3.webm"
-                      className="absolute top-1/2 left-1/2 max-w-none"
-                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                      src="/images/sm2.webm"
+                      className="absolute inset-0 w-full h-full object-cover"
                       autoPlay
                       muted
                       loop
@@ -197,10 +196,13 @@ export default function Home() {
                     />
                   )}
                 </motion.div>
+              </div>
 
+              {/* Right Column - coverreel3 */}
+              <div className="flex flex-col mt-6 md:mt-8 lg:mt-12">
                 <motion.div
-                  className="arch-container overflow-hidden bg-mocha-100 relative w-full"
-                  style={{ aspectRatio: '16/9' }}
+                  className="arch-container overflow-hidden bg-mocha-50 relative w-full"
+                  style={{ aspectRatio: '9/16' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "200px" }}
@@ -208,8 +210,9 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="/images/sm2.webm"
-                      className="absolute inset-0 w-full h-full object-cover"
+                      src="/images/coverreel3.webm"
+                      className="absolute top-1/2 left-1/2 max-w-none"
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                       autoPlay
                       muted
                       loop

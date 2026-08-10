@@ -274,17 +274,17 @@ export default function Contact() {
       </div>
 
       {/* Bottom image strip */}
-      <div className="mt-24 grid grid-cols-3 overflow-hidden">
+      <div className="mt-24 grid grid-cols-3 gap-1 overflow-hidden">
         {[
           '/images/coverpicrubydoecloseup.webp',
           '/images/multisareepic.webp',
           '/images/coverpiccloseup.webp',
         ].map((src, i) => (
-          <div key={i} className="overflow-hidden bg-mocha-100 flex">
+          <div key={i} className="overflow-hidden bg-mocha-100 flex aspect-[4/3] md:aspect-[16/9]">
             <img
               src={src}
               alt="Mocha & Mogra saree"
-              className="w-full h-auto object-contain opacity-80"
+              className={`w-full h-full object-cover opacity-80 ${i < 2 ? 'object-bottom' : 'object-center'}`}
               loading="lazy"
             />
           </div>
