@@ -1,11 +1,36 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Mail, Package } from 'lucide-react';
 
-const orderNumber = `MM-${Math.floor(100000 + Math.random() * 900000)}`;
+interface OrderDetails {
+  orderNumber: string;
+  date: string;
+  items: Array<{ product: { id: number; name: string; price: number; image: string }; quantity: number }>;
+  total: number;
+  email?: string;
+  shippingAddress?: string;
+}
 
 export default function OrderConfirmation() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const savedOrder = (() => {
+    try {
+      const stateOrder = (location.state as { orderDetails?: OrderDetails })?.orderDetails;
+      if (stateOrder) return stateOrder;
+      const cached = sessionStorage.getItem('latest_order');
+      if (cached) return JSON.parse(cached) as OrderDetails;
+    } catch {
+      // fallback
+    }
+    return null;
+  })();
+
+  const orderNumber = savedOrder?.orderNumber || `MM-${Math.floor(100000 + Math.random() * 900000)}`;
+  const orderTotal = savedOrder?.total;
+  const orderItems = savedOrder?.items || [];
+  const customerEmail = savedOrder?.email || 'your email';
 
   return (
     <div className="pt-24 pb-20 min-h-screen flex items-center">
@@ -49,7 +74,7 @@ export default function OrderConfirmation() {
             transition={{ delay: 0.55, duration: 0.6 }}
             className="font-lora text-base text-mocha-600 leading-relaxed mb-3"
           >
-            Your saree is on its way to you. It has been wrapped with care and packaged with the intention it was made with.
+            Your order has been wrapped with care and packaged with the intention it was made with.
           </motion.p>
 
           <motion.p
@@ -66,9 +91,9 @@ export default function OrderConfirmation() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.5 }}
-            className="border border-mocha-200 p-8 mb-10 text-left"
+            className="border border-mocha-200 p-8 mb-10 text-left bg-white/50 shadow-sm"
           >
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-6 mb-6">
               <div>
                 <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-2">
                   Order Number
@@ -97,14 +122,29 @@ export default function OrderConfirmation() {
               </div>
               <div>
                 <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-2">
-                  Status
+                  Total Paid
                 </p>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-forest-500 animate-pulse" />
-                  <p className="font-lora text-sm text-mocha-700">Confirmed</p>
-                </div>
+                <p className="font-playfair text-lg text-mocha-900">
+                  {orderTotal ? `₹${orderTotal.toLocaleString('en-IN')}` : 'Paid'}
+                </p>
               </div>
             </div>
+
+            {orderItems.length > 0 && (
+              <div className="border-t border-mocha-200 pt-4 mt-4">
+                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-3">
+                  Purchased Items ({orderItems.reduce((s, i) => s + i.quantity, 0)})
+                </p>
+                <div className="space-y-2">
+                  {orderItems.map((item, idx) => (
+                    <div key={idx} className="flex justify-between items-center text-xs font-lora text-mocha-700">
+                      <span>{item.product.name} × {item.quantity}</span>
+                      <span>₹{(item.product.price * item.quantity).toLocaleString('en-IN')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </motion.div>
 
           {/* Next steps */}
@@ -116,7 +156,7 @@ export default function OrderConfirmation() {
           >
             <div className="flex items-center gap-3 text-mocha-500">
               <Mail size={16} strokeWidth={1.5} />
-              <p className="font-lora text-sm">Confirmation sent to your email</p>
+              <p className="font-lora text-sm">Confirmation sent to {customerEmail}</p>
             </div>
             <div className="hidden sm:block w-px h-4 bg-mocha-200" />
             <div className="flex items-center gap-3 text-mocha-500">

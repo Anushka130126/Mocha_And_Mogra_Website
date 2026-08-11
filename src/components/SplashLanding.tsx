@@ -11,11 +11,6 @@ export default function SplashLanding() {
   useEffect(() => {
     if (!visible) return;
 
-    const handleScroll = (e: Event) => {
-      e.preventDefault();
-      setVisible(false);
-    };
-
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) > 20) {
         setVisible(false);

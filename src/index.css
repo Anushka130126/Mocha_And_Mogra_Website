@@ -15,12 +15,22 @@
   }
 
   body {
-    background: radial-gradient(ellipse at 20% 10%, #FFFEF7 0%, #FFF8D6 30%, #FDF5E6 60%, #FCEABB 85%, #FFF8D6 100%);
-    background-attachment: fixed;
+    position: relative;
+    min-height: 100vh;
     color: #3D2814;
     font-family: 'Lora', Georgia, serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(ellipse at 20% 10%, #FFFEF7 0%, #FFF8D6 30%, #FDF5E6 60%, #FCEABB 85%, #FFF8D6 100%);
+    transform: translateZ(0);
+    pointer-events: none;
   }
 
   h1, h2, h3, h4, h5, h6 {

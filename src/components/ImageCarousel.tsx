@@ -43,6 +43,7 @@ export default function ImageCarousel({ media, alt = 'Product Image', className 
               muted
               loop
               playsInline
+              preload="metadata"
             />
           ) : (
             <img
@@ -50,6 +51,7 @@ export default function ImageCarousel({ media, alt = 'Product Image', className 
               alt={`${alt} - ${currentIndex + 1}`}
               className="w-full h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
           )}
         </motion.div>

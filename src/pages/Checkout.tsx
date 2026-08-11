@@ -16,14 +16,6 @@ type Step = 'address' | 'shipping' | 'payment';
 type PaymentMethod = 'card' | 'upi' | 'netbanking';
 type ShippingMethod = 'standard' | 'express';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (i: number) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.5, delay: i * 0.08 },
-  }),
-};
-
 export default function Checkout() {
   const navigate = useNavigate();
   const { items, subtotal, clearCart } = useCart();
@@ -44,6 +36,9 @@ export default function Checkout() {
     number: '', expiry: '', cvv: '', name: '',
   });
 
+  const [upiId, setUpiId] = useState('');
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
   const steps: { id: Step; label: string; icon: typeof MapPin }[] = [
     { id: 'address', label: 'Address', icon: MapPin },
     { id: 'shipping', label: 'Shipping', icon: Truck },
@@ -53,11 +48,70 @@ export default function Checkout() {
   const stepOrder: Step[] = ['address', 'shipping', 'payment'];
   const currentStepIndex = stepOrder.indexOf(activeStep);
 
+  const validateAddress = () => {
+    const errs: Record<string, string> = {};
+    if (!address.firstName.trim()) errs.firstName = 'First name required';
+    if (!address.lastName.trim()) errs.lastName = 'Last name required';
+    if (!address.address.trim()) errs.address = 'Street address required';
+    if (!address.city.trim()) errs.city = 'City required';
+    if (!address.state) errs.state = 'State required';
+    if (!/^\d{6}$/.test(address.pin.trim())) errs.pin = 'Enter 6-digit PIN code';
+    if (!/^\+?\d{10,12}$/.test(address.phone.trim().replace(/\s/g, ''))) errs.phone = 'Enter valid 10-digit phone';
+    
+    setFormErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const validatePayment = () => {
+    const errs: Record<string, string> = {};
+    if (payment === 'card') {
+      if (!/^\d{16}$/.test(card.number.replace(/\s/g, ''))) errs.cardNumber = 'Enter 16-digit card number';
+      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(card.expiry.trim())) errs.cardExpiry = 'MM/YY required';
+      if (!/^\d{3,4}$/.test(card.cvv.trim())) errs.cardCvv = '3-4 digit CVV required';
+      if (!card.name.trim()) errs.cardName = 'Name on card required';
+    } else if (payment === 'upi') {
+      if (!upiId.includes('@') || upiId.trim().length < 5) errs.upiId = 'Enter valid UPI ID (e.g. name@upi)';
+    }
+    setFormErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const handleContinueToShipping = () => {
+    if (validateAddress()) {
+      setActiveStep('shipping');
+    }
+  };
+
   const handlePlaceOrder = async () => {
+    if (!validateAddress()) {
+      setActiveStep('address');
+      return;
+    }
+    if (!validatePayment()) {
+      setActiveStep('payment');
+      return;
+    }
+
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1800));
+    await new Promise((r) => setTimeout(r, 1200));
+
+    const orderDetails = {
+      orderNumber: `MM-${Math.floor(100000 + Math.random() * 900000)}`,
+      date: new Date().toISOString(),
+      items: [...items],
+      total,
+      email: address.firstName.toLowerCase() ? `${address.firstName.toLowerCase()}@example.com` : 'customer@example.com',
+      shippingAddress: `${address.address}, ${address.city}, ${address.state} - ${address.pin}`,
+    };
+
+    try {
+      sessionStorage.setItem('latest_order', JSON.stringify(orderDetails));
+    } catch (e) {
+      console.error(e);
+    }
+
     clearCart();
-    navigate('/order-confirmation');
+    navigate('/order-confirmation', { state: { orderDetails } });
   };
 
   if (items.length === 0) {
@@ -137,12 +191,14 @@ export default function Checkout() {
                   value={address.firstName}
                   onChange={(v) => setAddress((a) => ({ ...a, firstName: v }))}
                   placeholder="Priya"
+                  error={formErrors.firstName}
                 />
                 <FormField
                   label="Last Name"
                   value={address.lastName}
                   onChange={(v) => setAddress((a) => ({ ...a, lastName: v }))}
                   placeholder="Sharma"
+                  error={formErrors.lastName}
                 />
               </div>
               <FormField
@@ -151,6 +207,7 @@ export default function Checkout() {
                 onChange={(v) => setAddress((a) => ({ ...a, address: v }))}
                 placeholder="123, Rose Lane"
                 className="mt-6"
+                error={formErrors.address}
               />
               <FormField
                 label="Apartment, suite, etc. (optional)"
@@ -165,6 +222,7 @@ export default function Checkout() {
                   value={address.city}
                   onChange={(v) => setAddress((a) => ({ ...a, city: v }))}
                   placeholder="Mumbai"
+                  error={formErrors.city}
                 />
                 <div>
                   <label className="block font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-500 mb-2">
@@ -174,19 +232,23 @@ export default function Checkout() {
                     <select
                       value={address.state}
                       onChange={(e) => setAddress((a) => ({ ...a, state: e.target.value }))}
-                      className="w-full border-0 border-b border-mocha-300 bg-transparent py-3 text-mocha-800 font-lora text-sm focus:outline-none focus:border-mocha-700 transition-colors appearance-none cursor-pointer"
+                      className={`w-full border-0 border-b bg-transparent py-3 text-mocha-800 font-lora text-sm focus:outline-none transition-colors appearance-none cursor-pointer ${
+                        formErrors.state ? 'border-red-500' : 'border-mocha-300 focus:border-mocha-700'
+                      }`}
                     >
                       <option value="">Select</option>
                       {INDIAN_STATES.map((s) => <option key={s}>{s}</option>)}
                     </select>
                     <ChevronDown size={12} className="absolute right-0 top-1/2 -translate-y-1/2 text-mocha-400 pointer-events-none" strokeWidth={1.5} />
                   </div>
+                  {formErrors.state && <p className="text-red-500 text-[10px] mt-1 font-lora">{formErrors.state}</p>}
                 </div>
                 <FormField
                   label="PIN Code"
                   value={address.pin}
                   onChange={(v) => setAddress((a) => ({ ...a, pin: v }))}
                   placeholder="400001"
+                  error={formErrors.pin}
                 />
               </div>
               <FormField
@@ -195,10 +257,11 @@ export default function Checkout() {
                 onChange={(v) => setAddress((a) => ({ ...a, phone: v }))}
                 placeholder="+91 98765 43210"
                 className="mt-6"
+                error={formErrors.phone}
               />
               <div className="mt-8">
                 <button
-                  onClick={() => setActiveStep('shipping')}
+                  onClick={handleContinueToShipping}
                   className="btn-primary-filled"
                 >
                   Continue to Shipping
@@ -267,6 +330,7 @@ export default function Checkout() {
                       value={card.number}
                       onChange={(v) => setCard((c) => ({ ...c, number: v }))}
                       placeholder="1234 5678 9012 3456"
+                      error={formErrors.cardNumber}
                     />
                     <div className="grid grid-cols-2 gap-4">
                       <FormField
@@ -274,12 +338,14 @@ export default function Checkout() {
                         value={card.expiry}
                         onChange={(v) => setCard((c) => ({ ...c, expiry: v }))}
                         placeholder="08/28"
+                        error={formErrors.cardExpiry}
                       />
                       <FormField
                         label="Security Code (CVV)"
                         value={card.cvv}
                         onChange={(v) => setCard((c) => ({ ...c, cvv: v }))}
                         placeholder="•••"
+                        error={formErrors.cardCvv}
                       />
                     </div>
                     <FormField
@@ -287,6 +353,7 @@ export default function Checkout() {
                       value={card.name}
                       onChange={(v) => setCard((c) => ({ ...c, name: v }))}
                       placeholder="Priya Sharma"
+                      error={formErrors.cardName}
                     />
                   </motion.div>
                 )}
@@ -304,9 +371,10 @@ export default function Checkout() {
                   >
                     <FormField
                       label="UPI ID"
-                      value=""
-                      onChange={() => {}}
+                      value={upiId}
+                      onChange={(v) => setUpiId(v)}
                       placeholder="yourname@upi"
+                      error={formErrors.upiId}
                     />
                   </motion.div>
                 )}
@@ -462,13 +530,14 @@ function AnimatePresenceSection({ open, children }: { open: boolean; children: R
 }
 
 function FormField({
-  label, value, onChange, placeholder, className = '',
+  label, value, onChange, placeholder, className = '', error,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
   className?: string;
+  error?: string;
 }) {
   return (
     <div className={className}>
@@ -480,8 +549,9 @@ function FormField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="input-field"
+        className={`input-field ${error ? 'border-red-500' : ''}`}
       />
+      {error && <p className="text-red-500 text-[10px] mt-1 font-lora">{error}</p>}
     </div>
   );
 }

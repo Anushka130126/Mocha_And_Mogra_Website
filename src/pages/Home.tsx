@@ -9,7 +9,7 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: i * 0.12, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.7, delay: i * 0.12, ease: [0.25, 0.1, 0.25, 1] as const },
   }),
 };
 
@@ -105,11 +105,12 @@ export default function Home() {
                   <video
                     src="/images/coverreel1.webm"
                     className="absolute top-1/2 left-1/2 max-w-none"
-                    style={{ width: '177.77%', height: '75%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                    style={{ width: '177.77%', height: '75%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)', willChange: 'transform' }}
                     autoPlay
                     muted
                     loop
                     playsInline
+                    preload="metadata"
                   />
                 </div>
                 {/* Floating tag */}
@@ -165,11 +166,12 @@ export default function Home() {
                     <video
                       src="/images/coverreel2.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
-                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)', willChange: 'transform' }}
                       autoPlay
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                     />
                   )}
                 </motion.div>
@@ -193,6 +195,7 @@ export default function Home() {
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                     />
                   )}
                 </motion.div>
@@ -212,11 +215,12 @@ export default function Home() {
                     <video
                       src="/images/coverreel3.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
-                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)', willChange: 'transform' }}
                       autoPlay
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                     />
                   )}
                 </motion.div>
