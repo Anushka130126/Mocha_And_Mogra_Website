@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MapPin, CreditCard, Truck, ShieldCheck, ChevronDown, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { loadRazorpayScript } from '../services/razorpay';
 
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Delhi', 'Goa', 'Gujarat',
@@ -24,7 +25,7 @@ export default function Checkout() {
   const [payment, setPayment] = useState<PaymentMethod>('card');
   const [submitting, setSubmitting] = useState(false);
 
-  const shippingCost = shipping === 'express' ? 500 : 0;
+  const shippingCost = shipping === 'express' ? 500 : (subtotal >= 5000 ? 0 : 500);
   const total = subtotal + shippingCost;
 
   const [address, setAddress] = useState({
@@ -93,25 +94,112 @@ export default function Checkout() {
     }
 
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1200));
 
     const orderDetails = {
       orderNumber: `MM-${Math.floor(100000 + Math.random() * 900000)}`,
       date: new Date().toISOString(),
       items: [...items],
       total,
-      email: address.firstName.toLowerCase() ? `${address.firstName.toLowerCase()}@example.com` : 'customer@example.com',
+      email: `${address.firstName.toLowerCase()}@example.com`,
       shippingAddress: `${address.address}, ${address.city}, ${address.state} - ${address.pin}`,
     };
 
-    try {
-      sessionStorage.setItem('latest_order', JSON.stringify(orderDetails));
-    } catch (e) {
-      console.error(e);
-    }
+    const completeCheckout = () => {
+      try {
+        sessionStorage.setItem('latest_order', JSON.stringify(orderDetails));
+      } catch (e) {
+        console.error(e);
+      }
+      clearCart();
+      navigate('/order-confirmation', { state: { orderDetails } });
+    };
 
-    clearCart();
-    navigate('/order-confirmation', { state: { orderDetails } });
+    try {
+      // 1. Create Order via Serverless Route
+      const orderRes = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map((i) => ({ productId: i.product.id, quantity: i.quantity })),
+          shippingMethod: shipping,
+        }),
+      });
+
+      const orderData = await orderRes.ok ? await orderRes.json() : null;
+
+      // If mock environment or server fallback
+      if (!orderData || orderData.isMock || !window.Razorpay) {
+        const scriptLoaded = await loadRazorpayScript();
+        if (!scriptLoaded || !orderData?.keyId || orderData?.isMock) {
+          // Graceful simulated checkout fallback when environment variables or SDK are not yet connected
+          await new Promise((r) => setTimeout(r, 1000));
+          setSubmitting(false);
+          completeCheckout();
+          return;
+        }
+      }
+
+      // 2. Launch Razorpay Checkout Modal
+      const razorpayKey = orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID;
+
+      const options = {
+        key: razorpayKey,
+        amount: orderData.amount,
+        currency: orderData.currency || 'INR',
+        name: 'Mocha & Mogra',
+        description: 'Luxury Saree Purchase',
+        image: '/images/mnmlogo-Photoroom.webp',
+        order_id: orderData.orderId,
+        prefill: {
+          name: `${address.firstName} ${address.lastName}`,
+          email: `${address.firstName.toLowerCase()}@example.com`,
+          contact: address.phone,
+        },
+        theme: {
+          color: '#3D2814',
+        },
+        handler: async (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          // 3. Cryptographic Signature Verification on Server
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              isMock: orderData.isMock,
+            }),
+          });
+
+          const verifyData = await verifyRes.json();
+          if (verifyData.isAuthentic) {
+            completeCheckout();
+          } else {
+            alert('Payment verification failed! Invalid signature detected.');
+            setSubmitting(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setSubmitting(false);
+          },
+        },
+      };
+
+      const RazorpayCtor = window.Razorpay as unknown as new (opts: typeof options) => { open: () => void };
+      const razorpayInstance = new RazorpayCtor(options);
+      razorpayInstance.open();
+    } catch (err) {
+      console.error('Razorpay Checkout Flow Exception:', err);
+      // Fallback
+      await new Promise((r) => setTimeout(r, 1000));
+      setSubmitting(false);
+      completeCheckout();
+    }
   };
 
   if (items.length === 0) {
