@@ -4,7 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function SplashLanding() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(() => {
+    return sessionStorage.getItem('splashShown') !== 'true';
+  });
   const navigate = useNavigate();
 
   // Handle scroll to dismiss
@@ -14,11 +16,13 @@ export default function SplashLanding() {
     const handleScroll = (e: Event) => {
       e.preventDefault();
       setVisible(false);
+      sessionStorage.setItem('splashShown', 'true');
     };
 
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) > 20) {
         setVisible(false);
+        sessionStorage.setItem('splashShown', 'true');
       }
     };
 
@@ -31,6 +35,7 @@ export default function SplashLanding() {
       const touchEndY = e.changedTouches[0].screenY;
       if (Math.abs(touchStartY - touchEndY) > 50) {
         setVisible(false);
+        sessionStorage.setItem('splashShown', 'true');
       }
     };
 
@@ -51,6 +56,7 @@ export default function SplashLanding() {
 
   const handleExplore = () => {
     setVisible(false);
+    sessionStorage.setItem('splashShown', 'true');
     navigate('/shop');
   };
 
