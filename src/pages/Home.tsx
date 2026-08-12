@@ -146,7 +146,7 @@ export default function Home() {
       </section>
 
       {/* Brand Teaser */}
-      <section className="py-24 lg:py-36 cv-auto">
+      <section className="py-24 lg:py-36">
         <div className="max-w-[90rem] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
@@ -258,7 +258,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 lg:py-28 bg-mocha-900 cv-auto">
+      <section className="py-20 lg:py-28 bg-mocha-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <p className="font-cinzel text-[10px] tracking-[0.3em] uppercase text-gold-500 mb-4">
@@ -285,10 +285,11 @@ export default function Home() {
                   style={{ aspectRatio: '3/4' }}
                 >
                   <img
-                    src={product.image}
+                    src={product.thumbnail || product.image}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <p className="font-cinzel text-xs tracking-[0.2em] uppercase text-gold-400 mb-1">
@@ -311,7 +312,7 @@ export default function Home() {
       </section>
 
       {/* Values Strip */}
-      <section className="py-20 bg-[#FFFEF7] cv-auto">
+      <section className="py-20 bg-[#FFFEF7]">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
