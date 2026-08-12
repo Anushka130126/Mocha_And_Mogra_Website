@@ -356,7 +356,7 @@ export default function Checkout() {
                     <div className="relative flex-shrink-0">
                       <div
                         className="w-14 overflow-hidden bg-mocha-100"
-                        style={{ borderRadius: '50% 50% 3px 3px / 40% 40% 3px 3px', aspectRatio: '3/4' }}
+                        style={{ borderRadius: '6px', aspectRatio: '3/4' }}
                       >
                         <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
                       </div>

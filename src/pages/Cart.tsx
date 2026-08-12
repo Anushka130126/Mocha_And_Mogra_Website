@@ -42,7 +42,7 @@ export default function Cart() {
                       {/* Arch image */}
                       <div
                         className="flex-shrink-0 w-28 overflow-hidden bg-mocha-100 cursor-pointer"
-                        style={{ borderRadius: '50% 50% 3px 3px / 40% 40% 3px 3px', aspectRatio: '3/4' }}
+                        style={{ borderRadius: '6px', aspectRatio: '3/4' }}
                         onClick={() => navigate('/shop')}
                       >
                         <img

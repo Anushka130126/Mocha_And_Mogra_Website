@@ -87,7 +87,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
             {/* Arch Image */}
             <div className="relative px-10 pt-10">
               <div
-                className="arch-container-lg w-full overflow-hidden bg-mocha-100"
+                className="rounded-md w-full overflow-hidden bg-mocha-100"
                 style={{ aspectRatio: '3/4' }}
               >
                 <ImageCarousel 

@@ -162,7 +162,7 @@ export default function OrderConfirmation() {
             <div
               key={i}
               className="overflow-hidden bg-mocha-100"
-              style={{ borderRadius: '50% 50% 4px 4px / 40% 40% 4px 4px', aspectRatio: '3/4' }}
+              style={{ borderRadius: '6px', aspectRatio: '3/4' }}
             >
               <img src={src} alt="" className="w-full h-full object-cover opacity-70" />
             </div>

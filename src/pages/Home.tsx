@@ -99,7 +99,7 @@ export default function Home() {
             >
               <div className="relative w-full max-w-sm">
                 <div
-                  className="arch-container-lg w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
+                  className="rounded-md w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
                   style={{ aspectRatio: '3/4' }}
                 >
                   <video
@@ -153,7 +153,7 @@ export default function Home() {
               {/* Left Column - coverreel2 (Symmetrical to Right) */}
               <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
                 <motion.div
-                  className="arch-container overflow-hidden bg-mocha-100 relative w-full"
+                  className="rounded-md overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -178,7 +178,7 @@ export default function Home() {
               {/* Middle Column - sm2 (Highest) */}
               <div className="flex flex-col mt-0">
                 <motion.div
-                  className="arch-container overflow-hidden bg-mocha-100 relative w-full"
+                  className="rounded-md overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -201,7 +201,7 @@ export default function Home() {
               {/* Right Column - coverreel3 (Symmetrical to Left) */}
               <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
                 <motion.div
-                  className="arch-container overflow-hidden bg-mocha-50 relative w-full"
+                  className="rounded-md overflow-hidden bg-mocha-50 relative w-full"
                   style={{ aspectRatio: '9/16' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -277,7 +277,7 @@ export default function Home() {
                 onClick={() => navigate('/shop')}
               >
                 <div
-                  className="arch-container overflow-hidden bg-mocha-700 mb-5 transition-transform duration-500 group-hover:-translate-y-1"
+                  className="rounded-md overflow-hidden bg-mocha-700 mb-5 transition-transform duration-500 group-hover:-translate-y-1"
                   style={{ aspectRatio: '3/4' }}
                 >
                   <img

@@ -363,7 +363,7 @@ function ProductCard({ product, index, onSelect }: ProductCardProps) {
       onClick={() => onSelect(product)}
     >
       <div
-        className="arch-container overflow-hidden bg-mocha-100 mb-4 relative"
+        className="rounded-md overflow-hidden bg-mocha-100 mb-4 relative"
         style={{ aspectRatio: '3/4' }}
       >
         {inView && (

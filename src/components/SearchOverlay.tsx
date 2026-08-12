@@ -140,10 +140,10 @@ export default function SearchOverlay({ open, onClose, onSelectProduct }: Search
                           onClick={() => handleSelect(product)}
                           className="w-full flex items-center gap-5 p-4 hover:bg-mocha-50 transition-colors group text-left"
                         >
-                          {/* Arch thumbnail */}
+                          {/* Thumbnail */}
                           <div
                             className="flex-shrink-0 w-14 overflow-hidden bg-mocha-100"
-                            style={{ borderRadius: '50% 50% 3px 3px / 40% 40% 3px 3px', aspectRatio: '3/4' }}
+                            style={{ borderRadius: '6px', aspectRatio: '3/4' }}
                           >
                             <img
                               src={product.image}

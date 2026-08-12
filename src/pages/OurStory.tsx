@@ -106,7 +106,7 @@ export default function OurStory() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="arch-container-lg overflow-hidden bg-mocha-100 shadow-xl"
+            className="rounded-md overflow-hidden bg-mocha-100 shadow-xl"
             style={{ aspectRatio: '4/5' }}
           >
             <img
@@ -180,7 +180,7 @@ export default function OurStory() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="arch-container-lg overflow-hidden bg-mocha-700 shadow-2xl"
+              className="rounded-md overflow-hidden bg-mocha-700 shadow-2xl"
               style={{ aspectRatio: '4/5' }}
             >
               <img
