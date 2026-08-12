@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="mnmlogo-Photoroom/webp" href="/images/mnmlogo-Photoroom.webp" />
+    <link rel="icon" type="image/webp" href="/images/mnmlogo-Photoroom.webp" />
+    <!-- Critical resource preloads — splash is above-the-fold, fetch at highest priority -->
+    <link rel="preload" as="image" href="/images/covermain.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/mnmlogo-Photoroom.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://res.cloudinary.com; media-src 'self' https://res.cloudinary.com; connect-src 'self';" />
     <title>Mocha & Mogra — A Collection of Stories, Stitched in Silk</title>
@@ -12,6 +15,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+    <!-- Theme color so browser chrome matches brand -->
+    <meta name="theme-color" content="#3D2814" />
   </head>
   <body>
     <div id="root"></div>
