@@ -105,12 +105,12 @@ export default function Home() {
                   <video
                     src="/images/coverreel1.webm"
                     className="absolute top-1/2 left-1/2 max-w-none"
-                    style={{ width: '177.77%', height: '75%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)', willChange: 'transform' }}
+                    style={{ width: '177.77%', height: '75%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)' }}
                     autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="auto"
                   />
                 </div>
                 {/* Floating tag */}
@@ -146,7 +146,7 @@ export default function Home() {
       </section>
 
       {/* Brand Teaser */}
-      <section className="py-24 lg:py-36">
+      <section className="py-24 lg:py-36 cv-auto">
         <div className="max-w-[90rem] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
@@ -166,12 +166,12 @@ export default function Home() {
                     <video
                       src="/images/coverreel2.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
-                      style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)', willChange: 'transform' }}
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)' }}
                       autoPlay
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="none"
                     />
                   )}
                 </motion.div>
@@ -195,7 +195,7 @@ export default function Home() {
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="none"
                     />
                   )}
                 </motion.div>
@@ -215,12 +215,12 @@ export default function Home() {
                     <video
                       src="/images/coverreel3.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
-                      style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)', willChange: 'transform' }}
+                      style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)' }}
                       autoPlay
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="none"
                     />
                   )}
                 </motion.div>
@@ -258,7 +258,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 lg:py-28 bg-mocha-900">
+      <section className="py-20 lg:py-28 bg-mocha-900 cv-auto">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <p className="font-cinzel text-[10px] tracking-[0.3em] uppercase text-gold-500 mb-4">
@@ -311,7 +311,7 @@ export default function Home() {
       </section>
 
       {/* Values Strip */}
-      <section className="py-20 bg-[#FFFEF7]">
+      <section className="py-20 bg-[#FFFEF7] cv-auto">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[

@@ -102,4 +102,16 @@
   .gold-border {
     border-color: #C99A2E;
   }
+
+  /* Skip rendering off-screen sections — biggest scroll perf win */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
+  }
+
+  /* Promote images/videos to own GPU layer only when needed for animation */
+  .gpu-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
 }

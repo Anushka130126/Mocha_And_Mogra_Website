@@ -184,9 +184,10 @@ export default function OurStory() {
               style={{ aspectRatio: '4/5' }}
             >
               <img
-                src="/images/machine.jpg"
+                src="/images/machine.webp"
                 alt="Artisan craftsmanship"
                 className="w-full h-full object-cover opacity-90"
+                loading="lazy"
               />
             </motion.div>
           </div>
