@@ -6,19 +6,16 @@ import { useNavigate } from 'react-router-dom';
 const SPLASH_KEY = 'mnm_splash_seen';
 
 export default function SplashLanding() {
-  const [visible, setVisible] = useState(() => {
-    return sessionStorage.getItem(SPLASH_KEY) !== '1';
-  });
+  const [visible, setVisible] = useState(true);
 
   const navigate = useNavigate();
   const touchStartY = useRef(0);
 
   const dismiss = () => {
-    sessionStorage.setItem(SPLASH_KEY, '1');
     // Unlock scroll on both html + body
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    // Snap page to top so it isn't stuck mid-scroll
+    // Snap page to top so it starts clean at the home hero section
     window.scrollTo({ top: 0, behavior: 'instant' });
     setVisible(false);
   };
