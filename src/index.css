@@ -12,6 +12,8 @@
 
   html {
     scroll-behavior: smooth;
+    overscroll-behavior: none;
+    /* Prevent rubber-band scroll fighting the page */
   }
 
   body {
@@ -21,6 +23,12 @@
     font-family: 'Lora', Georgia, serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+  }
+
+  /* Reduce decode cost on all lazy images */
+  img {
+    decoding: async;
   }
 
   body::before {

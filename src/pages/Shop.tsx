@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { SlidersHorizontal, X, Check } from 'lucide-react';
 import { products } from '../data/products';
 import type { Product } from '../data/products';
@@ -141,9 +141,8 @@ export default function Shop() {
           {filtered.length} {filtered.length === 1 ? 'piece' : 'pieces'}
         </p>
 
-        {/* Product Grid */}
-        <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-14">
-          <AnimatePresence mode="popLayout">
+        {/* Product Grid — no layout animation (avoids FLIP cost on filter change) */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-14">
             {filtered.map((product, i) => (
               <ProductCard
                 key={product.id}
@@ -152,8 +151,7 @@ export default function Shop() {
                 onSelect={setSelectedProduct}
               />
             ))}
-          </AnimatePresence>
-        </motion.div>
+        </div>
 
         {filtered.length === 0 && (
           <motion.div

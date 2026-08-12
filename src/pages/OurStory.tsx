@@ -1,10 +1,12 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 
+// Single reusable fade-up — used at section level, not per-element
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const } },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
 const values = [
@@ -17,6 +19,17 @@ const values = [
 
 export default function OurStory() {
   const navigate = useNavigate();
+
+  // One ref per major section — 4 observers total for the whole page
+  const visionRef = useRef<HTMLDivElement>(null);
+  const founderRef = useRef<HTMLDivElement>(null);
+  const craftRef = useRef<HTMLDivElement>(null);
+  const valuesRef = useRef<HTMLDivElement>(null);
+
+  const visionInView = useInView(visionRef, { once: true, margin: '0px 0px -80px 0px' });
+  const founderInView = useInView(founderRef, { once: true, margin: '0px 0px -80px 0px' });
+  const craftInView = useInView(craftRef, { once: true, margin: '0px 0px -80px 0px' });
+  const valuesInView = useInView(valuesRef, { once: true, margin: '0px 0px -60px 0px' });
 
   return (
     <div className="pt-24 pb-0">
@@ -31,9 +44,9 @@ export default function OurStory() {
           Who We Are
         </motion.p>
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.08 }}
           className="font-cinzel text-4xl md:text-6xl tracking-widest text-mocha-900 uppercase"
         >
           Our Story
@@ -44,7 +57,7 @@ export default function OurStory() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.9 }}
         className="w-full h-[50vh] lg:h-[65vh] overflow-hidden mb-24 bg-mocha-100"
       >
         <img
@@ -52,16 +65,16 @@ export default function OurStory() {
           alt="Mocha & Mogra atelier"
           className="w-full h-full object-cover object-center"
           loading="lazy"
+          decoding="async"
         />
       </motion.div>
 
-      {/* The Vision */}
-      <section className="max-w-4xl mx-auto px-6 lg:px-10 text-center mb-28">
+      {/* The Vision — whole section animates as one */}
+      <section ref={visionRef} className="max-w-4xl mx-auto px-6 lg:px-10 text-center mb-28">
         <motion.div
           variants={fadeUp}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate={visionInView ? 'visible' : 'hidden'}
         >
           <p className="section-label mb-8">The Vision</p>
           <h2 className="font-cinzel text-2xl md:text-3xl tracking-wider text-mocha-900 uppercase mb-10">
@@ -85,13 +98,12 @@ export default function OurStory() {
         </div>
       </div>
 
-      {/* The Founder's Journey */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 mb-28">
+      {/* Founder — whole section animates as one */}
+      <section ref={founderRef} className="max-w-7xl mx-auto px-6 lg:px-10 mb-28">
         <motion.div
           variants={fadeUp}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate={founderInView ? 'visible' : 'hidden'}
           className="text-center mb-16"
         >
           <p className="section-label mb-4">The Founder</p>
@@ -102,10 +114,9 @@ export default function OurStory() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, x: -24 }}
+            animate={founderInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.75 }}
             className="arch-container-lg overflow-hidden bg-mocha-100 shadow-xl"
             style={{ aspectRatio: '4/5' }}
           >
@@ -114,14 +125,14 @@ export default function OurStory() {
               alt="The Founder"
               className="w-full h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, x: 24 }}
+            animate={founderInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.75, delay: 0.1 }}
           >
             <h3 className="font-playfair text-3xl text-mocha-900 mb-6">
               Rooted in Tradition.
@@ -142,8 +153,8 @@ export default function OurStory() {
         </div>
       </section>
 
-      {/* Our Craft */}
-      <section className="bg-mocha-900 py-24">
+      {/* Our Craft — whole section animates as one */}
+      <section ref={craftRef} className="bg-mocha-900 py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <p className="font-cinzel text-[10px] tracking-[0.3em] uppercase text-gold-500 mb-4">
@@ -156,10 +167,9 @@ export default function OurStory() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              variants={fadeUp}
+              initial="hidden"
+              animate={craftInView ? 'visible' : 'hidden'}
             >
               <h3 className="font-playfair text-3xl text-gold-200 mb-6">
                 Artisan-Led Excellence.
@@ -176,10 +186,9 @@ export default function OurStory() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, x: 24 }}
+              animate={craftInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.75, delay: 0.1 }}
               className="arch-container-lg overflow-hidden bg-mocha-700 shadow-2xl"
               style={{ aspectRatio: '4/5' }}
             >
@@ -188,14 +197,15 @@ export default function OurStory() {
                 alt="Artisan craftsmanship"
                 className="w-full h-full object-cover opacity-90"
                 loading="lazy"
+                decoding="async"
               />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Brand Values */}
-      <section className="py-24 max-w-5xl mx-auto px-6 lg:px-10">
+      {/* Brand Values — list animates as a single block */}
+      <section ref={valuesRef} className="py-24 max-w-5xl mx-auto px-6 lg:px-10">
         <div className="text-center mb-16">
           <p className="section-label mb-4">What We Stand For</p>
           <h2 className="font-cinzel text-3xl md:text-4xl tracking-wider text-mocha-900 uppercase">
@@ -203,14 +213,15 @@ export default function OurStory() {
           </h2>
         </div>
 
-        <div className="space-y-0">
+        <motion.div
+          className="space-y-0"
+          initial={{ opacity: 0, y: 20 }}
+          animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+        >
           {values.map((value, i) => (
-            <motion.div
+            <div
               key={value.label}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
               className="flex gap-6 py-8 border-b border-mocha-200 group"
             >
               <div className="flex-shrink-0 w-8 flex items-start pt-1">
@@ -222,19 +233,19 @@ export default function OurStory() {
                 </h3>
                 <p className="font-lora text-sm text-mocha-500 leading-relaxed">{value.desc}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA */}
       <section className="py-20 text-center bg-[#FFFEF7] border-t border-mocha-200">
         <div className="max-w-xl mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '0px 0px -60px 0px' }}
           >
             <h3 className="font-playfair text-3xl text-mocha-900 mb-6">
               Find your story.

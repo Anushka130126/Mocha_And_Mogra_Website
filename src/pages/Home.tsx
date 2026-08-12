@@ -1,16 +1,23 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { ArrowRight, Feather } from 'lucide-react';
 import { products } from '../data/products';
 
+// Single stagger parent — 1 observer drives all hero children
+const heroContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } },
+};
+const heroItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.1, 0.25, 1] } },
+};
+
+// Reusable simple fade-up for scroll sections
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, delay: i * 0.12, ease: [0.25, 0.1, 0.25, 1] as const },
-  }),
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
 const motifIcons = ['Fish', 'Pineapple', 'Owl', 'Elephant', 'Seahorse'];
@@ -18,32 +25,39 @@ const motifIcons = ['Fish', 'Pineapple', 'Owl', 'Elephant', 'Seahorse'];
 export default function Home() {
   const navigate = useNavigate();
   const featured = products.slice(0, 3);
-  const [teaserInView, setTeaserInView] = useState(false);
+
+  // Single ref drives all 3 video columns — 1 IntersectionObserver not 3
+  const teaserRef = useRef<HTMLDivElement>(null);
+  const teaserInView = useInView(teaserRef, { once: true, margin: '0px 0px -100px 0px' });
+
+  // Single ref drives featured products section
+  const featuredRef = useRef<HTMLDivElement>(null);
+  const featuredInView = useInView(featuredRef, { once: true, margin: '0px 0px -80px 0px' });
+
+  // Single ref drives values strip
+  const valuesRef = useRef<HTMLDivElement>(null);
+  const valuesInView = useInView(valuesRef, { once: true, margin: '0px 0px -60px 0px' });
 
   return (
     <div className="pt-20">
-      {/* Hero */}
+      {/* Hero — 1 stagger parent, children animate via CSS stagger */}
       <section className="min-h-[92vh] flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Text */}
-            <div className="order-2 lg:order-1">
-              <motion.div
-                custom={0}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="flex items-center gap-3 mb-8"
-              >
+            {/* Text — ONE motion.div drives all children */}
+            <motion.div
+              className="order-2 lg:order-1"
+              variants={heroContainer}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={heroItem} className="flex items-center gap-3 mb-8">
                 <div className="w-8 h-px bg-mocha-400" />
                 <span className="section-label text-[10px]">Modern Sarees. Timeless Stories.</span>
               </motion.div>
 
               <motion.h1
-                custom={1}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
+                variants={heroItem}
                 className="font-playfair text-5xl md:text-6xl lg:text-7xl text-mocha-900 leading-[1.1] mb-8"
               >
                 A Collection<br />
@@ -51,51 +65,33 @@ export default function Home() {
                 <em className="not-italic text-mocha-600">Stitched in Silk.</em>
               </motion.h1>
 
-              <motion.div
-                custom={2}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="flex items-center gap-4 mb-10"
-              >
+              <motion.div variants={heroItem} className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-px bg-mocha-300" />
                 <Feather size={12} className="text-gold-600" strokeWidth={1.5} />
                 <div className="w-12 h-px bg-mocha-300" />
               </motion.div>
 
               <motion.p
-                custom={3}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
+                variants={heroItem}
                 className="font-lora text-lg text-mocha-600 leading-relaxed mb-12 max-w-md"
               >
                 Each piece carries a mood, a motif, and a moment.
               </motion.p>
 
-              <motion.div
-                custom={4}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <button
-                  onClick={() => navigate('/shop')}
-                  className="btn-primary"
-                >
+              <motion.div variants={heroItem} className="flex flex-col sm:flex-row gap-4">
+                <button onClick={() => navigate('/shop')} className="btn-primary">
                   Explore Collection
                   <ArrowRight size={14} strokeWidth={1.5} />
                 </button>
               </motion.div>
-            </div>
+            </motion.div>
 
-            {/* Hero Image — arch */}
+            {/* Hero Video */}
             <motion.div
               className="order-1 lg:order-2 flex justify-center"
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <div className="relative w-full max-w-sm">
                 <div
@@ -113,11 +109,10 @@ export default function Home() {
                     preload="auto"
                   />
                 </div>
-                {/* Floating tag */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
+                  transition={{ delay: 0.9, duration: 0.55 }}
                   className="absolute -right-6 bottom-24 bg-mocha-900 text-gold-200 px-4 py-3 shadow-lg"
                 >
                   <p className="font-cinzel text-[10px] tracking-[0.2em] uppercase">New Arrivals</p>
@@ -129,7 +124,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Motif Strip */}
+      {/* Motif Strip — pure CSS, no framer-motion */}
       <section className="border-y border-mocha-200 py-6 overflow-hidden">
         <div className="flex gap-0 items-center">
           {[...motifIcons, ...motifIcons].map((motif, i) => (
@@ -145,21 +140,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Brand Teaser */}
+      {/* Brand Teaser — 1 ref drives all 3 video columns */}
       <section className="py-24 lg:py-36">
         <div className="max-w-[90rem] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-            {/* Image grid */}
-            <div className="lg:col-span-7 grid grid-cols-3 gap-2 md:gap-4 lg:gap-6 w-full">
-              {/* Left Column - coverreel2 (Symmetrical to Right) */}
+            {/* Image grid — ref on wrapper, not individual columns */}
+            <div ref={teaserRef} className="lg:col-span-7 grid grid-cols-3 gap-2 md:gap-4 lg:gap-6 w-full">
+              {/* Left */}
               <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "200px" }}
-                  onViewportEnter={() => setTeaserInView(true)}
+                  initial={{ opacity: 0, y: 32 }}
+                  animate={teaserInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.7 }}
                 >
                   {teaserInView && (
@@ -167,60 +160,44 @@ export default function Home() {
                       src="/images/coverreel2.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
                       style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)' }}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
+                      autoPlay muted loop playsInline preload="none"
                     />
                   )}
                 </motion.div>
               </div>
-
-              {/* Middle Column - sm2 (Highest) */}
+              {/* Middle */}
               <div className="flex flex-col mt-0">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "200px" }}
-                  transition={{ duration: 0.7, delay: 0.15 }}
+                  initial={{ opacity: 0, y: 32 }}
+                  animate={teaserInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.12 }}
                 >
                   {teaserInView && (
                     <video
                       src="/images/sm2.webm"
                       className="absolute inset-0 w-full h-full object-cover"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
+                      autoPlay muted loop playsInline preload="none"
                     />
                   )}
                 </motion.div>
               </div>
-
-              {/* Right Column - coverreel3 (Symmetrical to Left) */}
+              {/* Right */}
               <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
                 <motion.div
                   className="arch-container overflow-hidden bg-mocha-50 relative w-full"
                   style={{ aspectRatio: '9/16' }}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "200px" }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
+                  initial={{ opacity: 0, y: 32 }}
+                  animate={teaserInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.24 }}
                 >
                   {teaserInView && (
                     <video
                       src="/images/coverreel3.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
                       style={{ width: '177.77%', height: '56.25%', transform: 'translate3d(-50%, -50%, 0) rotate(-90deg)' }}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
+                      autoPlay muted loop playsInline preload="none"
                     />
                   )}
                 </motion.div>
@@ -230,10 +207,9 @@ export default function Home() {
             {/* Text */}
             <motion.div
               className="lg:col-span-5 lg:pl-10"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              variants={fadeUp}
+              initial="hidden"
+              animate={teaserInView ? 'visible' : 'hidden'}
             >
               <p className="section-label mb-6">The Brand</p>
               <h2 className="font-playfair text-4xl lg:text-5xl text-mocha-900 leading-tight mb-8">
@@ -246,10 +222,7 @@ export default function Home() {
               <p className="font-lora text-base text-mocha-600 leading-relaxed mb-10">
                 We aren&apos;t creating seasonal collections. We are creating stories women can wear.
               </p>
-              <button
-                onClick={() => navigate('/our-story')}
-                className="btn-primary"
-              >
+              <button onClick={() => navigate('/our-story')} className="btn-primary">
                 Our Story <ArrowRight size={14} strokeWidth={1.5} />
               </button>
             </motion.div>
@@ -257,7 +230,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Products */}
+      {/* Featured Products — section animates as 1 unit */}
       <section className="py-20 lg:py-28 bg-mocha-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
@@ -269,14 +242,13 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div ref={featuredRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featured.map((product, i) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.15 }}
+                initial={{ opacity: 0, y: 28 }}
+                animate={featuredInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.65, delay: i * 0.12 }}
                 className="group cursor-pointer"
                 onClick={() => navigate('/shop')}
               >
@@ -311,31 +283,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Values Strip */}
+      {/* Values Strip — 1 ref, grid fades in as a unit */}
       <section className="py-20 bg-[#FFFEF7]">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <motion.div
+            ref={valuesRef}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+          >
             {[
               { label: 'Artisan-Led\nCraftsmanship', icon: '✦' },
               { label: 'Timeless\nYet Contemporary', icon: '✦' },
               { label: 'Thoughtful\nDetails', icon: '✦' },
               { label: 'Made to Be\nCherished', icon: '✦' },
             ].map(({ label, icon }, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="flex flex-col items-center gap-3"
-              >
+              <div key={i} className="flex flex-col items-center gap-3">
                 <span className="text-gold-500 text-lg">{icon}</span>
                 <p className="font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-600 whitespace-pre-line leading-5">
                   {label}
                 </p>
-              </motion.div>
+              </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -343,10 +314,10 @@ export default function Home() {
       <section className="py-24 lg:py-32">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '0px 0px -80px 0px' }}
           >
             <div className="w-px h-16 bg-mocha-300 mx-auto mb-10" />
             <blockquote className="font-playfair text-2xl md:text-3xl lg:text-4xl italic text-mocha-800 leading-relaxed mb-10">
