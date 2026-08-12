@@ -6,9 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const SPLASH_KEY = 'mnm_splash_seen';
 
 export default function SplashLanding() {
-  // Lazily initialised — reads sessionStorage once at mount.
-  // Once the user dismisses the splash, we write '1' and it never shows again
-  // for the rest of the tab session (even if they navigate Home → Contact → Home).
   const [visible, setVisible] = useState(() => {
     return sessionStorage.getItem(SPLASH_KEY) !== '1';
   });
@@ -18,16 +15,25 @@ export default function SplashLanding() {
 
   const dismiss = () => {
     sessionStorage.setItem(SPLASH_KEY, '1');
-    setVisible(false);
+    // Unlock scroll on both html + body
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
+    // Snap page to top so it isn't stuck mid-scroll
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setVisible(false);
   };
 
   useEffect(() => {
     if (!visible) return;
 
+    // Lock scroll on BOTH html and body — Chrome can scroll html even when body is hidden
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
 
+    // We use non-passive here intentionally so we can prevent the actual
+    // scroll from moving the document behind the splash
     const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
       if (Math.abs(e.deltaY) > 20) dismiss();
     };
 
@@ -35,24 +41,36 @@ export default function SplashLanding() {
       touchStartY.current = e.changedTouches[0].screenY;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      // Prevent document scroll while splash is covering the screen
+      e.preventDefault();
+    };
+
     const handleTouchEnd = (e: TouchEvent) => {
       if (Math.abs(touchStartY.current - e.changedTouches[0].screenY) > 40) dismiss();
     };
 
     const handleKey = (e: KeyboardEvent) => {
-      if (['ArrowDown', 'Space', 'Enter'].includes(e.code)) dismiss();
+      if (['ArrowDown', 'Space', 'Enter'].includes(e.code)) {
+        e.preventDefault();
+        dismiss();
+      }
     };
 
-    // passive: true — browser is NOT blocked → eliminates scroll-thread jank
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    // non-passive for wheel + touchmove so we can e.preventDefault()
+    // this stops the underlying page from scrolling behind the splash
+    window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('keydown', handleKey);
 
     return () => {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('keydown', handleKey);
     };
@@ -73,7 +91,7 @@ export default function SplashLanding() {
           transition={{ duration: 0.75, ease: [0.77, 0, 0.175, 1] }}
           className="fixed inset-0 z-[100] bg-mocha-900 flex flex-col justify-end"
         >
-          {/* Background Image — eager + high priority so it shows instantly */}
+          {/* Background Image — eager + high priority */}
           <div className="absolute inset-0 w-full h-full">
             <img
               src="/images/covermain.webp"
