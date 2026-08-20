@@ -46,7 +46,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
             {/* Logo */}
             <NavLink to="/" className="flex items-center gap-3">
               <img
-                src="https://res.cloudinary.com/xtrw55ut/image/upload/v1/MnM/mnmlogo-Photoroom.webp"
+                src="https://res.cloudinary.com/xtrw55ut/image/upload/mnmlogo-Photoroom.webp"
                 alt="Mocha & Mogra"
                 className="h-10 w-10 object-contain"
               />

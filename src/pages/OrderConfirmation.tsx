@@ -155,9 +155,9 @@ export default function OrderConfirmation() {
           className="mt-20 grid grid-cols-3 gap-3"
         >
           {[
-            'https://res.cloudinary.com/xtrw55ut/image/upload/v1/MnM/ruby_doe.webp',
-            'https://res.cloudinary.com/xtrw55ut/image/upload/v1/MnM/butter_mogra.webp',
-            'https://res.cloudinary.com/xtrw55ut/image/upload/v1/MnM/sundowner_silk.webp',
+            'https://res.cloudinary.com/xtrw55ut/image/upload/ruby_doe.webp',
+            'https://res.cloudinary.com/xtrw55ut/image/upload/butter_mogra.webp',
+            'https://res.cloudinary.com/xtrw55ut/image/upload/sundowner_silk.webp',
           ].map((src, i) => (
             <div
               key={i}
