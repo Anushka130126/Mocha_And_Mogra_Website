@@ -124,19 +124,22 @@ export default function OurStory() {
             transition={{ duration: 0.8 }}
           >
             <h3 className="font-playfair text-3xl text-mocha-900 mb-6">
-              Rooted in Tradition.
+              What if the saree could have a point of view?
             </h3>
             <p className="font-lora text-base text-mocha-600 leading-relaxed mb-6">
-              We are a tribute to the rich tapestry of Indian textiles, born from a desire to preserve and celebrate centuries-old craftsmanship.
+              That was the question behind Mocha & Mogra. I’ve always been a fashion person — an MBA in Marketing by profession, and someone who has always found her creative outlet in styling, experimenting and putting her own spin on things.
             </p>
             <p className="font-lora text-base text-mocha-600 leading-relaxed mb-6">
-              Our journey began with a deep respect for the hands that weave magic into every thread, passing down techniques that have defined our cultural narrative for generations.
+              I discovered my love for the saree after marriage. The elegance was undeniable. But as I wore more of them, I realised I wanted something beyond beautiful. I wanted personality.
+            </p>
+            <p className="font-lora text-base text-mocha-600 leading-relaxed mb-6">
+              I was also watching Gen Z rediscover the saree in a completely new language. They weren’t treating it like something reserved for weddings and festivals. They were styling it, playing with it and making it their own. And that made me wonder — why couldn’t the saree itself be more playful?
+            </p>
+            <p className="font-lora text-base text-mocha-600 leading-relaxed mb-6">
+              At a time when embroidery had moved far beyond occasion wear — onto shirts, jackets, bags and everyday fashion — I started imagining what could happen if we brought that same sense of creativity to the saree. Not another floral border. Not another predictable motif. Something unexpected.
             </p>
             <p className="font-lora text-base text-mocha-600 leading-relaxed mb-10">
-              I wanted to create something timeless, yet fresh. Something rooted in Indian craftsmanship but designed for the modern woman who wears her personality as confidently as she wears her clothes. The saree had always been saved for "special occasions" in our homes — I wanted to change that. Every day she wears something beautiful is a special occasion.
-            </p>
-            <p className="font-playfair text-lg italic text-mocha-700">
-              — Founder, Mocha &amp; Mogra
+              Patchwork elephants. Seahorses. Details that make a traditional silhouette feel instantly contemporary. That became Mocha & Mogra.
             </p>
           </motion.div>
         </div>
@@ -193,37 +196,40 @@ export default function OurStory() {
         </div>
       </section>
 
-      {/* Brand Values */}
-      <section className="py-24 max-w-5xl mx-auto px-6 lg:px-10">
-        <div className="text-center mb-16">
-          <p className="section-label mb-4">What We Stand For</p>
-          <h2 className="font-cinzel text-3xl md:text-4xl tracking-wider text-mocha-900 uppercase">
-            Brand Values
+      {/* Why Mocha & Mogra */}
+      <section className="py-24 max-w-5xl mx-auto px-6 lg:px-10 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="section-label mb-4">The Duality</p>
+          <h2 className="font-cinzel text-3xl md:text-4xl tracking-wider text-mocha-900 uppercase mb-10">
+            Why Mocha & Mogra?
           </h2>
-        </div>
-
-        <div className="space-y-0">
-          {values.map((value, i) => (
-            <motion.div
-              key={value.label}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="flex gap-6 py-8 border-b border-mocha-200 group"
-            >
-              <div className="flex-shrink-0 w-8 flex items-start pt-1">
-                <span className="font-cinzel text-xs text-gold-500">0{i + 1}</span>
-              </div>
-              <div>
-                <h3 className="font-playfair text-xl text-mocha-900 mb-2 group-hover:text-mocha-700 transition-colors">
-                  {value.label}
-                </h3>
-                <p className="font-lora text-sm text-mocha-500 leading-relaxed">{value.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+          <h3 className="font-playfair text-2xl text-mocha-800 mb-8 italic">
+            Because she’s both.
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+            <div className="p-8 bg-[#FFFEF7] border border-mocha-200">
+              <h4 className="font-cinzel text-xl text-mocha-900 mb-4">☕ MOCHA</h4>
+              <p className="font-lora text-mocha-600">Ambitious / Playful / Expressive / Contemporary</p>
+              <p className="font-lora text-mocha-500 mt-4 text-sm">Mocha is her modern side — ambitious, expressive, curious and a little rebellious.</p>
+            </div>
+            <div className="p-8 bg-[#FFFEF7] border border-mocha-200">
+              <h4 className="font-cinzel text-xl text-mocha-900 mb-4">🌼 MOGRA</h4>
+              <p className="font-lora text-mocha-600">Feminine / Classic / Timeless / Elegant</p>
+              <p className="font-lora text-mocha-500 mt-4 text-sm">Mogra is her timeless side — feminine, graceful and unmistakably Indian.</p>
+            </div>
+          </div>
+          <p className="font-lora text-lg text-mocha-700 leading-relaxed mb-6">
+            Together, they represent the woman I design for: someone who can love where she comes from without dressing only for where she came from.
+          </p>
+          <p className="font-lora text-lg text-mocha-700 leading-relaxed font-medium">
+            This changes the perception of the saree from occasion wear to lifestyle wear. A saree with tradition in its roots and personality in every detail.
+          </p>
+        </motion.div>
       </section>
 
       {/* CTA */}
