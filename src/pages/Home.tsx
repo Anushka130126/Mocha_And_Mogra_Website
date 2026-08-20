@@ -46,7 +46,7 @@ export default function Home() {
                 animate="visible"
                 className="font-playfair text-5xl md:text-6xl lg:text-7xl text-mocha-900 leading-[1.1] mb-8"
               >
-                A Collection<br />
+                A Wardrobe<br />
                 of Stories,<br />
                 <em className="not-italic text-mocha-600">Stitched in Silk.</em>
               </motion.h1>
@@ -84,7 +84,7 @@ export default function Home() {
                   onClick={() => navigate('/shop')}
                   className="btn-primary"
                 >
-                  Explore Collection
+                  Enter the Wardrobe
                   <ArrowRight size={14} strokeWidth={1.5} />
                 </button>
               </motion.div>
@@ -258,7 +258,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-16">
             <p className="font-cinzel text-[10px] tracking-[0.3em] uppercase text-gold-500 mb-4">
-              The Collection
+              The Wardrobe
             </p>
             <h2 className="font-playfair text-4xl lg:text-5xl text-gold-200">
               Stories Worth Wearing

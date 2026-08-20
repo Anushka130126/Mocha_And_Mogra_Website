@@ -63,7 +63,7 @@ export default function Shop() {
             transition={{ duration: 0.5 }}
             className="section-label mb-4"
           >
-            The Collection
+            The Wardrobe
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

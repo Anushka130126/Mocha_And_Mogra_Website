@@ -114,7 +114,7 @@ export default function Cart() {
                   onClick={() => navigate('/shop')}
                   className="flex items-center gap-2 font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-500 hover:text-mocha-800 transition-colors"
                 >
-                  ← Continue Shopping
+                  ← Return to Wardrobe
                 </button>
               </div>
             </div>
@@ -208,10 +208,10 @@ function EmptyCart({ onShop }: { onShop: () => void }) {
       <ShoppingBag size={40} className="text-mocha-300 mb-6" strokeWidth={1} />
       <h2 className="font-playfair text-3xl text-mocha-900 mb-4">Your cart is empty.</h2>
       <p className="font-lora text-sm text-mocha-500 leading-relaxed mb-10 max-w-sm">
-        Every great wardrobe begins with a single piece. Browse the collection and find the story that speaks to you.
+        Every great wardrobe begins with a single piece. Browse the wardrobe and find the story that speaks to you.
       </p>
       <button onClick={onShop} className="btn-primary">
-        Shop the Collection <ArrowRight size={14} strokeWidth={1.5} />
+        Enter the Wardrobe <ArrowRight size={14} strokeWidth={1.5} />
       </button>
     </motion.div>
   );

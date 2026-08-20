@@ -136,7 +136,7 @@ export default function OrderConfirmation() {
               onClick={() => navigate('/shop')}
               className="btn-primary"
             >
-              Continue Shopping <ArrowRight size={14} strokeWidth={1.5} />
+              Return to Wardrobe <ArrowRight size={14} strokeWidth={1.5} />
             </button>
             <button
               onClick={() => navigate('/contact')}

@@ -107,7 +107,7 @@ export default function SplashLanding() {
               onClick={handleExplore}
               className="w-full md:w-auto bg-gold-500 hover:bg-gold-400 text-mocha-900 font-cinzel text-xs tracking-[0.2em] uppercase py-4 px-12 transition-colors flex items-center justify-center gap-2"
             >
-              Explore Collection <ArrowRight size={14} strokeWidth={2} />
+              Enter the Wardrobe <ArrowRight size={14} strokeWidth={2} />
             </button>
           </div>
         </motion.div>

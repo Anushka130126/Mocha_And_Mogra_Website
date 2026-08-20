@@ -245,13 +245,13 @@ export default function OurStory() {
               Find your story.
             </h3>
             <p className="font-lora text-sm text-mocha-600 leading-relaxed mb-10">
-              Each Mocha & Mogra saree is waiting for the woman it was made for. Browse the collection and discover which one speaks to you.
+              Each Mocha & Mogra saree is waiting for the woman it was made for. Browse the wardrobe and discover which one speaks to you.
             </p>
             <button
               onClick={() => navigate('/shop')}
               className="btn-primary"
             >
-              Shop the Collection <ArrowRight size={14} strokeWidth={1.5} />
+              Enter the Wardrobe <ArrowRight size={14} strokeWidth={1.5} />
             </button>
           </motion.div>
         </div>
