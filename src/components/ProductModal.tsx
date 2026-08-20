@@ -186,7 +186,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
                   ) : (
                     <>
                       <ShoppingBag size={14} strokeWidth={1.5} />
-                      Add to Cart
+                      Add to My Wardrobe
                     </>
                   )}
                 </button>

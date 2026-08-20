@@ -46,9 +46,9 @@ export default function Footer() {
             <h4 className="font-cinzel text-xs tracking-[0.25em] uppercase text-gold-500 mb-5">
               Discover
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {[
-                { label: 'Shop', path: '/shop' },
+                { label: 'Enter the Wardrobe', path: '/shop' },
                 { label: 'Our Story', path: '/our-story' },
                 { label: 'Contact', path: '/contact' },
               ].map((item) => (

@@ -36,7 +36,7 @@ export default function Home() {
                 className="flex items-center gap-3 mb-8"
               >
                 <div className="w-8 h-px bg-mocha-400" />
-                <span className="section-label text-[10px]">Modern Sarees. Timeless Stories.</span>
+                <span className="section-label text-[10px]">The saree, with a little more you.</span>
               </motion.div>
 
               <motion.h1
@@ -300,7 +300,7 @@ export default function Home() {
               onClick={() => navigate('/shop')}
               className="inline-flex items-center gap-2 border border-gold-500 text-gold-300 font-cinzel text-xs tracking-[0.2em] uppercase px-8 py-3 hover:bg-gold-500 hover:text-mocha-900 transition-all duration-300"
             >
-              View All Pieces <ArrowRight size={14} strokeWidth={1.5} />
+              See the Full Edit <ArrowRight size={14} strokeWidth={1.5} />
             </button>
           </div>
         </div>
