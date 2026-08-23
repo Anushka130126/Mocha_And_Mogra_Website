@@ -48,7 +48,7 @@ export default function OurStory() {
         className="w-full h-[50vh] lg:h-[65vh] overflow-hidden mb-24 bg-mocha-100"
       >
         <img
-          src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_1600/modelslandscape.webp"
+          src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_1600/covermain.webp"
           alt="Mocha & Mogra atelier"
           className="w-full h-full object-cover object-center"
           loading="lazy"
@@ -110,7 +110,7 @@ export default function OurStory() {
             style={{ aspectRatio: '4/5' }}
           >
             <img
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/modelwalkinginriwaayat.webp"
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/riwaayat.webp"
               alt="The Founder"
               className="w-full h-full object-cover"
               loading="lazy"
@@ -187,7 +187,7 @@ export default function OurStory() {
               style={{ aspectRatio: '4/5' }}
             >
               <img
-                src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/machine.jpg"
+                src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp"
                 alt="Artisan craftsmanship"
                 className="w-full h-full object-cover opacity-90"
               />
