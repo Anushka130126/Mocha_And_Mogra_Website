@@ -319,9 +319,9 @@ export default function Contact() {
       {/* Bottom image strip */}
       <div className="mt-24 grid grid-cols-3 gap-1 overflow-hidden">
         {[
-          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/MnM/ss3.webp',
-          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/MnM/multisareepic.webp',
-          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/MnM/coverpiccloseup.webp',
+          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss3.webp',
+          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/multisareepic.webp',
+          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/coverpiccloseup.webp',
         ].map((src, i) => (
           <div key={i} className="overflow-hidden bg-mocha-100 flex aspect-[4/3] md:aspect-[16/9]">
             <img

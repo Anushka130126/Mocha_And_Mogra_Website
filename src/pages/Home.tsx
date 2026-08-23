@@ -103,7 +103,7 @@ export default function Home() {
                   style={{ aspectRatio: '3/4' }}
                 >
                   <video
-                    src="https://res.cloudinary.com/xtrw55ut/video/upload/MnM/coverreel1.webm"
+                    src="https://res.cloudinary.com/xtrw55ut/video/upload/coverreel1.webm"
                     className="absolute top-1/2 left-1/2 max-w-none"
                     style={{ width: '177.77%', height: '75%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                     autoPlay
@@ -163,7 +163,7 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="https://res.cloudinary.com/xtrw55ut/video/upload/MnM/coverreel2.webm"
+                      src="https://res.cloudinary.com/xtrw55ut/video/upload/coverreel2.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
                       style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                       autoPlay
@@ -187,7 +187,7 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="https://res.cloudinary.com/xtrw55ut/video/upload/MnM/sm2.webm"
+                      src="https://res.cloudinary.com/xtrw55ut/video/upload/sm2.webm"
                       className="absolute inset-0 w-full h-full object-cover"
                       autoPlay
                       muted
@@ -210,7 +210,7 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="https://res.cloudinary.com/xtrw55ut/video/upload/MnM/coverreel3.webm"
+                      src="https://res.cloudinary.com/xtrw55ut/video/upload/coverreel3.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
                       style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                       autoPlay

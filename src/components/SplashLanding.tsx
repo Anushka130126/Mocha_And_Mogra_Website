@@ -9,20 +9,19 @@ export default function SplashLanding() {
   });
   const navigate = useNavigate();
 
+  const dismissSplash = () => {
+    setVisible(false);
+    sessionStorage.setItem('splashShown', 'true');
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  };
+
   // Handle scroll to dismiss
   useEffect(() => {
     if (!visible) return;
 
-    const handleScroll = (e: Event) => {
-      e.preventDefault();
-      setVisible(false);
-      sessionStorage.setItem('splashShown', 'true');
-    };
-
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) > 20) {
-        setVisible(false);
-        sessionStorage.setItem('splashShown', 'true');
+        dismissSplash();
       }
     };
 
@@ -34,8 +33,7 @@ export default function SplashLanding() {
     const handleTouchEnd = (e: TouchEvent) => {
       const touchEndY = e.changedTouches[0].screenY;
       if (Math.abs(touchStartY - touchEndY) > 50) {
-        setVisible(false);
-        sessionStorage.setItem('splashShown', 'true');
+        dismissSplash();
       }
     };
 
@@ -54,9 +52,9 @@ export default function SplashLanding() {
     };
   }, [visible]);
 
-  const handleExplore = () => {
-    setVisible(false);
-    sessionStorage.setItem('splashShown', 'true');
+  const handleExplore = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dismissSplash();
     navigate('/shop');
   };
 
@@ -68,12 +66,13 @@ export default function SplashLanding() {
           initial={{ y: 0 }}
           exit={{ y: '-100%' }}
           transition={{ duration: 0.8, ease: [0.77, 0, 0.175, 1] }}
-          className="fixed inset-0 z-[100] bg-mocha-900 flex flex-col justify-end"
+          className="fixed inset-0 z-[100] bg-mocha-900 flex flex-col justify-end cursor-pointer"
+          onClick={dismissSplash}
         >
           {/* Background Video/Image */}
           <div className="absolute inset-0 w-full h-full">
             <img
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/MnM/covermain.webp"
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/covermain.webp"
               alt="Mocha & Mogra Splash"
               className="w-full h-full object-cover opacity-80"
             />
@@ -83,7 +82,7 @@ export default function SplashLanding() {
           {/* Logo / Brand Name */}
           <div className="absolute top-8 left-8 z-10">
             <img 
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/MnM/mnmlogo-Photoroom.webp" 
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/mnmlogo-Photoroom.webp" 
               alt="MnM Logo" 
               className="h-12 w-auto invert opacity-90"
             />
@@ -97,7 +96,7 @@ export default function SplashLanding() {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none z-10"
           >
              <p className="font-cinzel text-white/70 text-xs tracking-[0.3em] uppercase animate-pulse">
-               Swipe or Scroll to Enter
+               Click, Swipe or Scroll to Enter
              </p>
           </motion.div>
 
