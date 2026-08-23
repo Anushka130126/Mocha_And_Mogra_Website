@@ -110,7 +110,7 @@ export default function OurStory() {
             style={{ aspectRatio: '4/5' }}
           >
             <img
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/riwaayat.webp"
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri3.webp"
               alt="The Founder"
               className="w-full h-full object-cover"
               loading="lazy"

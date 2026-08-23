@@ -26,7 +26,7 @@ export const products: Product[] = [
       'The cage motif was my little way of playing with the idea of freedom — because what’s more fun than putting a cage on a saree and then wearing it exactly how you want?',
     wearFor: 'I see this one on the woman who likes her classics with a little bit of edge. Dinner dates, cocktails, gallery evenings — basically anywhere you want someone to stop and ask, “Wait, is that a cage on your saree?”',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/sm2.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm5.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelposing.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelwall.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm5.webp'],
     color: '#8898B8',
   },
   {
@@ -41,7 +41,7 @@ export const products: Product[] = [
       'Can we talk about how butter yellow is having such a moment right now? Gen Z, millennials — everyone seems to be obsessed with it. And then there’s the pineapple. Somehow, the two together just made perfect sense to me. It gives this saree that fresh, playful energy without making it feel too young.',
     wearFor: 'Haldi? Absolutely. Brunch date? Of course. Day wedding? Take her. She’s basically made for happy occasions.',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm5.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodelmehendi.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodeltwirl.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm5.webp'],
     color: '#D4C08A',
   },
   {
@@ -56,7 +56,7 @@ export const products: Product[] = [
       'I imagined Ruby Doe on the girl who has just become a bride — not in a heavy bridal saree, but in that beautiful new-bride phase where you want to wear colour, dress up and still feel like yourself. The little deer motif makes the red feel softer and more playful.',
     wearFor: 'Wear her to a wedding, a bridesmaid moment, an intimate dinner or that first wedding season after you say “I do.”',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd5.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodel.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodelopeningscene.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd5.webp'],
     color: '#B89090',
   },
   {
@@ -130,8 +130,8 @@ export const products: Product[] = [
     story:
       'I wanted the saree to move. So I made the underskirt ridiculously flared. The kind that gives your saree that gorgeous swish when you walk, sit, twirl — basically whenever you feel like being a little dramatic.',
     wearFor: 'You won’t necessarily see Chaandini. But you’ll definitely notice what she does.',
-    image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/riwaayat.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/riwaayat.webp'],
+    image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm4.webp',
+    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm2.webp'],
     color: '#D8D0C4',
   },
 ];
