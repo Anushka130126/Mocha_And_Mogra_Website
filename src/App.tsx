@@ -79,13 +79,17 @@ function Layout() {
   );
 }
 
+import { CurrencyProvider } from './context/CurrencyContext';
+
 export default function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <ScrollToTop />
-        <Layout />
-      </CartProvider>
+      <CurrencyProvider>
+        <CartProvider>
+          <ScrollToTop />
+          <Layout />
+        </CartProvider>
+      </CurrencyProvider>
     </BrowserRouter>
   );
 }

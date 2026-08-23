@@ -4,6 +4,7 @@ import { X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
 import type { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 import ImageCarousel from './ImageCarousel';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface ProductModalProps {
   product: Product | null;
@@ -23,6 +24,7 @@ const drawerVariants = {
 
 export default function ProductModal({ product, onClose, onAddedToCart }: ProductModalProps) {
   const { addItem } = useCart();
+  const { formatPrice } = useCurrency();
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
@@ -113,7 +115,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
 
               {/* Name & Price */}
               <h2 className="font-playfair text-3xl text-mocha-900 mb-1">{product.name}</h2>
-              <p className="font-lora text-xl text-mocha-600 mb-6">{product.priceDisplay}</p>
+              <p className="font-lora text-xl text-mocha-600 mb-6">{formatPrice(product.price)}</p>
 
               <div className="w-12 h-px bg-gold-500 mb-6" />
 

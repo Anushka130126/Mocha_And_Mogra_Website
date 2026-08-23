@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Search, ShoppingBag, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import { useCurrency, Currency } from '../context/CurrencyContext';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -21,6 +22,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { totalItems } = useCart();
+  const { currency, setCurrency } = useCurrency();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -46,7 +48,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
             {/* Logo */}
             <NavLink to="/" className="flex items-center gap-3">
               <img
-                src="https://res.cloudinary.com/xtrw55ut/image/upload/mnmlogo-Photoroom.webp"
+                src="https://res.cloudinary.com/xtrw55ut/image/upload/MnM/mnmlogo-Photoroom.webp"
                 alt="Mocha & Mogra"
                 className="h-10 w-10 object-contain"
               />
@@ -81,11 +83,27 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
             </nav>
 
             {/* Icons */}
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4 sm:gap-5">
+              {/* Currency Toggle */}
+              <div className="hidden sm:flex items-center gap-1 font-cinzel text-[10px] tracking-[0.1em] text-mocha-600 bg-mocha-50/50 rounded-full px-2 py-1 border border-mocha-200">
+                <button
+                  onClick={() => setCurrency('INR')}
+                  className={`px-2 py-1 rounded-full transition-colors ${currency === 'INR' ? 'bg-mocha-800 text-gold-200' : 'hover:bg-mocha-100'}`}
+                >
+                  INR
+                </button>
+                <button
+                  onClick={() => setCurrency('USD')}
+                  className={`px-2 py-1 rounded-full transition-colors ${currency === 'USD' ? 'bg-mocha-800 text-gold-200' : 'hover:bg-mocha-100'}`}
+                >
+                  USD
+                </button>
+              </div>
+
               <button
                 onClick={onSearchOpen}
                 aria-label="Search"
-                className="text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block"
+                className="text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block ml-2"
               >
                 <Search size={18} strokeWidth={1.5} />
               </button>
@@ -156,7 +174,21 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                 Search
               </button>
             </nav>
-            <div className="mt-16 border-t border-mocha-100 pt-8 text-mocha-500 font-lora text-sm">
+            <div className="mt-12 flex items-center justify-center gap-2 font-cinzel text-xs tracking-[0.15em] text-mocha-600">
+              <button
+                onClick={() => setCurrency('INR')}
+                className={`px-4 py-2 border transition-colors ${currency === 'INR' ? 'border-mocha-800 bg-mocha-800 text-gold-200' : 'border-mocha-200 hover:border-mocha-400'}`}
+              >
+                INR
+              </button>
+              <button
+                onClick={() => setCurrency('USD')}
+                className={`px-4 py-2 border transition-colors ${currency === 'USD' ? 'border-mocha-800 bg-mocha-800 text-gold-200' : 'border-mocha-200 hover:border-mocha-400'}`}
+              >
+                USD
+              </button>
+            </div>
+            <div className="mt-8 border-t border-mocha-100 pt-8 text-mocha-500 font-lora text-sm">
               hello@mochamogra.com
             </div>
           </motion.div>

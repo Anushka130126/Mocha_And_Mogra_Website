@@ -1,14 +1,66 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { shopifyFetch, createCartMutation } from '../lib/shopify';
+import { useCurrency } from '../context/CurrencyContext';
 
 export default function Cart() {
   const navigate = useNavigate();
   const { items, removeItem, updateQuantity, subtotal } = useCart();
+  const { currency, formatPrice, usdRate } = useCurrency();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const shipping = subtotal >= 5000 ? 0 : 500;
+  const threshold = currency === 'USD' ? 200 * usdRate : 5000;
+  const shippingFee = currency === 'USD' ? 25 * usdRate : 500;
+  const shipping = subtotal >= threshold ? 0 : shippingFee;
   const total = subtotal + shipping;
+
+  const handleCheckout = async () => {
+    try {
+      setIsCheckingOut(true);
+      if (!import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || !import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+        // Fallback to local checkout if Shopify is not configured
+        navigate('/checkout');
+        return;
+      }
+
+      // Format cart items for Shopify cartCreate
+      // Note: This assumes item.product.id is a valid Shopify variant ID. 
+      // If it's a mock ID, Shopify will reject it.
+      const lines = items.map((item) => ({
+        merchandiseId: typeof item.product.id === 'string' && item.product.id.includes('gid://') 
+          ? item.product.id // It's a real Shopify variant ID (assuming we saved the variant ID in product.id during fetch)
+          : `gid://shopify/ProductVariant/${item.product.id}`, // Attempt to format it, but this will fail for local IDs
+        quantity: item.quantity,
+      }));
+
+      const res = await shopifyFetch<any>({
+        query: createCartMutation,
+        variables: {
+          cartInput: {
+            lines,
+          },
+        },
+      });
+
+      const checkoutUrl = res.body?.data?.cartCreate?.cart?.checkoutUrl;
+      
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        console.error('Failed to get checkout URL from Shopify', res.body);
+        navigate('/checkout');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      // Fallback
+      navigate('/checkout');
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   return (
     <div className="pt-24 pb-20 min-h-screen">
@@ -99,7 +151,7 @@ export default function Cart() {
 
                           {/* Price */}
                           <p className="font-playfair text-lg text-mocha-900">
-                            ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
+                            {formatPrice(item.product.price * item.quantity)}
                           </p>
                         </div>
                       </div>
@@ -129,7 +181,7 @@ export default function Cart() {
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between font-lora text-sm text-mocha-700">
                     <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
-                    <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                    <span>{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between font-lora text-sm text-mocha-700">
                     <span>Artisanal Packaging</span>
@@ -141,13 +193,13 @@ export default function Cart() {
                       {shipping === 0 ? (
                         <span className="text-forest-600 font-medium">Free</span>
                       ) : (
-                        `₹${shipping.toLocaleString('en-IN')}`
+                        formatPrice(shipping)
                       )}
                     </span>
                   </div>
                   {shipping > 0 && (
                     <p className="font-lora text-xs text-mocha-400 italic">
-                      Add ₹{(5000 - subtotal).toLocaleString('en-IN')} more for free shipping
+                      Add {formatPrice(threshold - subtotal)} more for free shipping
                     </p>
                   )}
                 </div>
@@ -173,17 +225,27 @@ export default function Cart() {
                       Estimated Total
                     </span>
                     <span className="font-playfair text-xl text-mocha-900">
-                      ₹{total.toLocaleString('en-IN')}
+                      {formatPrice(total)}
                     </span>
                   </div>
                 </div>
 
                 <button
-                  onClick={() => navigate('/checkout')}
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut}
                   className="w-full btn-primary-filled justify-center py-4 text-sm flex items-center gap-2"
                 >
-                  Proceed to Checkout
-                  <ArrowRight size={14} strokeWidth={1.5} />
+                  {isCheckingOut ? (
+                    <>
+                      Processing...
+                      <Loader2 size={14} className="animate-spin" strokeWidth={1.5} />
+                    </>
+                  ) : (
+                    <>
+                      Proceed to Checkout
+                      <ArrowRight size={14} strokeWidth={1.5} />
+                    </>
+                  )}
                 </button>
                 <p className="font-cinzel text-[9px] tracking-[0.2em] uppercase text-mocha-400 text-center mt-4">
                   Secure &amp; Encrypted

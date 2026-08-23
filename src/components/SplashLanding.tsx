@@ -73,7 +73,7 @@ export default function SplashLanding() {
           {/* Background Video/Image */}
           <div className="absolute inset-0 w-full h-full">
             <img
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/covermain.webp"
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/MnM/covermain.webp"
               alt="Mocha & Mogra Splash"
               className="w-full h-full object-cover opacity-80"
             />
@@ -83,7 +83,7 @@ export default function SplashLanding() {
           {/* Logo / Brand Name */}
           <div className="absolute top-8 left-8 z-10">
             <img 
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/mnmlogo-Photoroom.webp" 
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/MnM/mnmlogo-Photoroom.webp" 
               alt="MnM Logo" 
               className="h-12 w-auto invert opacity-90"
             />

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MapPin, CreditCard, Truck, ShieldCheck, ChevronDown, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useCurrency } from '../context/CurrencyContext';
 
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Delhi', 'Goa', 'Gujarat',
@@ -27,12 +28,13 @@ const fadeUp = {
 export default function Checkout() {
   const navigate = useNavigate();
   const { items, subtotal, clearCart } = useCart();
+  const { currency, formatPrice, usdRate } = useCurrency();
   const [activeStep, setActiveStep] = useState<Step>('address');
   const [shipping, setShipping] = useState<ShippingMethod>('standard');
   const [payment, setPayment] = useState<PaymentMethod>('card');
   const [submitting, setSubmitting] = useState(false);
 
-  const shippingCost = shipping === 'express' ? 500 : 0;
+  const shippingCost = shipping === 'express' ? (currency === 'USD' ? 25 * usdRate : 500) : 0;
   const total = subtotal + shippingCost;
 
   const [address, setAddress] = useState({
@@ -227,7 +229,7 @@ export default function Checkout() {
                   id="express"
                   label="Express Shipping"
                   sub="1–2 Business Days"
-                  price="₹500"
+                  price={formatPrice(currency === 'USD' ? 25 * usdRate : 500)}
                   selected={shipping === 'express'}
                   onSelect={() => setShipping('express')}
                 />
@@ -329,7 +331,7 @@ export default function Checkout() {
                       Processing...
                     </>
                   ) : (
-                    <>Pay Now — ₹{total.toLocaleString('en-IN')}</>
+                    <>Pay Now — {formatPrice(total)}</>
                   )}
                 </button>
               </div>
@@ -371,7 +373,7 @@ export default function Checkout() {
                       <p className="font-lora text-xs text-mocha-400">{item.product.motif} Motif</p>
                     </div>
                     <p className="font-lora text-sm text-mocha-700 flex-shrink-0">
-                      ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
+                      {formatPrice(item.product.price * item.quantity)}
                     </p>
                   </div>
                 ))}
@@ -380,22 +382,22 @@ export default function Checkout() {
               <div className="border-t border-mocha-200 pt-5 space-y-3">
                 <div className="flex justify-between font-lora text-sm text-mocha-600">
                   <span>Subtotal</span>
-                  <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                  <span>{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between font-lora text-sm text-mocha-600">
                   <span>Shipping</span>
-                  <span>{shippingCost === 0 ? <span className="text-forest-600">Free</span> : `₹${shippingCost}`}</span>
+                  <span>{shippingCost === 0 ? <span className="text-forest-600">Free</span> : formatPrice(shippingCost)}</span>
                 </div>
                 <div className="flex justify-between font-lora text-sm text-mocha-600">
                   <span>Taxes (included)</span>
-                  <span>₹{Math.round(subtotal * 0.05).toLocaleString('en-IN')}</span>
+                  <span>{formatPrice(Math.round(subtotal * 0.05))}</span>
                 </div>
               </div>
 
               <div className="border-t border-mocha-200 mt-5 pt-5 flex justify-between items-center">
                 <span className="font-cinzel text-sm tracking-[0.1em] uppercase text-mocha-900">Total</span>
                 <span className="font-playfair text-xl text-mocha-900">
-                  ₹{total.toLocaleString('en-IN')}
+                  {formatPrice(total)}
                 </span>
               </div>
             </div>

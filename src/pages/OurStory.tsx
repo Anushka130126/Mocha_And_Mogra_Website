@@ -48,7 +48,7 @@ export default function OurStory() {
         className="w-full h-[50vh] lg:h-[65vh] overflow-hidden mb-24 bg-mocha-100"
       >
         <img
-          src="https://res.cloudinary.com/xtrw55ut/image/upload/modelslandscape.webp"
+          src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_1600/MnM/modelslandscape.webp"
           alt="Mocha & Mogra atelier"
           className="w-full h-full object-cover object-center"
           loading="lazy"
@@ -80,7 +80,7 @@ export default function OurStory() {
       <div className="flex justify-center mb-24">
         <div className="flex items-center gap-4">
           <div className="w-16 h-px bg-mocha-300" />
-          <img src="https://res.cloudinary.com/xtrw55ut/image/upload/mnmlogo-Photoroom.webp" alt="" className="h-8 w-8 object-contain opacity-40" loading="lazy" />
+          <img src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_200/MnM/mnmlogo-Photoroom.webp" alt="" className="h-8 w-8 object-contain opacity-40" loading="lazy" />
           <div className="w-16 h-px bg-mocha-300" />
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function OurStory() {
             style={{ aspectRatio: '4/5' }}
           >
             <img
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/modelwalkinginriwaayat.webp"
+              src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/MnM/modelwalkinginriwaayat.webp"
               alt="The Founder"
               className="w-full h-full object-cover"
               loading="lazy"
@@ -187,7 +187,7 @@ export default function OurStory() {
               style={{ aspectRatio: '4/5' }}
             >
               <img
-                src="https://res.cloudinary.com/xtrw55ut/image/upload/machine.jpg"
+                src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/MnM/machine.jpg"
                 alt="Artisan craftsmanship"
                 className="w-full h-full object-cover opacity-90"
               />

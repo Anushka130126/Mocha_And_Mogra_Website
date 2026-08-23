@@ -1,11 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlidersHorizontal, X, Check } from 'lucide-react';
-import { products } from '../data/products';
+import { products as localProducts } from '../data/products';
 import type { Product } from '../data/products';
+import { shopifyFetch, getProductsQuery } from '../lib/shopify';
 import ProductModal from '../components/ProductModal';
 import AddedToCartToast from '../components/AddedToCartToast';
 import ImageCarousel from '../components/ImageCarousel';
+import { useCurrency } from '../context/CurrencyContext';
 
 const CATEGORIES = ['Saree', 'Underskirt'];
 const PRICE_RANGES = [
@@ -28,10 +30,58 @@ function toggle<T>(arr: T[], val: T): T[] {
 }
 
 export default function Shop() {
+  const [products, setProducts] = useState<Product[]>(localProducts);
+  const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [toastName, setToastName] = useState<string | null>(null);
+  const { formatPrice } = useCurrency();
+
+  useEffect(() => {
+    async function fetchShopifyProducts() {
+      try {
+        if (!import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || !import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+          // If credentials not set, fallback to local products silently
+          setProducts(localProducts);
+          setLoading(false);
+          return;
+        }
+
+        const res = await shopifyFetch<any>({ query: getProductsQuery });
+        const shopifyProducts = res.body.data.products.edges.map(({ node }: any) => {
+          return {
+            id: node.id,
+            name: node.title,
+            price: parseFloat(node.priceRange.minVariantPrice.amount),
+            category: 'Saree', // Fallback, could be mapped from tags
+            description: node.description,
+            image: node.images.edges[0]?.node.url || '',
+            images: node.images.edges.map((img: any) => img.node.url),
+            personality: [], // Extract from tags or metadata if available
+            fabric: 'Silk', // Example fallback
+            craft: 'Handwoven', // Example fallback
+            motif: 'Floral', // Example fallback
+            zari: 'Gold', // Example fallback
+            origin: 'India', // Example fallback
+          } as Product;
+        });
+
+        if (shopifyProducts.length > 0) {
+          setProducts(shopifyProducts);
+        } else {
+          setProducts(localProducts);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch from Shopify, falling back to local products:', err);
+        setProducts(localProducts);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchShopifyProducts();
+  }, []);
 
   const activeFilterCount =
     filters.categories.length + filters.priceRanges.length + filters.personalities.length;
@@ -139,7 +189,7 @@ export default function Shop() {
 
         {/* Count */}
         <p className="font-lora text-sm text-mocha-400 mb-8">
-          {filtered.length} {filtered.length === 1 ? 'piece' : 'pieces'}
+          {loading ? 'Loading...' : `${filtered.length} ${filtered.length === 1 ? 'piece' : 'pieces'}`}
         </p>
 
         {/* Product Grid */}
@@ -151,12 +201,13 @@ export default function Shop() {
                 product={product}
                 index={i}
                 onSelect={setSelectedProduct}
+                formatPrice={formatPrice}
               />
             ))}
           </AnimatePresence>
         </motion.div>
 
-        {filtered.length === 0 && (
+        {!loading && filtered.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -342,9 +393,10 @@ interface ProductCardProps {
   product: Product;
   index: number;
   onSelect: (p: Product) => void;
+  formatPrice: (price: number) => string;
 }
 
-function ProductCard({ product, index, onSelect }: ProductCardProps) {
+function ProductCard({ product, index, onSelect, formatPrice }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [inView, setInView] = useState(false);
 
@@ -388,7 +440,7 @@ function ProductCard({ product, index, onSelect }: ProductCardProps) {
         <p className="font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-800 mb-1">
           {product.name}
         </p>
-        <p className="font-lora text-sm text-mocha-500">{product.priceDisplay}</p>
+        <p className="font-lora text-sm text-mocha-500">{formatPrice(product.price)}</p>
         <p className="font-lora text-xs italic text-mocha-400 mt-1">{product.motif} Motif</p>
       </div>
     </motion.div>
