@@ -83,4 +83,43 @@
   .gold-border {
     border-color: #C99A2E;
   }
+
+  /* iOS safe area support (notch / Dynamic Island) */
+  .safe-top    { padding-top: env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-left   { padding-left: env(safe-area-inset-left); }
+  .safe-right  { padding-right: env(safe-area-inset-right); }
 }
+
+/* ─── Global mobile polish ─────────────────────────── */
+
+/* Smooth momentum scroll on iOS Safari */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Prevent unwanted text-size adjustment on orientation change */
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Prevent double-tap zoom on buttons/links (iOS) */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Ensure tappable elements have a minimum 44×44 px hit area (Apple HIG) */
+button:not(.p-0):not([class*="w-"]),
+a:not([class*="w-"]) {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Better image rendering on high-DPI Apple screens */
+img, video {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
