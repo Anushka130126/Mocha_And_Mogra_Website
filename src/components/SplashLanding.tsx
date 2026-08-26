@@ -3,23 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const SIDE_VIDEOS = [
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelposing.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelwall.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodelmehendi.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodeltwirl.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodel.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodelopeningscene.webm',
-  'https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,q_auto,f_auto,w_800/coverreel3.webm'
-];
-
-const getRandomVideo = (exclude: string[] = []) => {
-  const available = SIDE_VIDEOS.filter(v => !exclude.includes(v));
-  if (available.length === 0) return SIDE_VIDEOS[0];
-  return available[Math.floor(Math.random() * available.length)];
-};
-
 export default function SplashLanding() {
   const [visible, setVisible] = useState(() => {
     return sessionStorage.getItem('splashShown') !== 'true';
@@ -28,24 +11,18 @@ export default function SplashLanding() {
   const scrollPosRef = useRef(0);
   const isDismissing = useRef(false);
 
-  const [leftVideo, setLeftVideo] = useState('');
-  const [rightVideo, setRightVideo] = useState('');
-
-  useEffect(() => {
-    if (visible) {
-      const initialLeft = getRandomVideo();
-      const initialRight = getRandomVideo([initialLeft]);
-      setLeftVideo(initialLeft);
-      setRightVideo(initialRight);
+  const handleLeftLoaded = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    if (video.duration) {
+      video.currentTime = video.duration * 0.33;
     }
-  }, [visible]);
-
-  const handleLeftEnded = () => {
-    setLeftVideo(prev => getRandomVideo([prev, rightVideo]));
   };
 
-  const handleRightEnded = () => {
-    setRightVideo(prev => getRandomVideo([prev, leftVideo]));
+  const handleRightLoaded = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    if (video.duration) {
+      video.currentTime = video.duration * 0.66;
+    }
   };
 
   // Lock scroll position while splash is visible so the home page
@@ -164,17 +141,15 @@ export default function SplashLanding() {
             
             {/* Desktop Collage */}
             <div className="absolute inset-0 hidden md:grid grid-cols-3 w-full h-full">
-              {leftVideo ? (
-                <video
-                  key={leftVideo}
-                  src={leftVideo}
-                  autoPlay
-                  muted
-                  playsInline
-                  onEnded={handleLeftEnded}
-                  className="w-full h-full object-cover opacity-70"
-                />
-              ) : <div className="w-full h-full bg-mocha-900" />}
+              <video
+                src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
+                autoPlay
+                muted
+                loop
+                playsInline
+                onLoadedMetadata={handleLeftLoaded}
+                className="w-full h-full object-cover opacity-70"
+              />
               
               <video
                 src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
@@ -185,17 +160,15 @@ export default function SplashLanding() {
                 className="w-full h-full object-cover opacity-80 border-x border-mocha-900/20 shadow-2xl z-10"
               />
               
-              {rightVideo ? (
-                <video
-                  key={rightVideo}
-                  src={rightVideo}
-                  autoPlay
-                  muted
-                  playsInline
-                  onEnded={handleRightEnded}
-                  className="w-full h-full object-cover opacity-70"
-                />
-              ) : <div className="w-full h-full bg-mocha-900" />}
+              <video
+                src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
+                autoPlay
+                muted
+                loop
+                playsInline
+                onLoadedMetadata={handleRightLoaded}
+                className="w-full h-full object-cover opacity-70"
+              />
             </div>
 
             <div className="absolute inset-0 bg-gradient-to-t from-mocha-900/90 via-transparent to-mocha-900/30 z-20 pointer-events-none" />
