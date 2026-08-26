@@ -113,17 +113,47 @@ export default function SplashLanding() {
           className="fixed inset-0 z-[100] bg-mocha-900 flex flex-col justify-end cursor-pointer"
           onClick={dismissSplash}
         >
-          {/* Background Video */}
-          <div className="absolute inset-0 w-full h-full">
+          {/* Background Media */}
+          <div className="absolute inset-0 w-full h-full bg-mocha-900">
+            {/* Mobile Video */}
             <video
               src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
               autoPlay
               muted
               loop
               playsInline
-              className="w-full h-full object-cover opacity-80"
+              className="absolute inset-0 w-full h-full object-cover opacity-70 md:hidden"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-mocha-900/80 via-transparent to-mocha-900/30" />
+            
+            {/* Desktop Collage */}
+            <div className="absolute inset-0 hidden md:grid grid-cols-3 w-full h-full">
+              <video
+                src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelposing.webm"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover opacity-70"
+              />
+              <video
+                src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover opacity-80 border-x border-mocha-900/20 shadow-2xl z-10"
+              />
+              <video
+                src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodel.webm"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover opacity-70"
+              />
+            </div>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-mocha-900/90 via-transparent to-mocha-900/30 z-20 pointer-events-none" />
           </div>
 
           {/* Logo */}
