@@ -189,7 +189,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               </button>
             </div>
             <div className="mt-8 border-t border-mocha-100 pt-8 text-mocha-500 font-lora text-sm">
-              hello@mochamogra.com
+              labelmochanmogra@gmail.com
             </div>
           </motion.div>
         )}

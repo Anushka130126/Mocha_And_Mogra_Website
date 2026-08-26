@@ -251,10 +251,10 @@ export default function Contact() {
                     <div>
                       <p className="font-lora text-sm text-mocha-800 mb-1">Email Us</p>
                       <a
-                        href="mailto:hello@mochamogra.com"
+                        href="mailto:labelmochanmogra@gmail.com"
                         className="font-lora text-sm text-mocha-500 hover:text-mocha-800 transition-colors"
                       >
-                        hello@mochamogra.com
+                        labelmochanmogra@gmail.com
                       </a>
                     </div>
                   </div>

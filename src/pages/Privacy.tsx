@@ -38,7 +38,7 @@ export default function Privacy() {
             </p>
             <h2 className="font-cinzel text-xl text-mocha-900 tracking-wider uppercase mt-8 mb-4">Contact Us</h2>
             <p>
-              If you have any questions about this Privacy Policy, please contact us at <a href="mailto:hello@mochamogra.com" className="text-gold-600 hover:underline">hello@mochamogra.com</a>.
+              If you have any questions about this Privacy Policy, please contact us at <a href="mailto:labelmochanmogra@gmail.com" className="text-gold-600 hover:underline">labelmochanmogra@gmail.com</a>.
             </p>
           </div>
         </motion.div>

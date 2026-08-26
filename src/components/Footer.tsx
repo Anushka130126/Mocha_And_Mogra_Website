@@ -23,7 +23,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               <a
-                href="mailto:hello@mochamogra.com"
+                href="mailto:labelmochanmogra@gmail.com"
                 aria-label="Email"
                 className="text-mocha-400 hover:text-gold-300 transition-colors"
               >
