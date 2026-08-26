@@ -9,37 +9,58 @@ export default function SplashLanding() {
   });
   const navigate = useNavigate();
   const scrollPosRef = useRef(0);
+  const isDismissing = useRef(false);
 
   // Lock scroll position while splash is visible so the home page
   // never "moves" underneath — instead we fix the body in place.
   useEffect(() => {
-    if (!visible) return;
+    if (visible) {
+      // Capture & freeze the scroll position
+      scrollPosRef.current = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPosRef.current}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.overflow = 'hidden';
 
-    // Capture & freeze the scroll position
-    scrollPosRef.current = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosRef.current}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.overflow = 'hidden';
+      return () => {
+        if (!isDismissing.current) {
+          // Restore body position if unmounted unexpectedly
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.right = '';
+          document.body.style.overflow = '';
+        }
+      };
+    } else if (isDismissing.current) {
+      // Delay restoring body until exit animation completes
+      const timer = setTimeout(() => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        isDismissing.current = false;
+      }, 800);
 
-    return () => {
-      // Restore body position
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.overflow = '';
-    };
+      return () => {
+        clearTimeout(timer);
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+      };
+    }
   }, [visible]);
 
   const dismissSplash = () => {
+    if (isDismissing.current) return;
+    isDismissing.current = true;
     setVisible(false);
     sessionStorage.setItem('splashShown', 'true');
-    // After restoring body, immediately snap to top
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    });
   };
 
   useEffect(() => {
@@ -92,11 +113,14 @@ export default function SplashLanding() {
           className="fixed inset-0 z-[100] bg-mocha-900 flex flex-col justify-end cursor-pointer"
           onClick={dismissSplash}
         >
-          {/* Background Image */}
+          {/* Background Video */}
           <div className="absolute inset-0 w-full h-full">
-            <img
-              src="https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_1600/covermain.webp"
-              alt="Mocha & Mogra Splash"
+            <video
+              src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
+              autoPlay
+              muted
+              loop
+              playsInline
               className="w-full h-full object-cover opacity-80"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-mocha-900/80 via-transparent to-mocha-900/30" />
