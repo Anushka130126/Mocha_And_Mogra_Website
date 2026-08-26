@@ -320,8 +320,8 @@ export default function Contact() {
       <div className="mt-24 grid grid-cols-3 gap-1 overflow-hidden">
         {[
           'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss3.webp',
-          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd4.webp',
-          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri2.webp',
+          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/coverpicrubydoe.webp',
+          'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri2_2.webp',
         ].map((src, i) => (
           <div key={i} className="overflow-hidden bg-mocha-100 flex aspect-[4/3] md:aspect-[16/9]">
             <img

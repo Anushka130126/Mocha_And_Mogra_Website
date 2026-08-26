@@ -100,8 +100,8 @@ export const products: Product[] = [
     story:
       'This one is very close to my heart. The elephant felt like the perfect place to start — deeply Indian, instantly recognisable, but playful enough to become something completely new through our patchwork. And you clearly agreed. Riwayaat is our best-seller. The saree that made people stop, ask questions and discover Mocha & Mogra for the first time.',
     wearFor: 'A little bit of our riwayaat, with a lot of our personality.',
-    image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,q_auto,f_auto,w_800/coverreel3.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri5.webp'],
+    image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1_2.webp',
+    images: ['https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,q_auto,f_auto,w_800/coverreel3.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri2_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri3_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri4_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri5_2.webp'],
     color: '#B8A898',
   },
   {
