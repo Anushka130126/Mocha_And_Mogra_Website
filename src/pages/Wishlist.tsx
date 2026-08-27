@@ -8,7 +8,7 @@ import { useCurrency } from '../context/CurrencyContext';
 export default function Wishlist() {
   const { items, toggleWishlist } = useWishlist();
   const { addItem } = useCart();
-  const { format } = useCurrency();
+  const { formatPrice } = useCurrency();
 
   return (
     <div className="pt-24 pb-20 min-h-screen">
@@ -92,7 +92,7 @@ export default function Wishlist() {
                     </h3>
                     <div className="flex items-center justify-between">
                       <span className="font-lora text-mocha-700 font-medium">
-                        {format(product.price)}
+                        {formatPrice(product.price)}
                       </span>
                       <button
                         id={`wishlist-add-to-cart-${product.id}`}
