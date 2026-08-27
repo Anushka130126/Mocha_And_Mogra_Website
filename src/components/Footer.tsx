@@ -92,6 +92,16 @@ export default function Footer() {
                   Terms of Service
                 </Link>
               </li>
+              <li>
+                <Link to="/return-policy" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
+                  Return &amp; Refund Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/shipping-policy" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
+                  Shipping Policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

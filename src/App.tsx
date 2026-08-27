@@ -17,6 +17,9 @@ import OrderConfirmation from './pages/OrderConfirmation';
 import SplashLanding from './components/SplashLanding';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import ReturnPolicy from './pages/ReturnPolicy';
+import ShippingPolicy from './pages/ShippingPolicy';
+import WhatsAppButton from './components/WhatsAppButton';
 import type { Product } from './data/products';
 
 function ScrollToTop() {
@@ -51,10 +54,13 @@ function Layout() {
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/return-policy" element={<ReturnPolicy />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
       {!isCheckoutFlow && <Footer />}
+      {!isCheckoutFlow && <WhatsAppButton phoneNumber="919999999999" />}
 
       {/* Global Search Overlay */}
       <SearchOverlay
