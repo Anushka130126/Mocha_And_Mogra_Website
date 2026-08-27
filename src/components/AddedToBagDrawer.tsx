@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, X, Check, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { createDirectShopifyCheckout } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
 import type { Product } from '../data/products';
 
@@ -126,7 +127,11 @@ export default function AddedToBagDrawer({ product, onClose }: AddedToBagDrawerP
                 id="drawer-checkout-btn"
                 onClick={() => {
                   onClose();
-                  navigate('/checkout');
+                  const itemsPayload = items.map((item) => ({
+                    variantId: item.product.id,
+                    quantity: item.quantity,
+                  }));
+                  window.location.href = createDirectShopifyCheckout(itemsPayload);
                 }}
                 className="w-full py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.25em] uppercase hover:bg-mocha-800 transition-colors flex items-center justify-center gap-2 shadow-md"
               >

@@ -4,6 +4,7 @@ import { X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { createDirectShopifyCheckout } from '../lib/shopify';
 import ImageCarousel from './ImageCarousel';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -56,7 +57,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
     if (!product) return;
     addItem(product);
     onClose();
-    navigate('/checkout');
+    window.location.href = createDirectShopifyCheckout([{ variantId: product.id, quantity: 1 }]);
   };
 
   return (

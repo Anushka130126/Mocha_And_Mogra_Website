@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { createShopifyCheckout } from '../lib/shopify';
+import { createDirectShopifyCheckout, SHOPIFY_STORE_DOMAIN } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
 
 export default function Cart() {
@@ -20,27 +20,15 @@ export default function Cart() {
   const handleCheckout = async () => {
     try {
       setIsCheckingOut(true);
-      if (!import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || !import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
-        navigate('/checkout');
-        return;
-      }
-
-      const lines = items.map((item) => ({
-        merchandiseId: String(item.product.id).startsWith('gid://')
-          ? String(item.product.id)
-          : `gid://shopify/ProductVariant/${item.product.id}`,
+      const itemsPayload = items.map((item) => ({
+        variantId: item.product.id,
         quantity: item.quantity,
       }));
-
-      const checkoutUrl = await createShopifyCheckout(lines);
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        navigate('/checkout');
-      }
+      const checkoutUrl = createDirectShopifyCheckout(itemsPayload);
+      window.location.href = checkoutUrl;
     } catch (err) {
-      console.warn('Shopify checkout redirect unavailable, falling back to local checkout:', err);
-      navigate('/checkout');
+      console.warn('Redirecting to Shopify Checkout:', err);
+      window.location.href = `https://${SHOPIFY_STORE_DOMAIN}/checkout`;
     } finally {
       setIsCheckingOut(false);
     }
