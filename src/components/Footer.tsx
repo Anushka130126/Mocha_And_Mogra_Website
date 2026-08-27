@@ -50,6 +50,8 @@ export default function Footer() {
               {[
                 { label: 'Enter the Wardrobe', path: '/shop' },
                 { label: 'Our Story', path: '/our-story' },
+                { label: 'Size Guide', path: '/size-guide' },
+                { label: 'Wishlist', path: '/wishlist' },
                 { label: 'Contact', path: '/contact' },
               ].map((item) => (
                 <li key={item.path}>
@@ -90,6 +92,16 @@ export default function Footer() {
               <li>
                 <Link to="/terms" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
                   Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/return-policy" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
+                  Return &amp; Refund Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/shipping-policy" className="font-lora text-sm text-mocha-400 hover:text-gold-300 transition-colors">
+                  Shipping Policy
                 </Link>
               </li>
             </ul>
