@@ -11,19 +11,34 @@ export default function SplashLanding() {
   const scrollPosRef = useRef(0);
   const isDismissing = useRef(false);
 
-  const handleLeftLoaded = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    if (video.duration) {
-      video.currentTime = video.duration * 0.33;
-    }
+  const [videosReady, setVideosReady] = useState(0);
+  const leftVidRef = useRef<HTMLVideoElement>(null);
+  const midVidRef = useRef<HTMLVideoElement>(null);
+  const rightVidRef = useRef<HTMLVideoElement>(null);
+  const mobileVidRef = useRef<HTMLVideoElement>(null);
+
+  const handleLoaded = () => {
+    setVideosReady((prev) => prev + 1);
   };
 
-  const handleRightLoaded = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    if (video.duration) {
-      video.currentTime = video.duration * 0.66;
+  useEffect(() => {
+    // Wait until at least 1 video is ready, then after a brief timeout, sync their current times.
+    // We keep `autoPlay` on the video elements so the browser handles playing automatically,
+    // avoiding autoplay-block restrictions. We just seek them to their offsets simultaneously.
+    if (videosReady > 0) {
+      const timer = setTimeout(() => {
+        if (leftVidRef.current && leftVidRef.current.duration) {
+          leftVidRef.current.currentTime = leftVidRef.current.duration * 0.33;
+        }
+        if (rightVidRef.current && rightVidRef.current.duration) {
+          rightVidRef.current.currentTime = rightVidRef.current.duration * 0.66;
+        }
+        if (midVidRef.current) midVidRef.current.currentTime = 0;
+        if (mobileVidRef.current) mobileVidRef.current.currentTime = 0;
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [videosReady]);
 
   // Lock scroll position while splash is visible so the home page
   // never "moves" underneath — instead we fix the body in place.
@@ -131,42 +146,48 @@ export default function SplashLanding() {
           <div className="absolute inset-0 w-full h-full bg-mocha-900">
             {/* Mobile Video */}
             <video
+              ref={mobileVidRef}
               src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
               autoPlay
               muted
               loop
               playsInline
+              onLoadedMetadata={handleLoaded}
               className="absolute inset-0 w-full h-full object-cover opacity-70 md:hidden"
             />
             
             {/* Desktop Collage */}
             <div className="absolute inset-0 hidden md:grid grid-cols-3 w-full h-full">
               <video
+                ref={leftVidRef}
                 src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
                 autoPlay
                 muted
                 loop
                 playsInline
-                onLoadedMetadata={handleLeftLoaded}
+                onLoadedMetadata={handleLoaded}
                 className="w-full h-full object-cover opacity-70"
               />
               
               <video
+                ref={midVidRef}
                 src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
                 autoPlay
                 muted
                 loop
                 playsInline
+                onLoadedMetadata={handleLoaded}
                 className="w-full h-full object-cover opacity-80 border-x border-mocha-900/20 shadow-2xl z-10"
               />
               
               <video
+                ref={rightVidRef}
                 src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto/splash.webm"
                 autoPlay
                 muted
                 loop
                 playsInline
-                onLoadedMetadata={handleRightLoaded}
+                onLoadedMetadata={handleLoaded}
                 className="w-full h-full object-cover opacity-70"
               />
             </div>

@@ -1,7 +1,41 @@
+import { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Instagram, Mail } from 'lucide-react';
+import { Instagram, Mail, ArrowRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'success' | 'error' | 'unavailable'>('idle');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    if (!supabase) {
+      setSubscribeStatus('unavailable');
+      return;
+    }
+
+    setIsSubscribing(true);
+    setSubscribeStatus('idle');
+
+    try {
+      const { error } = await supabase.functions.invoke('subscribe-mailchimp', {
+        body: { email }
+      });
+
+      if (error) throw error;
+      
+      setSubscribeStatus('success');
+      setEmail('');
+    } catch (err) {
+      console.error('Subscription error:', err);
+      setSubscribeStatus('error');
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
   return (
     <footer className="border-t border-mocha-200 bg-mocha-900 text-gold-200 mt-auto">
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
@@ -30,7 +64,7 @@ export default function Footer() {
                 <Mail size={18} strokeWidth={1.5} />
               </a>
               <a
-                href="https://www.instagram.com/mocha.n.mogra/"
+                href="https://www.instagram.com/mochanmogra/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -106,11 +140,48 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+          
+          {/* Newsletter (Footer) */}
+          <div className="md:col-span-1">
+            <h4 className="font-cinzel text-xs tracking-[0.25em] uppercase text-gold-500 mb-5">
+              Newsletter
+            </h4>
+            <p className="font-lora text-sm text-mocha-400 mb-4 max-w-xs leading-relaxed">
+              Join our list to receive updates on new arrivals, special offers and other discount information.
+            </p>
+            <form onSubmit={handleSubscribe} className="relative flex max-w-xs">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email address"
+                required
+                disabled={isSubscribing}
+                className="w-full bg-transparent border-b border-mocha-700 pb-2 text-sm text-gold-200 placeholder-mocha-500 focus:outline-none focus:border-gold-500 transition-colors"
+              />
+              <button 
+                type="submit" 
+                disabled={isSubscribing}
+                className="absolute right-0 bottom-2 text-mocha-400 hover:text-gold-400 transition-colors disabled:opacity-50"
+              >
+                <ArrowRight size={16} />
+              </button>
+            </form>
+            {subscribeStatus === 'success' && (
+              <p className="text-green-500 text-xs mt-2 font-lora">Thank you for subscribing!</p>
+            )}
+            {subscribeStatus === 'error' && (
+              <p className="text-red-500 text-xs mt-2 font-lora">Something went wrong.</p>
+            )}
+            {subscribeStatus === 'unavailable' && (
+              <p className="text-mocha-500 text-xs mt-2 font-lora italic">Newsletter is currently unavailable.</p>
+            )}
+          </div>
         </div>
 
         <div className="border-t border-mocha-700 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-lora text-xs text-mocha-500">
-            &copy; 2024 Mocha &amp; Mogra. Handcrafted with Grace.
+            &copy; {new Date().getFullYear()} Mocha &amp; Mogra. Handcrafted with Grace.
           </p>
           <p className="font-cinzel text-xs tracking-[0.2em] text-mocha-500 uppercase">
             Story Before Trend
