@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Feather } from 'lucide-react';
 import { products } from '../data/products';
 import { OrganizationJsonLd } from '../lib/jsonld';
+import { supabase } from '../lib/supabase';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -20,6 +21,40 @@ export default function Home() {
   const navigate = useNavigate();
   const featured = products.slice(0, 3);
   const [teaserInView, setTeaserInView] = useState(false);
+  
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'success' | 'error' | 'unavailable'>('idle');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    if (!supabase) {
+      // Safe fallback if .env is missing
+      setSubscribeStatus('unavailable');
+      return;
+    }
+
+    setIsSubscribing(true);
+    setSubscribeStatus('idle');
+
+    try {
+      const { error } = await supabase.functions.invoke('subscribe-mailchimp', {
+        body: { email }
+      });
+
+      if (error) throw error;
+      
+      setSubscribeStatus('success');
+      setEmail('');
+    } catch (err) {
+      console.error('Subscription error:', err);
+      setSubscribeStatus('error');
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   return (
     <div className="pt-20">
@@ -365,16 +400,33 @@ export default function Home() {
           <p className="font-lora text-sm text-mocha-600 mb-8 leading-relaxed">
             New pieces, behind-the-scenes stories, and quiet moments from the atelier — delivered thoughtfully.
           </p>
-          <div className="flex gap-0">
+          <form onSubmit={handleSubscribe} className="flex gap-0 relative">
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
               className="flex-1 input-field border-b border-r-0 border-mocha-300 px-0 pr-4"
+              required
+              disabled={isSubscribing}
             />
-            <button className="btn-primary-filled text-xs px-6 py-3">
-              Subscribe
+            <button 
+              type="submit"
+              disabled={isSubscribing}
+              className="btn-primary-filled text-xs px-6 py-3 disabled:opacity-70"
+            >
+              {isSubscribing ? 'Wait...' : 'Subscribe'}
             </button>
-          </div>
+          </form>
+          {subscribeStatus === 'success' && (
+            <p className="text-green-600 text-sm mt-3 font-lora">Thank you for subscribing!</p>
+          )}
+          {subscribeStatus === 'error' && (
+            <p className="text-red-600 text-sm mt-3 font-lora">Something went wrong. Please try again.</p>
+          )}
+          {subscribeStatus === 'unavailable' && (
+            <p className="text-mocha-500 text-sm mt-3 font-lora italic">Newsletter is currently unavailable.</p>
+          )}
         </div>
       </section>
     </div>
