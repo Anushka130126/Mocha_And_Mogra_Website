@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { MapPin, CreditCard, Truck, ShieldCheck, ChevronDown, Check } from 'lucide-react';
+import { MapPin, CreditCard, Truck, ShieldCheck, ChevronDown, Check, Globe, Building2, Lock } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -13,51 +13,82 @@ const INDIAN_STATES = [
   'Uttarakhand', 'West Bengal',
 ];
 
-type Step = 'address' | 'shipping' | 'payment';
-type PaymentMethod = 'card' | 'upi' | 'netbanking';
-type ShippingMethod = 'standard' | 'express';
+const INTERNATIONAL_COUNTRIES = [
+  { name: 'United States', code: 'US', dial: '+1' },
+  { name: 'United Kingdom', code: 'GB', dial: '+44' },
+  { name: 'United Arab Emirates', code: 'AE', dial: '+971' },
+  { name: 'Canada', code: 'CA', dial: '+1' },
+  { name: 'Australia', code: 'AU', dial: '+61' },
+  { name: 'Singapore', code: 'SG', dial: '+65' },
+  { name: 'Germany', code: 'DE', dial: '+49' },
+  { name: 'France', code: 'FR', dial: '+33' },
+  { name: 'Qatar', code: 'QA', dial: '+974' },
+  { name: 'Saudi Arabia', code: 'SA', dial: '+966' },
+  { name: 'Kuwait', code: 'KW', dial: '+965' },
+  { name: 'Malaysia', code: 'MY', dial: '+60' },
+  { name: 'Japan', code: 'JP', dial: '+81' },
+  { name: 'Netherlands', code: 'NL', dial: '+31' },
+  { name: 'Switzerland', code: 'CH', dial: '+41' },
+];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (i: number) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.5, delay: i * 0.08 },
-  }),
-};
+type DeliveryRegion = 'domestic' | 'international';
+type PaymentMethod = 'card' | 'upi' | 'netbanking' | 'cod';
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { items, subtotal, clearCart } = useCart();
   const { currency, formatPrice, usdRate } = useCurrency();
-  const [activeStep, setActiveStep] = useState<Step>('address');
-  const [shipping, setShipping] = useState<ShippingMethod>('standard');
+  
+  // Auto-set region based on selected currency ($ -> International, ₹ -> Domestic India)
+  const [region, setRegion] = useState<DeliveryRegion>(() =>
+    currency === 'USD' ? 'international' : 'domestic'
+  );
+
   const [payment, setPayment] = useState<PaymentMethod>('card');
   const [submitting, setSubmitting] = useState(false);
 
-  const shippingCost = shipping === 'express' ? (currency === 'USD' ? 25 * usdRate : 500) : 0;
-  const total = subtotal + shippingCost;
-
+  // Address fields
   const [address, setAddress] = useState({
-    firstName: '', lastName: '', address: '', apt: '',
-    city: '', state: '', pin: '', phone: '',
+    firstName: '',
+    lastName: '',
+    street: '',
+    apartment: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: 'United States',
+    phone: '',
+    gstin: '',
   });
 
   const [card, setCard] = useState({
-    number: '', expiry: '', cvv: '', name: '',
+    number: '',
+    expiry: '',
+    cvv: '',
+    name: '',
   });
 
-  const steps: { id: Step; label: string; icon: typeof MapPin }[] = [
-    { id: 'address', label: 'Address', icon: MapPin },
-    { id: 'shipping', label: 'Shipping', icon: Truck },
-    { id: 'payment', label: 'Payment', icon: CreditCard },
-  ];
+  useEffect(() => {
+    // If user changes currency globally, sync the checkout region tab
+    if (currency === 'USD') setRegion('international');
+    else setRegion('domestic');
+  }, [currency]);
 
-  const stepOrder: Step[] = ['address', 'shipping', 'payment'];
-  const currentStepIndex = stepOrder.indexOf(activeStep);
+  // Shipping cost calculation
+  const isFreeShipping = region === 'domestic' 
+    ? subtotal >= 5000 
+    : (currency === 'USD' ? subtotal >= 200 : subtotal >= 16000);
 
-  const handlePlaceOrder = async () => {
+  const shippingCost = isFreeShipping 
+    ? 0 
+    : (region === 'domestic' ? 500 : (currency === 'USD' ? 25 * usdRate : 2000));
+
+  const total = subtotal + shippingCost;
+
+  const handlePlaceOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1800));
+    await new Promise((r) => setTimeout(r, 1600));
     clearCart();
     navigate('/order-confirmation');
   };
@@ -70,480 +101,383 @@ export default function Checkout() {
   return (
     <div className="pt-24 pb-20 min-h-screen">
       <div className="max-w-6xl mx-auto px-6 lg:px-10">
-        {/* Logo only header for checkout */}
+        {/* Header */}
         <div className="text-center mb-12">
-          <p className="section-label mb-3">Secure Checkout</p>
-          <h1 className="font-cinzel text-3xl tracking-widest text-mocha-900 uppercase">
+          <p className="section-label mb-2">Secure 1-Page Checkout</p>
+          <h1 className="font-cinzel text-3xl md:text-4xl tracking-widest text-mocha-900 uppercase">
             Checkout
           </h1>
         </div>
 
-        {/* Step Indicator */}
-        <div className="flex items-center justify-center mb-12">
-          {steps.map((step, i) => {
-            const isDone = stepOrder.indexOf(step.id) < currentStepIndex;
-            const isActive = step.id === activeStep;
-            return (
-              <div key={step.id} className="flex items-center">
-                <div className="flex flex-col items-center gap-2">
+        <form onSubmit={handlePlaceOrder}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            {/* Left Column: Delivery Region, Address & Payment (7 Cols) */}
+            <div className="lg:col-span-7 space-y-10">
+              
+              {/* Region Switcher Tab */}
+              <div className="bg-white border border-mocha-200 p-6 rounded-lg shadow-sm">
+                <h2 className="font-cinzel text-xs tracking-[0.25em] uppercase text-mocha-900 mb-4 flex items-center gap-2">
+                  <Globe size={16} strokeWidth={1.5} className="text-mocha-600" />
+                  1. Shipping Region
+                </h2>
+
+                <div className="grid grid-cols-2 gap-3">
                   <button
-                    onClick={() => {
-                      if (isDone || isActive) setActiveStep(step.id);
-                    }}
-                    className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                      isDone
-                        ? 'bg-mocha-800 border-mocha-800 text-gold-200'
-                        : isActive
-                        ? 'border-mocha-800 text-mocha-800'
-                        : 'border-mocha-200 text-mocha-300'
+                    type="button"
+                    onClick={() => setRegion('domestic')}
+                    className={`py-3.5 px-4 rounded-md font-cinzel text-xs tracking-[0.15em] uppercase flex items-center justify-center gap-2 border transition-all ${
+                      region === 'domestic'
+                        ? 'border-mocha-900 bg-mocha-900 text-gold-200 shadow-sm'
+                        : 'border-mocha-200 text-mocha-600 hover:border-mocha-400 bg-mocha-50/50'
                     }`}
                   >
-                    {isDone ? (
-                      <Check size={14} strokeWidth={2.5} />
-                    ) : (
-                      <span className="font-cinzel text-xs">{i + 1}</span>
-                    )}
+                    <span>🇮🇳</span> India (Domestic)
                   </button>
-                  <span className={`font-cinzel text-[10px] tracking-[0.15em] uppercase ${
-                    isActive ? 'text-mocha-900' : 'text-mocha-400'
-                  }`}>
-                    {step.label}
-                  </span>
-                </div>
-                {i < steps.length - 1 && (
-                  <div className={`w-20 h-px mx-3 mb-6 transition-colors ${
-                    stepOrder.indexOf(steps[i + 1].id) <= currentStepIndex
-                      ? 'bg-mocha-800'
-                      : 'bg-mocha-200'
-                  }`} />
-                )}
-              </div>
-            );
-          })}
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-          {/* Form Area */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Address Section */}
-            <Section
-              title="Shipping Address"
-              icon={MapPin}
-              open={activeStep === 'address'}
-              done={currentStepIndex > 0}
-              onEdit={() => setActiveStep('address')}
-            >
-              <div className="grid grid-cols-2 gap-6 mt-6">
-                <FormField
-                  label="First Name"
-                  value={address.firstName}
-                  onChange={(v) => setAddress((a) => ({ ...a, firstName: v }))}
-                  placeholder="Priya"
-                />
-                <FormField
-                  label="Last Name"
-                  value={address.lastName}
-                  onChange={(v) => setAddress((a) => ({ ...a, lastName: v }))}
-                  placeholder="Sharma"
-                />
+                  <button
+                    type="button"
+                    onClick={() => setRegion('international')}
+                    className={`py-3.5 px-4 rounded-md font-cinzel text-xs tracking-[0.15em] uppercase flex items-center justify-center gap-2 border transition-all ${
+                      region === 'international'
+                        ? 'border-mocha-900 bg-mocha-900 text-gold-200 shadow-sm'
+                        : 'border-mocha-200 text-mocha-600 hover:border-mocha-400 bg-mocha-50/50'
+                    }`}
+                  >
+                    <span>🌐</span> International
+                  </button>
+                </div>
+
+                <p className="font-lora text-xs text-mocha-400 mt-3 italic">
+                  {region === 'domestic'
+                    ? 'Free domestic express shipping across India on orders above ₹5,000.'
+                    : 'Insured worldwide shipping via DHL / FedEx. Customs duties handled transparently.'}
+                </p>
               </div>
-              <FormField
-                label="Address"
-                value={address.address}
-                onChange={(v) => setAddress((a) => ({ ...a, address: v }))}
-                placeholder="123, Rose Lane"
-                className="mt-6"
-              />
-              <FormField
-                label="Apartment, suite, etc. (optional)"
-                value={address.apt}
-                onChange={(v) => setAddress((a) => ({ ...a, apt: v }))}
-                placeholder="Flat 4B"
-                className="mt-6"
-              />
-              <div className="grid grid-cols-3 gap-4 mt-6">
-                <FormField
-                  label="City"
-                  value={address.city}
-                  onChange={(v) => setAddress((a) => ({ ...a, city: v }))}
-                  placeholder="Mumbai"
-                />
-                <div>
-                  <label className="block font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-500 mb-2">
-                    State
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={address.state}
-                      onChange={(e) => setAddress((a) => ({ ...a, state: e.target.value }))}
-                      className="w-full border-0 border-b border-mocha-300 bg-transparent py-3 text-mocha-800 font-lora text-sm focus:outline-none focus:border-mocha-700 transition-colors appearance-none cursor-pointer"
-                    >
-                      <option value="">Select</option>
-                      {INDIAN_STATES.map((s) => <option key={s}>{s}</option>)}
-                    </select>
-                    <ChevronDown size={12} className="absolute right-0 top-1/2 -translate-y-1/2 text-mocha-400 pointer-events-none" strokeWidth={1.5} />
+
+              {/* Address Form Section */}
+              <div className="bg-white border border-mocha-200 p-6 rounded-lg shadow-sm space-y-6">
+                <h2 className="font-cinzel text-xs tracking-[0.25em] uppercase text-mocha-900 mb-2 flex items-center gap-2">
+                  <MapPin size={16} strokeWidth={1.5} className="text-mocha-600" />
+                  2. Delivery Address
+                </h2>
+
+                {/* Name */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                      First Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={address.firstName}
+                      onChange={(e) => setAddress((a) => ({ ...a, firstName: e.target.value }))}
+                      placeholder="Priya"
+                      className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                      Last Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={address.lastName}
+                      onChange={(e) => setAddress((a) => ({ ...a, lastName: e.target.value }))}
+                      placeholder="Sharma"
+                      className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                    />
                   </div>
                 </div>
-                <FormField
-                  label="PIN Code"
-                  value={address.pin}
-                  onChange={(v) => setAddress((a) => ({ ...a, pin: v }))}
-                  placeholder="400001"
-                />
-              </div>
-              <FormField
-                label="Phone"
-                value={address.phone}
-                onChange={(v) => setAddress((a) => ({ ...a, phone: v }))}
-                placeholder="+91 98765 43210"
-                className="mt-6"
-              />
-              <div className="mt-8">
-                <button
-                  onClick={() => setActiveStep('shipping')}
-                  className="btn-primary-filled"
-                >
-                  Continue to Shipping
-                </button>
-              </div>
-            </Section>
 
-            {/* Shipping Section */}
-            <Section
-              title="Shipping Method"
-              icon={Truck}
-              open={activeStep === 'shipping'}
-              done={currentStepIndex > 1}
-              onEdit={() => setActiveStep('shipping')}
-            >
-              <div className="mt-6 space-y-3">
-                <ShippingOption
-                  id="standard"
-                  label="Standard Shipping"
-                  sub="3–5 Business Days"
-                  price="Free"
-                  selected={shipping === 'standard'}
-                  onSelect={() => setShipping('standard')}
-                />
-                <ShippingOption
-                  id="express"
-                  label="Express Shipping"
-                  sub="1–2 Business Days"
-                  price={formatPrice(currency === 'USD' ? 25 * usdRate : 500)}
-                  selected={shipping === 'express'}
-                  onSelect={() => setShipping('express')}
-                />
-              </div>
-              <div className="mt-8">
-                <button onClick={() => setActiveStep('payment')} className="btn-primary-filled">
-                  Continue to Payment
-                </button>
-              </div>
-            </Section>
-
-            {/* Payment Section */}
-            <Section
-              title="Payment"
-              icon={CreditCard}
-              open={activeStep === 'payment'}
-              done={false}
-              onEdit={() => {}}
-              badge={<ShieldCheck size={14} strokeWidth={1.5} className="text-mocha-400" />}
-            >
-              <div className="mt-6 space-y-3">
-                <PaymentOption
-                  id="card"
-                  label="Credit / Debit Card"
-                  icon={<CreditCard size={16} strokeWidth={1.5} />}
-                  selected={payment === 'card'}
-                  onSelect={() => setPayment('card')}
-                />
-                {payment === 'card' && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="pl-8 pr-2 pb-4 space-y-5"
-                  >
-                    <FormField
-                      label="Card Number"
-                      value={card.number}
-                      onChange={(v) => setCard((c) => ({ ...c, number: v }))}
-                      placeholder="1234 5678 9012 3456"
-                    />
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField
-                        label="Expiration (MM/YY)"
-                        value={card.expiry}
-                        onChange={(v) => setCard((c) => ({ ...c, expiry: v }))}
-                        placeholder="08/28"
-                      />
-                      <FormField
-                        label="Security Code (CVV)"
-                        value={card.cvv}
-                        onChange={(v) => setCard((c) => ({ ...c, cvv: v }))}
-                        placeholder="•••"
-                      />
-                    </div>
-                    <FormField
-                      label="Name on Card"
-                      value={card.name}
-                      onChange={(v) => setCard((c) => ({ ...c, name: v }))}
-                      placeholder="Priya Sharma"
-                    />
-                  </motion.div>
-                )}
-                <PaymentOption
-                  id="upi"
-                  label="UPI (GPay, PhonePe, Paytm)"
-                  selected={payment === 'upi'}
-                  onSelect={() => setPayment('upi')}
-                />
-                {payment === 'upi' && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="pl-8 pr-2 pb-4"
-                  >
-                    <FormField
-                      label="UPI ID"
-                      value=""
-                      onChange={() => {}}
-                      placeholder="yourname@upi"
-                    />
-                  </motion.div>
-                )}
-                <PaymentOption
-                  id="netbanking"
-                  label="Net Banking"
-                  selected={payment === 'netbanking'}
-                  onSelect={() => setPayment('netbanking')}
-                />
-              </div>
-              <div className="mt-8">
-                <button
-                  onClick={handlePlaceOrder}
-                  disabled={submitting}
-                  className="btn-primary-filled w-full justify-center py-4 flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {submitting ? (
-                    <>
-                      <span className="inline-block w-4 h-4 border-2 border-gold-400 border-t-transparent rounded-full animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>Pay Now — {formatPrice(total)}</>
-                  )}
-                </button>
-              </div>
-            </Section>
-
-            <button
-              onClick={() => navigate('/cart')}
-              className="flex items-center gap-2 font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-400 hover:text-mocha-700 transition-colors"
-            >
-              ← Return to Cart
-            </button>
-          </div>
-
-          {/* Order Summary Sidebar */}
-          <div className="lg:col-span-2">
-            <div className="border border-mocha-200 p-6 sticky top-28">
-              <h2 className="font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-900 mb-6">
-                Order Summary
-              </h2>
-
-              <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
-                {items.map((item) => (
-                  <div key={item.product.id} className="flex gap-4 items-center">
-                    <div className="relative flex-shrink-0">
-                      <div
-                        className="w-14 overflow-hidden bg-mocha-100"
-                        style={{ borderRadius: '6px', aspectRatio: '3/4' }}
+                {/* International Country Select */}
+                {region === 'international' && (
+                  <div>
+                    <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                      Country / Territory *
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={address.country}
+                        onChange={(e) => setAddress((a) => ({ ...a, country: e.target.value }))}
+                        className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors appearance-none cursor-pointer"
                       >
-                        <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
-                      </div>
-                      <span className="absolute -top-2 -right-2 bg-mocha-700 text-gold-200 font-cinzel text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
-                        {item.quantity}
-                      </span>
+                        {INTERNATIONAL_COUNTRIES.map((c) => (
+                          <option key={c.code} value={c.name}>
+                            {c.name} ({c.dial})
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-mocha-400 pointer-events-none" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-cinzel text-[10px] tracking-[0.15em] uppercase text-mocha-700 truncate">
-                        {item.product.name}
-                      </p>
-                      <p className="font-lora text-xs text-mocha-400">{item.product.motif} Motif</p>
-                    </div>
-                    <p className="font-lora text-sm text-mocha-700 flex-shrink-0">
-                      {formatPrice(item.product.price * item.quantity)}
-                    </p>
                   </div>
-                ))}
+                )}
+
+                {/* Street Address */}
+                <div>
+                  <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                    Street Address *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={address.street}
+                    onChange={(e) => setAddress((a) => ({ ...a, street: e.target.value }))}
+                    placeholder="House No., Street Name, Landmark"
+                    className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                  />
+                </div>
+
+                {/* Apartment / Suite */}
+                <div>
+                  <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                    Apartment, Suite, Unit (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={address.apartment}
+                    onChange={(e) => setAddress((a) => ({ ...a, apartment: e.target.value }))}
+                    placeholder="Flat 4B, 2nd Floor"
+                    className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                  />
+                </div>
+
+                {/* City, State & PIN / Zip Code */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                      City / Town *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={address.city}
+                      onChange={(e) => setAddress((a) => ({ ...a, city: e.target.value }))}
+                      placeholder={region === 'domestic' ? 'Mumbai' : 'New York'}
+                      className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                      {region === 'domestic' ? 'State *' : 'State / Region *'}
+                    </label>
+                    {region === 'domestic' ? (
+                      <div className="relative">
+                        <select
+                          required
+                          value={address.state}
+                          onChange={(e) => setAddress((a) => ({ ...a, state: e.target.value }))}
+                          className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors appearance-none cursor-pointer"
+                        >
+                          <option value="">Select State</option>
+                          {INDIAN_STATES.map((s) => (
+                            <option key={s} value={s}>{s}</option>
+                          ))}
+                        </select>
+                        <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-mocha-400 pointer-events-none" />
+                      </div>
+                    ) : (
+                      <input
+                        type="text"
+                        required
+                        value={address.state}
+                        onChange={(e) => setAddress((a) => ({ ...a, state: e.target.value }))}
+                        placeholder="NY / London"
+                        className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                      />
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                      {region === 'domestic' ? 'PIN Code *' : 'ZIP / Postal Code *'}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={address.postalCode}
+                      onChange={(e) => setAddress((a) => ({ ...a, postalCode: e.target.value }))}
+                      placeholder={region === 'domestic' ? '400001' : '10001'}
+                      className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Phone Number */}
+                <div>
+                  <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1.5">
+                    Phone Number (for Courier Tracking Updates) *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={address.phone}
+                    onChange={(e) => setAddress((a) => ({ ...a, phone: e.target.value }))}
+                    placeholder={region === 'domestic' ? '+91 98765 43210' : '+1 (555) 000-0000'}
+                    className="w-full border-0 border-b border-mocha-300 bg-transparent py-2.5 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800 transition-colors"
+                  />
+                </div>
               </div>
 
-              <div className="border-t border-mocha-200 pt-5 space-y-3">
-                <div className="flex justify-between font-lora text-sm text-mocha-600">
-                  <span>Subtotal</span>
-                  <span>{formatPrice(subtotal)}</span>
-                </div>
-                <div className="flex justify-between font-lora text-sm text-mocha-600">
-                  <span>Shipping</span>
-                  <span>{shippingCost === 0 ? <span className="text-forest-600">Free</span> : formatPrice(shippingCost)}</span>
-                </div>
-                <div className="flex justify-between font-lora text-sm text-mocha-600">
-                  <span>Taxes (included)</span>
-                  <span>{formatPrice(Math.round(subtotal * 0.05))}</span>
-                </div>
-              </div>
+              {/* Payment Method Section */}
+              <div className="bg-white border border-mocha-200 p-6 rounded-lg shadow-sm space-y-6">
+                <h2 className="font-cinzel text-xs tracking-[0.25em] uppercase text-mocha-900 mb-2 flex items-center gap-2">
+                  <CreditCard size={16} strokeWidth={1.5} className="text-mocha-600" />
+                  3. Payment Method
+                </h2>
 
-              <div className="border-t border-mocha-200 mt-5 pt-5 flex justify-between items-center">
-                <span className="font-cinzel text-sm tracking-[0.1em] uppercase text-mocha-900">Total</span>
-                <span className="font-playfair text-xl text-mocha-900">
-                  {formatPrice(total)}
-                </span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { id: 'card', label: 'Credit / Debit Card' },
+                    { id: 'upi', label: 'UPI / GPay / PhonePe' },
+                    { id: 'netbanking', label: 'Net Banking' },
+                  ].map((m) => (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => setPayment(m.id as PaymentMethod)}
+                      className={`p-3 rounded border text-left font-cinzel text-xs tracking-wider transition-all ${
+                        payment === m.id
+                          ? 'border-mocha-900 bg-mocha-50 text-mocha-900 font-semibold'
+                          : 'border-mocha-200 text-mocha-600 hover:border-mocha-400'
+                      }`}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Card Fields */}
+                {payment === 'card' && (
+                  <div className="space-y-4 pt-2">
+                    <div>
+                      <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1">
+                        Card Number
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="4532 •••• •••• 8920"
+                        value={card.number}
+                        onChange={(e) => setCard((c) => ({ ...c, number: e.target.value }))}
+                        className="w-full border-0 border-b border-mocha-300 bg-transparent py-2 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1">
+                          Expiry (MM/YY)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="08/28"
+                          value={card.expiry}
+                          onChange={(e) => setCard((c) => ({ ...c, expiry: e.target.value }))}
+                          className="w-full border-0 border-b border-mocha-300 bg-transparent py-2 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 mb-1">
+                          CVV
+                        </label>
+                        <input
+                          type="password"
+                          maxLength={4}
+                          placeholder="•••"
+                          value={card.cvv}
+                          onChange={(e) => setCard((c) => ({ ...c, cvv: e.target.value }))}
+                          className="w-full border-0 border-b border-mocha-300 bg-transparent py-2 text-mocha-900 font-lora text-sm focus:outline-none focus:border-mocha-800"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
+
+            {/* Right Column: Order Summary (5 Cols) */}
+            <div className="lg:col-span-5">
+              <div className="bg-mocha-50/80 border border-mocha-200 p-6 rounded-lg sticky top-28 space-y-6">
+                <h2 className="font-cinzel text-xs tracking-[0.25em] uppercase text-mocha-900 border-b border-mocha-200 pb-3">
+                  Order Summary ({items.length})
+                </h2>
+
+                {/* Items preview */}
+                <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
+                  {items.map((item) => (
+                    <div key={item.product.id} className="flex items-center gap-3">
+                      <img
+                        src={item.product.image}
+                        alt={item.product.name}
+                        className="w-14 h-18 object-cover rounded border border-mocha-200 flex-shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-playfair text-sm text-mocha-900 truncate">
+                          {item.product.name}
+                        </h4>
+                        <p className="font-cinzel text-[9px] text-mocha-400 uppercase">
+                          Qty: {item.quantity} · {item.product.motif} Motif
+                        </p>
+                        <p className="font-lora text-xs font-semibold text-mocha-800 mt-1">
+                          {formatPrice(item.product.price * item.quantity)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Price Breakdown */}
+                <div className="space-y-3 border-t border-mocha-200 pt-4 text-xs font-lora text-mocha-700">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span className="font-semibold text-mocha-900">{formatPrice(subtotal)}</span>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <span>
+                      Shipping ({region === 'domestic' ? 'India' : 'International DHL/FedEx'})
+                    </span>
+                    <span className="font-semibold text-mocha-900">
+                      {shippingCost === 0 ? (
+                        <span className="text-emerald-700 font-medium">Free</span>
+                      ) : (
+                        formatPrice(shippingCost)
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-t border-mocha-200 pt-3 text-base">
+                    <span className="font-cinzel text-xs tracking-widest text-mocha-900 uppercase font-bold">
+                      Total
+                    </span>
+                    <span className="font-playfair font-bold text-mocha-900">
+                      {formatPrice(total)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Complete Order CTA */}
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-4 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.25em] uppercase hover:bg-mocha-800 transition-colors shadow-lg flex items-center justify-center gap-2"
+                >
+                  <Lock size={14} />
+                  {submitting ? 'Processing Order...' : `Place Order — ${formatPrice(total)}`}
+                </button>
+
+                <div className="flex items-center justify-center gap-2 text-mocha-400 font-cinzel text-[9px] tracking-[0.15em] uppercase">
+                  <ShieldCheck size={14} className="text-emerald-700" /> 256-Bit SSL Encrypted Luxury Checkout
+                </div>
+              </div>
+            </div>
+
           </div>
-        </div>
+        </form>
       </div>
     </div>
-  );
-}
-
-function Section({
-  title, icon: Icon, open, done, onEdit, children, badge,
-}: {
-  title: string;
-  icon: typeof MapPin;
-  open: boolean;
-  done: boolean;
-  onEdit: () => void;
-  children: React.ReactNode;
-  badge?: React.ReactNode;
-}) {
-  return (
-    <div className="border border-mocha-200 p-8">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Icon size={18} className="text-mocha-600" strokeWidth={1.5} />
-          <h2 className="font-playfair text-xl text-mocha-900">{title}</h2>
-          {badge && <span className="ml-2">{badge}</span>}
-        </div>
-        {done && !open && (
-          <button
-            onClick={onEdit}
-            className="font-cinzel text-[10px] tracking-[0.2em] uppercase text-mocha-500 hover:text-mocha-800 underline transition-colors"
-          >
-            Edit
-          </button>
-        )}
-      </div>
-      <AnimatePresenceSection open={open}>
-        {children}
-      </AnimatePresenceSection>
-    </div>
-  );
-}
-
-import { AnimatePresence } from 'framer-motion';
-
-function AnimatePresenceSection({ open, children }: { open: boolean; children: React.ReactNode }) {
-  return (
-    <AnimatePresence initial={false}>
-      {open && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.35 }}
-          style={{ overflow: 'hidden' }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function FormField({
-  label, value, onChange, placeholder, className = '',
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  className?: string;
-}) {
-  return (
-    <div className={className}>
-      <label className="block font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-500 mb-2">
-        {label}
-      </label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="input-field"
-      />
-    </div>
-  );
-}
-
-function ShippingOption({
-  label, sub, price, selected, onSelect,
-}: {
-  id: string;
-  label: string;
-  sub: string;
-  price: string;
-  selected: boolean;
-  onSelect: () => void;
-}) {
-  return (
-    <button
-      onClick={onSelect}
-      className={`w-full flex items-center justify-between p-4 border transition-all duration-200 text-left ${
-        selected ? 'border-mocha-700 bg-mocha-50' : 'border-mocha-200 hover:border-mocha-400'
-      }`}
-    >
-      <div className="flex items-center gap-3">
-        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-          selected ? 'border-mocha-800' : 'border-mocha-300'
-        }`}>
-          {selected && <div className="w-2 h-2 rounded-full bg-mocha-800" />}
-        </div>
-        <div>
-          <p className="font-lora text-sm text-mocha-800">{label}</p>
-          <p className="font-lora text-xs text-mocha-400">{sub}</p>
-        </div>
-      </div>
-      <span className="font-lora text-sm text-mocha-700">{price}</span>
-    </button>
-  );
-}
-
-function PaymentOption({
-  label, selected, onSelect, icon,
-}: {
-  id: string;
-  label: string;
-  selected: boolean;
-  onSelect: () => void;
-  icon?: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onSelect}
-      className={`w-full flex items-center gap-3 p-4 border transition-all duration-200 text-left ${
-        selected ? 'border-mocha-700 bg-mocha-50' : 'border-mocha-200 hover:border-mocha-400'
-      }`}
-    >
-      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-        selected ? 'border-mocha-800' : 'border-mocha-300'
-      }`}>
-        {selected && <div className="w-2 h-2 rounded-full bg-mocha-800" />}
-      </div>
-      <span className="font-lora text-sm text-mocha-800 flex-1">{label}</span>
-      {icon && <span className="text-mocha-400">{icon}</span>}
-    </button>
   );
 }
