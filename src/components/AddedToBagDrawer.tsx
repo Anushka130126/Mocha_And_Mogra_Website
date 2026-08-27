@@ -121,25 +121,38 @@ export default function AddedToBagDrawer({ product, onClose }: AddedToBagDrawerP
             </div>
 
             {/* Footer Action Buttons */}
-            <div className="p-6 border-t border-mocha-100 bg-white space-y-3">
+            <div className="p-6 border-t border-mocha-100 bg-white space-y-2.5">
               <button
-                id="drawer-view-bag-btn"
+                id="drawer-checkout-btn"
                 onClick={() => {
                   onClose();
-                  navigate('/cart');
+                  navigate('/checkout');
                 }}
                 className="w-full py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.25em] uppercase hover:bg-mocha-800 transition-colors flex items-center justify-center gap-2 shadow-md"
               >
-                <ShoppingBag size={15} /> View Bag ({totalItems})
+                <ArrowRight size={15} /> Checkout Now
               </button>
 
-              <button
-                id="drawer-continue-shopping-btn"
-                onClick={onClose}
-                className="w-full py-3 border border-mocha-300 text-mocha-700 font-cinzel text-xs tracking-[0.2em] uppercase hover:border-mocha-800 hover:text-mocha-900 transition-colors"
-              >
-                Continue Shopping
-              </button>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  id="drawer-view-bag-btn"
+                  onClick={() => {
+                    onClose();
+                    navigate('/cart');
+                  }}
+                  className="w-full py-2.5 border border-mocha-300 text-mocha-800 font-cinzel text-[11px] tracking-[0.15em] uppercase hover:border-mocha-800 transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <ShoppingBag size={13} /> View Bag ({totalItems})
+                </button>
+
+                <button
+                  id="drawer-continue-shopping-btn"
+                  onClick={onClose}
+                  className="w-full py-2.5 border border-mocha-200 text-mocha-500 font-cinzel text-[11px] tracking-[0.15em] uppercase hover:border-mocha-400 hover:text-mocha-800 transition-colors"
+                >
+                  Continue
+                </button>
+              </div>
             </div>
           </motion.div>
         </>

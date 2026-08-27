@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 import ImageCarousel from './ImageCarousel';
@@ -23,6 +24,7 @@ const drawerVariants = {
 };
 
 export default function ProductModal({ product, onClose, onAddedToCart }: ProductModalProps) {
+  const navigate = useNavigate();
   const { addItem } = useCart();
   const { formatPrice } = useCurrency();
   const [added, setAdded] = useState(false);
@@ -46,8 +48,15 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
   const handleAddToCart = () => {
     if (!product) return;
     addItem(product);
-    onClose(); // Close product detail modal so drawer takes focus cleanly
+    onClose();
     if (onAddedToCart) onAddedToCart(product);
+  };
+
+  const handleBuyNow = () => {
+    if (!product) return;
+    addItem(product);
+    onClose();
+    navigate('/checkout');
   };
 
   return (
@@ -116,15 +125,25 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
               <h2 className="font-playfair text-3xl text-mocha-900 mb-1">{product.name}</h2>
               <p className="font-lora text-xl text-mocha-600 mb-4">{formatPrice(product.price)}</p>
 
-              {/* Prominent Top Action Button (No scroll needed!) */}
-              <button
-                id="modal-top-add-to-cart-btn"
-                onClick={handleAddToCart}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.2em] uppercase hover:bg-mocha-800 transition-colors shadow-md mb-6"
-              >
-                <ShoppingBag size={15} strokeWidth={1.5} />
-                Add to My Wardrobe — {formatPrice(product.price)}
-              </button>
+              {/* Prominent Action Buttons (1-Click Buy Now & Add to Bag) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                <button
+                  id="modal-buy-now-btn"
+                  onClick={handleBuyNow}
+                  className="w-full flex items-center justify-center gap-2 py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.2em] uppercase hover:bg-mocha-800 transition-colors shadow-md"
+                >
+                  <ArrowRight size={14} strokeWidth={1.5} />
+                  Buy Now — {formatPrice(product.price)}
+                </button>
+                <button
+                  id="modal-add-to-bag-btn"
+                  onClick={handleAddToCart}
+                  className="w-full flex items-center justify-center gap-2 py-3.5 border border-mocha-800 text-mocha-900 font-cinzel text-xs tracking-[0.2em] uppercase hover:bg-mocha-50 transition-colors"
+                >
+                  <ShoppingBag size={14} strokeWidth={1.5} />
+                  Add to Bag
+                </button>
+              </div>
 
               <div className="w-12 h-px bg-gold-500 mb-6" />
 
