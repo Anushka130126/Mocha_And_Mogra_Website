@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { shopifyFetch, createCartMutation } from '../lib/shopify';
+import { createShopifyCheckout } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
 
 export default function Cart() {
@@ -21,41 +21,25 @@ export default function Cart() {
     try {
       setIsCheckingOut(true);
       if (!import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || !import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
-        // Fallback to local checkout if Shopify is not configured
         navigate('/checkout');
         return;
       }
 
-      // Format cart items for Shopify cartCreate
-      // Note: This assumes item.product.id is a valid Shopify variant ID. 
-      // If it's a mock ID, Shopify will reject it.
       const lines = items.map((item) => ({
-        merchandiseId: typeof item.product.id === 'string' && item.product.id.includes('gid://') 
-          ? item.product.id // It's a real Shopify variant ID (assuming we saved the variant ID in product.id during fetch)
-          : `gid://shopify/ProductVariant/${item.product.id}`, // Attempt to format it, but this will fail for local IDs
+        merchandiseId: String(item.product.id).startsWith('gid://')
+          ? String(item.product.id)
+          : `gid://shopify/ProductVariant/${item.product.id}`,
         quantity: item.quantity,
       }));
 
-      const res = await shopifyFetch<any>({
-        query: createCartMutation,
-        variables: {
-          cartInput: {
-            lines,
-          },
-        },
-      });
-
-      const checkoutUrl = res.body?.data?.cartCreate?.cart?.checkoutUrl;
-      
+      const checkoutUrl = await createShopifyCheckout(lines);
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
       } else {
-        console.error('Failed to get checkout URL from Shopify', res.body);
         navigate('/checkout');
       }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      // Fallback
+    } catch (err) {
+      console.warn('Shopify checkout redirect unavailable, falling back to local checkout:', err);
       navigate('/checkout');
     } finally {
       setIsCheckingOut(false);
