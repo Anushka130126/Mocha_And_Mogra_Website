@@ -22,10 +22,13 @@ import ShippingPolicy from './pages/ShippingPolicy';
 import WhatsAppButton from './components/WhatsAppButton';
 import type { Product } from './data/products';
 
+import { trackPageView } from './lib/analytics';
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
+    trackPageView(pathname);
   }, [pathname]);
   return null;
 }
