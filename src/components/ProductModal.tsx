@@ -170,7 +170,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
               </div>
 
               {/* Wear For */}
-              <div className="mb-6">
+              <div className="mb-8">
                 <h3 className="font-cinzel text-xs tracking-[0.25em] uppercase text-mocha-500 mb-3">
                   Wear For
                 </h3>
@@ -178,24 +178,16 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
                   {product.wearFor}
                 </p>
               </div>
-            </div>
 
-            {/* Sticky Bottom Action Bar (Always visible!) */}
-            <div className="sticky bottom-0 z-20 bg-[#FFFEF7] border-t border-mocha-200 p-4 shadow-lg flex flex-col gap-2">
-              <button
-                id="modal-sticky-add-to-cart-btn"
-                onClick={handleAddToCart}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.2em] uppercase hover:bg-mocha-800 transition-colors shadow-md"
-              >
-                <ShoppingBag size={15} strokeWidth={1.5} />
-                Add to My Wardrobe
-              </button>
-              <button
-                onClick={onClose}
-                className="w-full text-center text-mocha-500 font-cinzel text-[10px] tracking-[0.2em] uppercase py-1 hover:text-mocha-800 transition-colors"
-              >
-                Continue Browsing
-              </button>
+              {/* Secondary Continue Browsing link */}
+              <div className="pt-4 border-t border-mocha-100 text-center">
+                <button
+                  onClick={onClose}
+                  className="inline-flex items-center gap-2 text-mocha-400 font-cinzel text-[10px] tracking-[0.25em] uppercase py-2 hover:text-mocha-800 transition-colors"
+                >
+                  Continue Browsing <ArrowRight size={12} strokeWidth={1.5} />
+                </button>
+              </div>
             </div>
           </motion.div>
         </>
