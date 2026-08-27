@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, CreditCard, Truck, ChevronDown, Check, Globe, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ChevronDown, Check, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useCurrency } from '../context/CurrencyContext';
 
