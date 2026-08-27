@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import SearchOverlay from './components/SearchOverlay';
 import ProductModal from './components/ProductModal';
-import AddedToCartToast from './components/AddedToCartToast';
+import AddedToBagDrawer from './components/AddedToBagDrawer';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import OurStory from './pages/OurStory';
@@ -39,7 +39,7 @@ function ScrollToTop() {
 function Layout() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [toastName, setToastName] = useState<string | null>(null);
+  const [addedProduct, setAddedProduct] = useState<Product | null>(null);
   const location = useLocation();
 
   const isCheckoutFlow =
@@ -84,11 +84,14 @@ function Layout() {
       <ProductModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
-        onAddedToCart={(name) => setToastName(name)}
+        onAddedToCart={(prod) => setAddedProduct(prod)}
       />
 
-      {/* Global Toast */}
-      <AddedToCartToast productName={toastName} onClose={() => setToastName(null)} />
+      {/* Global Added To Bag Luxury Slide-Over Drawer */}
+      <AddedToBagDrawer
+        product={addedProduct}
+        onClose={() => setAddedProduct(null)}
+      />
     </div>
   );
 }

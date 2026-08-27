@@ -5,7 +5,7 @@ import { products as localProducts } from '../data/products';
 import type { Product } from '../data/products';
 import { shopifyFetch, getProductsQuery } from '../lib/shopify';
 import ProductModal from '../components/ProductModal';
-import AddedToCartToast from '../components/AddedToCartToast';
+import AddedToBagDrawer from '../components/AddedToBagDrawer';
 import ImageCarousel from '../components/ImageCarousel';
 import { useCurrency } from '../context/CurrencyContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -35,9 +35,9 @@ export default function Shop() {
   const [products, setProducts] = useState<Product[]>(localProducts);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [addedProduct, setAddedProduct] = useState<Product | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
-  const [toastName, setToastName] = useState<string | null>(null);
   const { formatPrice } = useCurrency();
   const { toggleWishlist: wishlistToggle, isWishlisted: checkWishlisted } = useWishlist();
 
@@ -360,11 +360,14 @@ export default function Shop() {
       <ProductModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
-        onAddedToCart={(name) => setToastName(name)}
+        onAddedToCart={(prod) => setAddedProduct(prod)}
       />
 
-      {/* Toast */}
-      <AddedToCartToast productName={toastName} onClose={() => setToastName(null)} />
+      {/* Added to Bag Luxury Slide-Over Drawer */}
+      <AddedToBagDrawer
+        product={addedProduct}
+        onClose={() => setAddedProduct(null)}
+      />
     </div>
   );
 }

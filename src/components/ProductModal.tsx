@@ -9,7 +9,7 @@ import { useCurrency } from '../context/CurrencyContext';
 interface ProductModalProps {
   product: Product | null;
   onClose: () => void;
-  onAddedToCart?: (name: string) => void;
+  onAddedToCart?: (product: Product) => void;
 }
 
 const overlayVariants = {
@@ -46,9 +46,8 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
   const handleAddToCart = () => {
     if (!product) return;
     addItem(product);
-    setAdded(true);
-    if (onAddedToCart) onAddedToCart(product.name);
-    setTimeout(() => setAdded(false), 2000);
+    onClose(); // Close product detail modal so drawer takes focus cleanly
+    if (onAddedToCart) onAddedToCart(product);
   };
 
   return (
@@ -115,7 +114,17 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
 
               {/* Name & Price */}
               <h2 className="font-playfair text-3xl text-mocha-900 mb-1">{product.name}</h2>
-              <p className="font-lora text-xl text-mocha-600 mb-6">{formatPrice(product.price)}</p>
+              <p className="font-lora text-xl text-mocha-600 mb-4">{formatPrice(product.price)}</p>
+
+              {/* Prominent Top Action Button (No scroll needed!) */}
+              <button
+                id="modal-top-add-to-cart-btn"
+                onClick={handleAddToCart}
+                className="w-full flex items-center justify-center gap-2 py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.2em] uppercase hover:bg-mocha-800 transition-colors shadow-md mb-6"
+              >
+                <ShoppingBag size={15} strokeWidth={1.5} />
+                Add to My Wardrobe — {formatPrice(product.price)}
+              </button>
 
               <div className="w-12 h-px bg-gold-500 mb-6" />
 
@@ -161,7 +170,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
               </div>
 
               {/* Wear For */}
-              <div className="mb-10">
+              <div className="mb-8">
                 <h3 className="font-cinzel text-xs tracking-[0.25em] uppercase text-mocha-500 mb-3">
                   Wear For
                 </h3>
@@ -170,33 +179,13 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
                 </p>
               </div>
 
-              {/* CTAs */}
-              <div className="space-y-3">
-                <button
-                  onClick={handleAddToCart}
-                  className={`w-full flex items-center justify-center gap-2 py-4 font-cinzel text-xs tracking-[0.2em] uppercase transition-all duration-300 ${
-                    added
-                      ? 'bg-forest-600 text-gold-100'
-                      : 'bg-mocha-800 text-gold-100 hover:bg-mocha-700'
-                  }`}
-                >
-                  {added ? (
-                    <>
-                      <Check size={14} strokeWidth={2} />
-                      Added to Cart
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag size={14} strokeWidth={1.5} />
-                      Add to My Wardrobe
-                    </>
-                  )}
-                </button>
+              {/* Secondary Continue Browsing link */}
+              <div className="pt-4 border-t border-mocha-100 text-center">
                 <button
                   onClick={onClose}
-                  className="w-full flex items-center justify-center gap-2 text-mocha-500 font-cinzel text-xs tracking-[0.2em] uppercase py-3 hover:text-mocha-800 transition-colors"
+                  className="inline-flex items-center gap-2 text-mocha-400 font-cinzel text-[10px] tracking-[0.25em] uppercase py-2 hover:text-mocha-800 transition-colors"
                 >
-                  Continue Browsing <ArrowRight size={14} strokeWidth={1.5} />
+                  Continue Browsing <ArrowRight size={12} strokeWidth={1.5} />
                 </button>
               </div>
             </div>
