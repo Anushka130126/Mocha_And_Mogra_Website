@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SlidersHorizontal, X, Check } from 'lucide-react';
+import { SlidersHorizontal, X, Check, Heart } from 'lucide-react';
 import { products as localProducts } from '../data/products';
 import type { Product } from '../data/products';
 import { shopifyFetch, getProductsQuery } from '../lib/shopify';
@@ -8,6 +8,8 @@ import ProductModal from '../components/ProductModal';
 import AddedToCartToast from '../components/AddedToCartToast';
 import ImageCarousel from '../components/ImageCarousel';
 import { useCurrency } from '../context/CurrencyContext';
+import { useWishlist } from '../context/WishlistContext';
+import { ShopItemListJsonLd, BreadcrumbJsonLd } from '../lib/jsonld';
 
 const CATEGORIES = ['Saree', 'Underskirt'];
 const PRICE_RANGES = [
@@ -37,6 +39,7 @@ export default function Shop() {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [toastName, setToastName] = useState<string | null>(null);
   const { formatPrice } = useCurrency();
+  const { toggleWishlist: wishlistToggle, isWishlisted: checkWishlisted } = useWishlist();
 
   useEffect(() => {
     async function fetchShopifyProducts() {
@@ -104,6 +107,9 @@ export default function Shop() {
 
   return (
     <div className="pt-24 pb-20 min-h-screen">
+      {/* JSON-LD structured data for SEO */}
+      <ShopItemListJsonLd products={filtered} />
+      <BreadcrumbJsonLd crumbs={[{ name: 'Home', path: '/' }, { name: 'Shop', path: '/shop' }]} />
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -202,6 +208,8 @@ export default function Shop() {
                 index={i}
                 onSelect={setSelectedProduct}
                 formatPrice={formatPrice}
+                onToggleWishlist={wishlistToggle}
+                isWishlisted={checkWishlisted(product.id)}
               />
             ))}
           </AnimatePresence>
@@ -394,9 +402,11 @@ interface ProductCardProps {
   index: number;
   onSelect: (p: Product) => void;
   formatPrice: (price: number) => string;
+  onToggleWishlist: (p: Product) => void;
+  isWishlisted: boolean;
 }
 
-function ProductCard({ product, index, onSelect, formatPrice }: ProductCardProps) {
+function ProductCard({ product, index, onSelect, formatPrice, onToggleWishlist, isWishlisted }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [inView, setInView] = useState(false);
 
@@ -425,6 +435,19 @@ function ProductCard({ product, index, onSelect, formatPrice }: ProductCardProps
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         )}
+        {/* Wishlist button */}
+        <button
+          id={`wishlist-btn-${product.id}`}
+          aria-label={isWishlisted ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
+          onClick={(e) => { e.stopPropagation(); onToggleWishlist(product); }}
+          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:bg-white transition-colors"
+        >
+          <Heart
+            size={15}
+            strokeWidth={1.5}
+            className={`transition-colors ${isWishlisted ? 'text-red-400 fill-red-400' : 'text-mocha-500'}`}
+          />
+        </button>
         <motion.div
           initial={false}
           animate={{ opacity: hovered ? 1 : 0 }}

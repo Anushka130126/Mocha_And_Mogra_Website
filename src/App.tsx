@@ -19,7 +19,10 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ReturnPolicy from './pages/ReturnPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
+import SizeGuide from './pages/SizeGuide';
+import WishlistPage from './pages/Wishlist';
 import WhatsAppButton from './components/WhatsAppButton';
+import { WishlistProvider } from './context/WishlistContext';
 import type { Product } from './data/products';
 
 import { trackPageView } from './lib/analytics';
@@ -59,6 +62,8 @@ function Layout() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/return-policy" element={<ReturnPolicy />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/size-guide" element={<SizeGuide />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
@@ -94,10 +99,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <CurrencyProvider>
-        <CartProvider>
-          <ScrollToTop />
-          <Layout />
-        </CartProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <ScrollToTop />
+            <Layout />
+          </CartProvider>
+        </WishlistProvider>
       </CurrencyProvider>
     </BrowserRouter>
   );

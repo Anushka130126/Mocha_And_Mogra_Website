@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Feather } from 'lucide-react';
 import { products } from '../data/products';
+import { OrganizationJsonLd } from '../lib/jsonld';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <div className="pt-20">
+      <OrganizationJsonLd />
       {/* Hero */}
       <section className="min-h-[92vh] flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 w-full">

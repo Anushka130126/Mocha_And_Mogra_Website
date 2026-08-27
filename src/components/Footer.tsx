@@ -50,6 +50,8 @@ export default function Footer() {
               {[
                 { label: 'Enter the Wardrobe', path: '/shop' },
                 { label: 'Our Story', path: '/our-story' },
+                { label: 'Size Guide', path: '/size-guide' },
+                { label: 'Wishlist', path: '/wishlist' },
                 { label: 'Contact', path: '/contact' },
               ].map((item) => (
                 <li key={item.path}>

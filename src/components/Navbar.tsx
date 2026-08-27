@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useCurrency, Currency } from '../context/CurrencyContext';
+import { useWishlist } from '../context/WishlistContext';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -23,6 +24,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   const navigate = useNavigate();
   const { totalItems } = useCart();
   const { currency, setCurrency } = useCurrency();
+  const { totalWishlisted } = useWishlist();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -107,6 +109,19 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               >
                 <Search size={18} strokeWidth={1.5} />
               </button>
+              {/* Wishlist */}
+              <button
+                onClick={() => navigate('/wishlist')}
+                aria-label="Wishlist"
+                className="relative text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block"
+              >
+                <Heart size={18} strokeWidth={1.5} />
+                {totalWishlisted > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-mocha-800 text-gold-200 font-cinzel text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+                    {totalWishlisted > 9 ? '9+' : totalWishlisted}
+                  </span>
+                )}
+              </button>
               <button
                 onClick={() => navigate('/cart')}
                 aria-label="Shopping bag"
@@ -156,6 +171,17 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                   {link.label}
                 </NavLink>
               ))}
+              <button
+                onClick={() => { navigate('/wishlist'); setMenuOpen(false); }}
+                className="font-cinzel text-2xl tracking-widest uppercase text-mocha-500 text-left flex items-center gap-3"
+              >
+                Wishlist
+                {totalWishlisted > 0 && (
+                  <span className="bg-mocha-800 text-gold-200 font-cinzel text-xs w-6 h-6 rounded-full flex items-center justify-center">
+                    {totalWishlisted}
+                  </span>
+                )}
+              </button>
               <button
                 onClick={() => { navigate('/cart'); setMenuOpen(false); }}
                 className="font-cinzel text-2xl tracking-widest uppercase text-mocha-500 text-left flex items-center gap-3"
