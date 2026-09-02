@@ -17,7 +17,6 @@ import {
   OurStory,
   Contact,
   Cart,
-  Checkout,
   OrderConfirmation,
   Privacy,
   Terms,
@@ -45,8 +44,7 @@ function Layout() {
   const [addedProduct, setAddedProduct] = useState<Product | null>(null);
   const location = useLocation();
 
-  const isCheckoutFlow =
-    location.pathname === '/checkout' || location.pathname === '/order-confirmation';
+  const isOrderConfirmation = location.pathname === '/order-confirmation';
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -59,7 +57,6 @@ function Layout() {
           <Route path="/our-story" element={<OurStory />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
@@ -70,8 +67,8 @@ function Layout() {
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
-      {!isCheckoutFlow && <Footer />}
-      {!isCheckoutFlow && <WhatsAppButton phoneNumber="919999999999" />}
+      {!isOrderConfirmation && <Footer />}
+      {!isOrderConfirmation && <WhatsAppButton phoneNumber="919999999999" />}
 
       {/* Global Search Overlay */}
       <SearchOverlay
