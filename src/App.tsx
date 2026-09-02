@@ -1,29 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { CartProvider } from './context/CartContext';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import SearchOverlay from './components/SearchOverlay';
-import ProductModal from './components/ProductModal';
-import AddedToBagDrawer from './components/AddedToBagDrawer';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import OurStory from './pages/OurStory';
-import Contact from './pages/Contact';
-import Cart from './pages/Cart';
-import OrderConfirmation from './pages/OrderConfirmation';
-import SplashLanding from './components/SplashLanding';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
-import ReturnPolicy from './pages/ReturnPolicy';
-import ShippingPolicy from './pages/ShippingPolicy';
-import SizeGuide from './pages/SizeGuide';
-import WishlistPage from './pages/Wishlist';
-import WhatsAppButton from './components/WhatsAppButton';
-import { WishlistProvider } from './context/WishlistContext';
-import type { Product } from './data/products';
 
+import { CurrencyProvider, WishlistProvider, CartProvider } from './context';
+import {
+  Navbar,
+  Footer,
+  SearchOverlay,
+  ProductModal,
+  AddedToBagDrawer,
+  SplashLanding,
+  WhatsAppButton,
+} from './components';
+import {
+  Home,
+  Shop,
+  OurStory,
+  Contact,
+  Cart,
+  OrderConfirmation,
+  Privacy,
+  Terms,
+  ReturnPolicy,
+  ShippingPolicy,
+  SizeGuide,
+  WishlistPage,
+} from './pages';
+
+import type { Product } from './data/products';
 import { trackPageView } from './lib/analytics';
 
 function ScrollToTop() {
@@ -41,8 +44,7 @@ function Layout() {
   const [addedProduct, setAddedProduct] = useState<Product | null>(null);
   const location = useLocation();
 
-  const isCheckoutFlow =
-    location.pathname === '/order-confirmation';
+  const isOrderConfirmation = location.pathname === '/order-confirmation';
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -65,8 +67,8 @@ function Layout() {
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
-      {!isCheckoutFlow && <Footer />}
-      {!isCheckoutFlow && <WhatsAppButton phoneNumber="919999999999" />}
+      {!isOrderConfirmation && <Footer />}
+      {!isOrderConfirmation && <WhatsAppButton phoneNumber="919999999999" />}
 
       {/* Global Search Overlay */}
       <SearchOverlay
@@ -93,8 +95,6 @@ function Layout() {
     </div>
   );
 }
-
-import { CurrencyProvider } from './context/CurrencyContext';
 
 export default function App() {
   return (

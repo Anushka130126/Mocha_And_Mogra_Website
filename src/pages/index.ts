@@ -1,0 +1,12 @@
+export { default as Home } from './Home';
+export { default as Shop } from './Shop';
+export { default as OurStory } from './OurStory';
+export { default as Contact } from './Contact';
+export { default as Cart } from './Cart';
+export { default as OrderConfirmation } from './OrderConfirmation';
+export { default as Privacy } from './Privacy';
+export { default as Terms } from './Terms';
+export { default as ReturnPolicy } from './ReturnPolicy';
+export { default as ShippingPolicy } from './ShippingPolicy';
+export { default as SizeGuide } from './SizeGuide';
+export { default as WishlistPage } from './Wishlist';

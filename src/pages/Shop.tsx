@@ -3,12 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SlidersHorizontal, X, Check, Heart } from 'lucide-react';
 import { products as localProducts } from '../data/products';
 import type { Product } from '../data/products';
-import { shopifyFetch, getProductsQuery } from '../lib/shopify';
-import ProductModal from '../components/ProductModal';
-import AddedToBagDrawer from '../components/AddedToBagDrawer';
-import ImageCarousel from '../components/ImageCarousel';
-import { useCurrency } from '../context/CurrencyContext';
-import { useWishlist } from '../context/WishlistContext';
+import { ImageCarousel } from '../components';
+import { useCurrency, useWishlist } from '../context';
 import { ShopItemListJsonLd, BreadcrumbJsonLd } from '../lib/jsonld';
 
 const CATEGORIES = ['Saree', 'Underskirt'];
