@@ -11,6 +11,7 @@ export interface Product {
   image: string;
   images: string[];
   color: string;
+  shopifyVariantId?: string;
 }
 
 export const products: Product[] = [
@@ -28,6 +29,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelposing.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelwall.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm4_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm5.webp'],
     color: '#8898B8',
+    shopifyVariantId: '48988074541305', // SAPPHIRE MOGRA
   },
   {
     id: 6,
@@ -43,6 +45,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodelmehendi.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodeltwirl.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm5_2.webp'],
     color: '#D4C08A',
+    shopifyVariantId: '48991334367481', // BUTTER MOGRA
   },
   {
     id: 5,
@@ -58,6 +61,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodel.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodelopeningscene.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rd5_2.webp'],
     color: '#B89090',
+    shopifyVariantId: '48991348293881', // RUBY DOE
   },
   {
     id: 1,
@@ -73,6 +77,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/jp1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/jp1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/jp2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/jp3.webp'],
     color: '#D4C5B0',
+    shopifyVariantId: '48991392628985', // JALPARIE
   },
   {
     id: 2,
@@ -88,6 +93,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm3_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm4.webp'],
     color: '#C9B5A8',
+    shopifyVariantId: '48991405605113', // ROSÉ MOGRA
   },
   {
     id: 3,
@@ -103,6 +109,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,q_auto,f_auto,w_800/coverreel3.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri5_2.webp'],
     color: '#B8A898',
+    shopifyVariantId: '48996869701881', // RIWAAYAT
   },
   {
     id: 4,
@@ -118,6 +125,7 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss1.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss4_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss5.webp'],
     color: '#C4A882',
+    shopifyVariantId: '48996873732345', // SUNDOWNER SILK
   },
   {
     id: 8,
@@ -133,5 +141,6 @@ export const products: Product[] = [
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm4.webp',
     images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm4.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm2.webp'],
     color: '#D8D0C4',
+    shopifyVariantId: '48996875534585', // CHAANDINI
   },
 ];

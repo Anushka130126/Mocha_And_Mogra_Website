@@ -12,7 +12,6 @@ import Shop from './pages/Shop';
 import OurStory from './pages/OurStory';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
 import SplashLanding from './components/SplashLanding';
 import Privacy from './pages/Privacy';
@@ -43,7 +42,7 @@ function Layout() {
   const location = useLocation();
 
   const isCheckoutFlow =
-    location.pathname === '/checkout' || location.pathname === '/order-confirmation';
+    location.pathname === '/order-confirmation';
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -56,7 +55,6 @@ function Layout() {
           <Route path="/our-story" element={<OurStory />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
