@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SlidersHorizontal, X, Check, Heart } from 'lucide-react';
 import { products as localProducts } from '../data/products';
 import type { Product } from '../data/products';
-import { ImageCarousel } from '../components';
+import { ImageCarousel, ProductModal, AddedToBagDrawer } from '../components';
 import { useCurrency, useWishlist } from '../context';
 import { ShopItemListJsonLd, BreadcrumbJsonLd } from '../lib/jsonld';
 
@@ -29,58 +29,13 @@ function toggle<T>(arr: T[], val: T): T[] {
 
 export default function Shop() {
   const [products, setProducts] = useState<Product[]>(localProducts);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [addedProduct, setAddedProduct] = useState<Product | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const { formatPrice } = useCurrency();
   const { toggleWishlist: wishlistToggle, isWishlisted: checkWishlisted } = useWishlist();
-
-  useEffect(() => {
-    async function fetchShopifyProducts() {
-      try {
-        if (!import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || !import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
-          // If credentials not set, fallback to local products silently
-          setProducts(localProducts);
-          setLoading(false);
-          return;
-        }
-
-        const res = await shopifyFetch<any>({ query: getProductsQuery });
-        const shopifyProducts = res.body.data.products.edges.map(({ node }: any) => {
-          return {
-            id: node.id,
-            name: node.title,
-            price: parseFloat(node.priceRange.minVariantPrice.amount),
-            category: 'Saree', // Fallback, could be mapped from tags
-            description: node.description,
-            image: node.images.edges[0]?.node.url || '',
-            images: node.images.edges.map((img: any) => img.node.url),
-            personality: [], // Extract from tags or metadata if available
-            fabric: 'Silk', // Example fallback
-            craft: 'Handwoven', // Example fallback
-            motif: 'Floral', // Example fallback
-            zari: 'Gold', // Example fallback
-            origin: 'India', // Example fallback
-          } as Product;
-        });
-
-        if (shopifyProducts.length > 0) {
-          setProducts(shopifyProducts);
-        } else {
-          setProducts(localProducts);
-        }
-      } catch (err) {
-        console.warn('Failed to fetch from Shopify, falling back to local products:', err);
-        setProducts(localProducts);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchShopifyProducts();
-  }, []);
 
   const activeFilterCount =
     filters.categories.length + filters.priceRanges.length + filters.personalities.length;
