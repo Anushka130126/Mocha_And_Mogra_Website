@@ -57,7 +57,7 @@ export default function ProductModal({ product, onClose, onAddedToCart }: Produc
     if (!product) return;
     addItem(product);
     onClose();
-    window.location.href = createDirectShopifyCheckout([{ variantId: product.id, quantity: 1 }]);
+    window.location.href = createDirectShopifyCheckout([{ variantId: product.shopifyVariantId || product.id, quantity: 1 }]);
   };
 
   return (

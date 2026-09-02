@@ -21,7 +21,7 @@ export default function Cart() {
     try {
       setIsCheckingOut(true);
       const itemsPayload = items.map((item) => ({
-        variantId: item.product.id,
+        variantId: item.product.shopifyVariantId || item.product.id,
         quantity: item.quantity,
       }));
       const checkoutUrl = createDirectShopifyCheckout(itemsPayload);
