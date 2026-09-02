@@ -1,11 +1,11 @@
-# 👑 Mocha & Mogra — Contemporary Silk Saree E-Commerce Storefront
+# Mocha & Mogra — Contemporary Silk Saree E-Commerce Storefront
 
 > **A Collection of Stories, Stitched in Silk.**  
 > A high-end, headless React 18 + Vite + TypeScript e-commerce platform crafted with bespoke luxury aesthetics, custom storytelling UI components, headless Shopify commerce integration, Supabase Edge Functions, and enterprise-grade SEO & analytics.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 1. [Executive Overview & Brand Philosophy](#-executive-overview--brand-philosophy)
 2. [System Architecture & Visual Diagrams](#-system-architecture--visual-diagrams)
    - [2.1 High-Level Platform Architecture Flowchart](#21-high-level-platform-architecture-flowchart)
@@ -21,7 +21,7 @@
 
 ---
 
-## 🏛️ Executive Overview & Brand Philosophy
+## Executive Overview & Brand Philosophy
 
 **Mocha & Mogra** is a contemporary luxury saree brand celebrating artisan-crafted silk, bespoke motif design, and heritage storytelling. The web application is engineered to evoke the experience of a high-end fashion atelier, combining warm cream and mocha color palettes (`#FAF7F2`, `#FFFEF7`, `#1E140A`), dynamic silk video loops, elegant typography (`Cinzel`, `Playfair Display`, `Lora`), and zero-friction purchase flows.
 
@@ -35,7 +35,7 @@
 
 ---
 
-## 📐 System Architecture & Visual Diagrams
+## System Architecture & Visual Diagrams
 
 ### 2.1 High-Level Platform Architecture Flowchart
 
@@ -52,7 +52,7 @@ graph TD
     
     subgraph Global State Providers
         StateLayer --> CartCtx[CartContext - Cart Items & Subtotal]
-        StateLayer --> CurrencyCtx[CurrencyContext - INR ₹ / USD $]
+        StateLayer --> CurrencyCtx[CurrencyContext - INR  / USD $]
         StateLayer --> WishlistCtx[WishlistContext - Saved Items]
     end
     
@@ -188,7 +188,7 @@ graph TD
 
 ---
 
-## 📁 Complete Codebase Walkthrough & File Inventory
+## Complete Codebase Walkthrough & File Inventory
 
 ```
 Mocha_And_Mogra_Website/
@@ -261,16 +261,16 @@ Mocha_And_Mogra_Website/
 
 ---
 
-## ✨ Key Features & Technical Innovations
+## Key Features & Technical Innovations
 
 ### 1. Luxury Media & Product Discovery
 - **Arch-Shaped Media Carousels**: Custom aspect ratio image and WebM video carousels honoring traditional Indian architectural motifs.
 - **Multi-Faceted Catalog Filtering**: Filter sarees by category (`Saree` / `Underskirt`), motif themes (Fish, Pineapple, Owl, Elephant, Seahorse), and price ranges.
 - **Interactive Search Engine**: Instant keyboard-accessible modal overlay filtering products in real time across titles, motifs, and descriptions.
 
-### 2. Dual Currency Engine (INR ₹ / USD $)
+### 2. Dual Currency Engine (INR / USD $)
 - Global currency switcher in `Navbar` updating prices across all catalog views, product modals, bag drawers, and checkout pages.
-- Dynamic complimentary shipping calculation: Complimentary shipping across India for orders above ₹5,000; international threshold dynamically adjusted according to live exchange rates.
+- Dynamic complimentary shipping calculation: Complimentary shipping across India for orders above 5,000; international threshold dynamically adjusted according to live exchange rates.
 
 ### 3. Headless Shopify Integration
 - Direct 1-click cart permalinks (`/cart/variant_id:qty`) linking straight into Shopify's checkout engine.
@@ -282,7 +282,7 @@ Mocha_And_Mogra_Website/
 
 ---
 
-## 🛠️ Setup & Local Development Guide
+## Setup & Local Development Guide
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
@@ -325,7 +325,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ---
 
-## 🔌 E-Commerce & Third-Party Integrations
+## E-Commerce & Third-Party Integrations
 
 ### 1. Headless Shopify Direct Checkout
 The application utilizes Shopify's **Cart Permalink Format**. When a customer clicks **"Buy Now"** or **"Checkout Now"**, the helper in `src/lib/shopify.ts` constructs a direct URL:
@@ -348,21 +348,21 @@ Newsletter subscriptions submitted in `Footer.tsx` trigger the Supabase Edge Fun
 
 ---
 
-## 🎯 Comprehensive Launch Audit: What is Done vs. What is Left
+## Comprehensive Launch Audit: What is Done vs. What is Left
 
 | Component / Subsystem | Status | Details / Description | Action Required for Production |
 |---|---|---|---|
-| **Frontend UI & Styling** | ✅ **100% Complete** | Bespoke luxury aesthetic, warm cream/mocha palette, silk video loops, custom typography. | None. Fully verified. |
-| **Catalog & Product Modal** | ✅ **100% Complete** | Arch carousels, motif filters, story drawers, 1-click Buy Now. | Optional: Replace Cloudinary demo URLs with brand CDN if needed. |
-| **State Management** | ✅ **100% Complete** | Cart, Wishlist, and Currency Contexts with localStorage persistence. | None. Fully verified. |
-| **Modular Barrel Architecture** | ✅ **100% Complete** | Clean `index.ts` barrel exports for components, contexts, and pages. | None. Fully verified. |
-| **Shopify Integration** | ✅ **100% Complete** | Permalink checkout redirect helper & fallback mechanism implemented. | **Add real Shopify numeric Variant IDs** in `src/data/products.ts` for 1-click line item cart loading. |
-| **Shopify Admin Setup** | 🟡 **Pending Client Action** | Shopify store created (`1fieuf-bz.myshopify.com`). | **Disable password protection** in Shopify Admin -> Preferences, and **enable payment gateway** (Razorpay / Stripe). |
-| **Custom Domain Setup** | 🟡 **Pending Client Action** | Code ready for custom domain deployment. | Purchase domain (e.g. `mochanmogra.com`) and configure DNS records in Vercel & Shopify. |
-| **Supabase Edge Function** | ✅ **100% Complete** | Deno function & GitHub Action workflow deployed. | Set Supabase secrets (`MAILCHIMP_API_KEY`, `MAILCHIMP_LIST_ID`, `MAILCHIMP_DC`) via CLI or dashboard. |
-| **SEO & Structured Data** | ✅ **100% Complete** | Dynamic JSON-LD injection (Product, Org, ItemList, Breadcrumbs). | Replace `BASE_URL` in `src/lib/jsonld.tsx` with official production domain once live. |
-| **Analytics Engine** | ✅ **100% Complete** | Dual GA4 & Meta Pixel tracking setup with safety guards. | Add production `VITE_GA4_MEASUREMENT_ID` and `VITE_META_PIXEL_ID` in Vercel environment settings. |
-| **GitHub Deployment (PR #7)** | ✅ **100% Complete** | PR #7 submitted on upstream repository (`Anushka130126/Mocha_And_Mogra_Website`). | **Merge PR #7** on GitHub to trigger automatic Vercel production deployment. |
+| **Frontend UI & Styling** | 100% Complete | Bespoke luxury aesthetic, warm cream/mocha palette, silk video loops, custom typography. | None. Fully verified. |
+| **Catalog & Product Modal** | 100% Complete | Arch carousels, motif filters, story drawers, 1-click Buy Now. | Optional: Replace Cloudinary demo URLs with brand CDN if needed. |
+| **State Management** | 100% Complete | Cart, Wishlist, and Currency Contexts with localStorage persistence. | None. Fully verified. |
+| **Modular Barrel Architecture** | 100% Complete | Clean `index.ts` barrel exports for components, contexts, and pages. | None. Fully verified. |
+| **Shopify Integration** | 100% Complete | Permalink checkout redirect helper & fallback mechanism implemented. | **Add real Shopify numeric Variant IDs** in `src/data/products.ts` for 1-click line item cart loading. |
+| **Shopify Admin Setup** | Pending Client Action | Shopify store created (`1fieuf-bz.myshopify.com`). | **Disable password protection** in Shopify Admin -> Preferences, and **enable payment gateway** (Razorpay / Stripe). |
+| **Custom Domain Setup** | Pending Client Action | Code ready for custom domain deployment. | Purchase domain (e.g. `mochanmogra.com`) and configure DNS records in Vercel & Shopify. |
+| **Supabase Edge Function** | 100% Complete | Deno function & GitHub Action workflow deployed. | Set Supabase secrets (`MAILCHIMP_API_KEY`, `MAILCHIMP_LIST_ID`, `MAILCHIMP_DC`) via CLI or dashboard. |
+| **SEO & Structured Data** | 100% Complete | Dynamic JSON-LD injection (Product, Org, ItemList, Breadcrumbs). | Replace `BASE_URL` in `src/lib/jsonld.tsx` with official production domain once live. |
+| **Analytics Engine** | 100% Complete | Dual GA4 & Meta Pixel tracking setup with safety guards. | Add production `VITE_GA4_MEASUREMENT_ID` and `VITE_META_PIXEL_ID` in Vercel environment settings. |
+| **GitHub Deployment** | 100% Complete | PR submitted on upstream repository. | **Merge PR** on GitHub to trigger automatic Vercel production deployment. |
 
 ---
 
