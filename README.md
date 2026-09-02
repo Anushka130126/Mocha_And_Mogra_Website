@@ -1,15 +1,20 @@
 # 👑 Mocha & Mogra — Contemporary Silk Saree E-Commerce Storefront
 
 > **A Collection of Stories, Stitched in Silk.**  
-> A high-end, headless React + Vite + TypeScript e-commerce platform crafted with bespoke luxury aesthetics, custom storytelling UI components, headless Shopify commerce integration, Supabase Edge Functions, and enterprise-grade SEO & analytics.
+> A high-end, headless React 18 + Vite + TypeScript e-commerce platform crafted with bespoke luxury aesthetics, custom storytelling UI components, headless Shopify commerce integration, Supabase Edge Functions, and enterprise-grade SEO & analytics.
 
 ---
 
 ## 📋 Table of Contents
 1. [Executive Overview & Brand Philosophy](#-executive-overview--brand-philosophy)
-2. [System Architecture & Data Flow](#-system-architecture--data-flow)
-3. [Key Features & Capabilities](#-key-features--capabilities)
-4. [Project Structure](#-project-structure)
+2. [System Architecture & Visual Diagrams](#-system-architecture--visual-diagrams)
+   - [2.1 High-Level Platform Architecture Flowchart](#21-high-level-platform-architecture-flowchart)
+   - [2.2 Modular Barrel Export & Component Dependency Graph](#22-modular-barrel-export--component-dependency-graph)
+   - [2.3 User Checkout & Shopify Permalink Sequence Diagram](#23-user-checkout--shopify-permalink-sequence-diagram)
+   - [2.4 Global State & Context Provider Hierarchy](#24-global-state--context-provider-hierarchy)
+   - [2.5 Page Routing & Component Layout Map](#25-page-routing--component-layout-map)
+3. [Complete Codebase Walkthrough & File Inventory](#-complete-codebase-walkthrough--file-inventory)
+4. [Key Features & Technical Innovations](#-key-features--technical-innovations)
 5. [Setup & Local Development Guide](#-setup--local-development-guide)
 6. [E-Commerce & Third-Party Integrations](#-e-commerce--third-party-integrations)
 7. [Comprehensive Launch Audit: What is Done vs. What is Left](#-comprehensive-launch-audit-what-is-done-vs-what-is-left)
@@ -18,177 +23,226 @@
 
 ## 🏛️ Executive Overview & Brand Philosophy
 
-**Mocha & Mogra** is a contemporary luxury saree brand celebrating artisan-crafted silk, bespoke motif design, and storytelling. The web application is engineered to feel like a high-end luxury fashion atelier (drawing inspiration from global luxury houses), combining warm cream and mocha color palettes (`#FAF7F2`, `#FFFEF7`, `#1E140A`), dynamic silk video loops, elegant typography (`Cinzel`, `Playfair Display`, `Lora`), and zero-friction purchase flows.
+**Mocha & Mogra** is a contemporary luxury saree brand celebrating artisan-crafted silk, bespoke motif design, and heritage storytelling. The web application is engineered to evoke the experience of a high-end fashion atelier, combining warm cream and mocha color palettes (`#FAF7F2`, `#FFFEF7`, `#1E140A`), dynamic silk video loops, elegant typography (`Cinzel`, `Playfair Display`, `Lora`), and zero-friction purchase flows.
 
-### Architecture Highlights
-- **Headless Commerce Stack**: React 18 + Vite + TypeScript frontend paired with Shopify as a headless commerce backend for inventory, order processing, and tax compliance.
-- **Micro-Animations & Motion**: Hardware-accelerated transitions via `framer-motion` and `lucide-react` icons.
-- **Serverless Subsystem**: Supabase Edge Functions running on Deno for serverless API integrations (Mailchimp newsletter sync).
-- **SEO & Performance Engine**: Automated JSON-LD Schema.org rich snippet injection (Product, Organization, ItemList, BreadcrumbList) with zero build-step overhead.
-- **Dual Conversion Analytics**: Unified Google Analytics 4 (GA4) and Meta Pixel (Facebook) event dispatching system.
+### Technical Architecture Highlights
+- **Headless Commerce Stack**: React 18 SPA built with Vite and TypeScript, paired with Shopify as a headless backend for inventory, order processing, and tax compliance.
+- **Modular Barrel Architecture**: Clean, scalable component, page, and context organization powered by TypeScript barrel exports (`index.ts`).
+- **Hardware-Accelerated UI Motion**: Smooth page transitions, slide-over drawers, and interactive modals built with `framer-motion` and `lucide-react` icons.
+- **Serverless Edge Layer**: Supabase Edge Functions running on Deno for serverless API integrations (Mailchimp newsletter synchronization).
+- **Automated Rich Snippet Engine**: Zero-overhead JSON-LD Schema.org microdata injection (`Organization`, `Product`, `ItemList`, `BreadcrumbList`) for rich search engine result snippets.
+- **Dual Conversion Tracking**: Unified event dispatching system supporting Google Analytics 4 (GA4) and Meta Pixel (Facebook).
 
 ---
 
-## 📐 System Architecture & Data Flow
+## 📐 System Architecture & Visual Diagrams
 
-### 1. High-Level Platform Architecture
+### 2.1 High-Level Platform Architecture Flowchart
 
-```
-                                  +---------------------------------------+
-                                  |         Vercel CDN Edge Network       |
-                                  |  https://mocha-and-mogra-website...   |
-                                  +-------------------+-------------------+
-                                                      |
-                                                      v
-                                  +-------------------+-------------------+
-                                  |       React 18 Single Page App        |
-                                  |    (Vite + TailwindCSS + TS)          |
-                                  +---------+-----------------+-----------+
-                                            |                 |
-                   +------------------------+                 +-----------------------+
-                   |                                                                  |
-                   v                                                                  v
-+------------------+------------------+                            +------------------+------------------+
-|          Global State Layer         |                            |       Analytics & SEO Engines    |
-| - CartContext (CartItem[])          |                            | - GA4 (gtag) E-Commerce Events   |
-| - WishlistContext (Product[])       |                            | - Meta Pixel (fbq) Conversions   |
-| - CurrencyContext (INR ₹ / USD $)   |                            | - JSON-LD Schema.org Microdata   |
-+------------------+------------------+                            +----------------------------------+
-                   |
-        +----------+-----------------------------------+
-        |                                              |
-        v                                              v
-+-------+--------------------------+        +----------+--------------------------+
-|  Shopify Headless Commerce (v3)  |        |    Supabase Edge Functions (Deno)    |
-| - Storefront API / Permalinks    |        | - newsletter_subscribers DB        |
-| - Shopify Hosted Checkout        |        | - Mailchimp API v3.0 Sync           |
-| - Order & Inventory Dashboard    |        +-------------------------------------+
-+----------------------------------+
+```mermaid
+graph TD
+    Client[Browser / Client Device] -->|HTTPS Requests| CDN[Vercel CDN Edge Network]
+    CDN -->|Delivers SPA Bundle| ReactApp[React 18 SPA Application]
+    
+    subgraph Frontend Core [Vite + TypeScript + TailwindCSS]
+        ReactApp --> StateLayer[Global State Layer]
+        ReactApp --> ComponentLayer[UI Components & Layout]
+        ReactApp --> PageLayer[13 Application Pages]
+    end
+    
+    subgraph Global State Providers
+        StateLayer --> CartCtx[CartContext - Cart Items & Subtotal]
+        StateLayer --> CurrencyCtx[CurrencyContext - INR ₹ / USD $]
+        StateLayer --> WishlistCtx[WishlistContext - Saved Items]
+    end
+    
+    subgraph External & Serverless Services
+        ReactApp -->|1-Click Permalink Redirect| Shopify[Shopify Headless Commerce]
+        ReactApp -->|Newsletter API Request| Supabase[Supabase Deno Edge Function]
+        ReactApp -->|Event Dispatching| Analytics[GA4 & Meta Pixel Engines]
+        ReactApp -->|Rich Snippets| Schema[JSON-LD Microdata Engine]
+    end
+    
+    Supabase -->|POST Subscriber| Mailchimp[Mailchimp API v3.0]
+    Shopify -->|Processes Order| PaymentGateways[Razorpay / Credit Cards / UPI]
 ```
 
-### 2. User Purchase & Checkout Redirect Flow
+---
+
+### 2.2 Modular Barrel Export & Component Dependency Graph
+
+```mermaid
+graph LR
+    subgraph App Entry
+        AppTSX[App.tsx]
+    end
+
+    subgraph Barrel Exports
+        CompBarrel[src/components/index.ts]
+        CtxBarrel[src/context/index.ts]
+        PageBarrel[src/pages/index.ts]
+    end
+
+    subgraph Components Module
+        CompBarrel --> Navbar[Navbar]
+        CompBarrel --> Footer[Footer]
+        CompBarrel --> ProductModal[ProductModal]
+        CompBarrel --> AddedToBagDrawer[AddedToBagDrawer]
+        CompBarrel --> SearchOverlay[SearchOverlay]
+        CompBarrel --> SplashLanding[SplashLanding]
+        CompBarrel --> WhatsAppButton[WhatsAppButton]
+        CompBarrel --> ImageCarousel[ImageCarousel]
+    end
+
+    subgraph Context Module
+        CtxBarrel --> CartContext[CartContext & useCart]
+        CtxBarrel --> CurrencyContext[CurrencyContext & useCurrency]
+        CtxBarrel --> WishlistContext[WishlistContext & useWishlist]
+    end
+
+    subgraph Pages Module
+        PageBarrel --> Home[Home]
+        PageBarrel --> Shop[Shop]
+        PageBarrel --> OurStory[OurStory]
+        PageBarrel --> Contact[Contact]
+        PageBarrel --> Cart[Cart]
+        PageBarrel --> Checkout[Checkout]
+        PageBarrel --> OrderConfirmation[OrderConfirmation]
+        PageBarrel --> Policies[Privacy / Terms / Shipping / Return]
+    end
+
+    AppTSX --> CompBarrel
+    AppTSX --> CtxBarrel
+    AppTSX --> PageBarrel
+```
+
+---
+
+### 2.3 User Checkout & Shopify Permalink Sequence Diagram
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Customer
-    participant Modal as Product Modal / Bag Drawer / Cart
+    actor Customer as Customer / Visitor
+    participant UI as Product Modal / Bag Drawer / Cart Page
     participant Helper as shopify.ts Helper
     participant Shopify as Shopify Hosted Checkout
-    participant Admin as Shopify Admin Orders Dashboard
+    participant OrderSystem as Shopify Admin & Inventory
 
-    Customer->>Modal: Clicks "Buy Now" or "Checkout Now"
-    Modal->>Helper: Passes items payload [{ variantId, quantity }]
-    alt Valid Shopify Numeric Variant ID Present
-        Helper-->>Modal: Generates https://1fieuf-bz.myshopify.com/cart/{variantId}:{qty}
-    else Local Product ID (Fallback)
-        Helper-->>Modal: Generates https://1fieuf-bz.myshopify.com/checkout
+    Customer->>UI: Clicks "Buy Now" or "Checkout Now"
+    UI->>Helper: Passes items [{ variantId, quantity }]
+    alt Valid Shopify Variant ID Present
+        Helper-->>UI: Generates https://1fieuf-bz.myshopify.com/cart/{variantId}:{qty}
+    else Local Catalog ID (Fallback)
+        Helper-->>UI: Generates https://1fieuf-bz.myshopify.com/checkout
     end
-    Modal->>Shopify: Redirects window.location.href to Shopify
-    Customer->>Shopify: Fills address & completes payment (Razorpay / Credit Card / UPI)
-    Shopify->>Admin: Order automatically created & inventory updated
-    Shopify-->>Customer: Displays Order Confirmation & Sends Email / SMS Receipt
-```
-
-### 3. State & Context Flow Architecture
-
-```
-+-----------------------------------------------------------------------------------+
-|                                  <App /> Root                                     |
-+------------------------------------------+----------------------------------------+
-                                           |
-    +--------------------------------------+------------------------------------+
-    |                                      |                                    |
-    v                                      v                                    v
-+---+--------------------+       +---------+------------+       +---------------+-------------------+
-|  <WishlistProvider>   |       |   <CartProvider>   |       |        <CurrencyProvider>        |
-| - items: Product[]     |       | - items: CartItem[]|       | - currency: 'INR' | 'USD'         |
-| - toggleWishlist()     |       | - addItem()        |       | - formatPrice(inrAmount)          |
-| - isWishlisted()       |       | - removeItem()     |       | - usdRate: 0.012                  |
-| - Persistent Local     |       | - updateQuantity() |       | - Dynamic Threshold Shipping Logic|
-|   Storage Sync         |       | - subtotal         |       | - Persistent Local Storage Sync   |
-+------------------------+       +--------------------+       +-----------------------------------+
+    UI->>Shopify: Redirects window.location.href to Shopify
+    Customer->>Shopify: Enters Shipping Address & Completes Payment (UPI / Cards / NetBanking)
+    Shopify->>OrderSystem: Creates Order & Deducts Inventory Automatically
+    Shopify-->>Customer: Displays Order Confirmation Screen & Sends Receipt Email
 ```
 
 ---
 
-## ✨ Key Features & Capabilities
+### 2.4 Global State & Context Provider Hierarchy
 
-- **Luxury Product Discovery**:
-  - Arch-shaped product image carousels supporting WebM video loops and high-res photography.
-  - Filter by category (`Saree` / `Underskirt`), personality traits, and motif styles.
-  - Interactive Search Overlay with instant keyword filtering.
+```mermaid
+graph TD
+    Root[<App /> Root] --> CurrProv[<CurrencyProvider>]
+    CurrProv --> WishProv[<WishlistProvider>]
+    WishProv --> CartProv[<CartProvider>]
+    CartProv --> Scroll[<ScrollToTop />]
+    Scroll --> Layout[<Layout /> Component]
 
-- **Dynamic Dual-Currency System (INR ₹ / USD $)**:
-  - Toggle prices globally across all pages, modals, and cart components.
-  - Dynamic shipping threshold calculation: Complimentary shipping across India over ₹5,000; International shipping threshold calculated via live rate conversions.
-
-- **Dual Checkout Strategy**:
-  - **Shopify Direct Hosted Checkout Redirect**: Direct 1-click cart permalink format (`/cart/variant_id:qty`) linking directly to Shopify's encrypted checkout.
-  - **Standalone 3-Step Luxury Checkout UI**: Integrated fallback page (`/checkout`) with step indicators (`1. Address` -> `2. Shipping` -> `3. Payment`), region switcher (India Domestic vs. International DHL/FedEx), Indian state dropdowns, and address validation.
-
-- **Newsletter & CRM Integration**:
-  - Footer newsletter form connected to a Supabase Edge Function that persists subscribers to a PostgreSQL table and syncs directly to Mailchimp API v3.0.
-
-- **Enterprise SEO & Structured Data**:
-  - `JSON-LD` microdata helpers dynamically injecting Organization, Product, BreadcrumbList, and Shop ItemList schemas.
-  - Meta tags, Open Graph titles, and strict Content Security Policy (`CSP`) headers configured in `index.html`.
+    subgraph State Capabilities
+        CurrProv -.->|Provides| CurrCap["currency: 'INR' | 'USD'<br/>formatPrice(amount)<br/>usdRate conversion"]
+        WishProv -.->|Provides| WishCap["items: Product[]<br/>toggleWishlist(prod)<br/>isWishlisted(id)"]
+        CartProv -.->|Provides| CartCap["items: CartItem[]<br/>addItem(prod)<br/>removeItem(id)<br/>updateQuantity(id, qty)<br/>subtotal & totalItems"]
+    end
+```
 
 ---
 
-## 📁 Project Structure
+### 2.5 Page Routing & Component Layout Map
+
+```mermaid
+graph TD
+    Layout[<Layout /> Master Wrapper] --> Nav[Navbar Component]
+    Layout --> Main[<main> Router Container]
+    Layout --> Foot[Footer Component]
+    Layout --> WA[WhatsApp Floating Concierge]
+    Layout --> SearchModal[SearchOverlay Modal]
+    Layout --> ProdModal[ProductModal Spotlight]
+    Layout --> BagDrawer[AddedToBagDrawer Slide-Over]
+
+    Main --> R1["/ (Home Page)"]
+    Main --> R2["/shop (Wardrobe Catalog)"]
+    Main --> R3["/our-story (Brand Heritage)"]
+    Main --> R4["/contact (Atelier Support)"]
+    Main --> R5["/cart (Curated Bag)"]
+    Main --> R6["/checkout (3-Step Checkout)"]
+    Main --> R7["/order-confirmation (Success Screen)"]
+    Main --> R8["/wishlist (Saved Collection)"]
+    Main --> R9["Legal & Information Pages"]
+```
+
+---
+
+## 📁 Complete Codebase Walkthrough & File Inventory
 
 ```
 Mocha_And_Mogra_Website/
 ├── .env.example                 # Environment variables template
 ├── .github/
 │   └── workflows/
-│       └── supabase-deploy.yml  # Auto-deploy workflow for Supabase Edge Functions
+│       └── supabase-deploy.yml  # Automated deployment workflow for Supabase Edge Functions
 ├── index.html                   # HTML entry point with CSP headers, SEO meta & Google Fonts
-├── package.json                 # Project dependencies & scripts
-├── postcss.config.js            # PostCSS configuration for TailwindCSS
-├── public/                      # Static assets & brand logos
+├── package.json                 # Project manifest, dependencies, and build scripts
+├── postcss.config.js            # PostCSS configuration for TailwindCSS processing
+├── public/                      # Public static assets & brand logos
 │   ├── images/
 │   │   └── mnmlogo-Photoroom.webp
 │   └── favicon.ico
-├── README.md                    # Main repository documentation
+├── README.md                    # Main repository documentation & architectural manual
 ├── src/
-│   ├── App.tsx                  # Application root, routing, & layout wrapper
-│   ├── index.css                # Global styling, custom utility classes, & Tailwind imports
-│   ├── main.tsx                 # React DOM mount point
+│   ├── App.tsx                  # Master application layout, route definitions & provider tree
+│   ├── index.css                # Global design system tokens, typography rules & Tailwind imports
+│   ├── main.tsx                 # React 18 DOM mount point with analytics initializer
 │   ├── vite-env.d.ts            # Vite TypeScript declarations
-│   ├── components/              # Modular UI components
-│   │   ├── AddedToBagDrawer.tsx # Slide-over bag summary drawer with checkout trigger
-│   │   ├── AddedToCartToast.tsx # Quick confirmation toast notification
+│   ├── components/              # Modular UI Component Library
+│   │   ├── index.ts             # Central barrel export for all UI components
+│   │   ├── AddedToBagDrawer.tsx # Slide-over bag drawer with checkout trigger
 │   │   ├── Footer.tsx           # Brand footer with newsletter subscription form
-│   │   ├── ImageCarousel.tsx    # Arch-styled media carousel with video loop support
-│   │   ├── Navbar.tsx           # Sticky luxury header with currency switcher & cart badge
-│   │   ├── ProductModal.tsx     # Full product details drawer with story & 1-click Buy Now
-│   │   ├── SearchOverlay.tsx    # Modal overlay for real-time product search
-│   │   ├── SplashLanding.tsx    # Opening animated splash screen
-│   │   └── WhatsAppButton.tsx   # Floating concierge WhatsApp CTA
-│   ├── context/                 # React Context Providers for global state
+│   │   ├── ImageCarousel.tsx    # Arch-styled media carousel with WebM video support
+│   │   ├── Navbar.tsx           # Sticky luxury header with currency toggle & cart badge
+│   │   ├── ProductModal.tsx     # Full product detail drawer with story & 1-click Buy Now
+│   │   ├── SearchOverlay.tsx    # Modal overlay for real-time catalog search
+│   │   ├── SplashLanding.tsx    # Animated opening splash screen
+│   │   └── WhatsAppButton.tsx   # Floating concierge WhatsApp CTA button
+│   ├── context/                 # React Context Providers for Global State
+│   │   ├── index.ts             # Central barrel export for providers and custom hooks
 │   │   ├── CartContext.tsx      # Cart item manipulation, quantity updates & subtotal
 │   │   ├── CurrencyContext.tsx  # Global currency (INR/USD) & price formatting logic
-│   │   └── WishlistContext.tsx  # Wishlist persistence & toggle handlers
+│   │   └── WishlistContext.tsx  # Persistent wishlist state & toggle handlers
 │   ├── data/
 │   │   └── products.ts          # Catalog data model & product inventory array
-│   ├── lib/                     # Service abstractions & helper functions
-│   │   ├── analytics.ts         # Dual GA4 & Meta Pixel event tracking engine
+│   ├── lib/                     # Core Utility & Integration Libraries
+│   │   ├── analytics.ts         # Dual GA4 & Meta Pixel conversion tracking engine
 │   │   ├── jsonld.tsx           # SEO Schema.org structured data helpers
 │   │   ├── shopify.ts           # Shopify Headless API & cart permalink generator
-│   │   └── supabase.ts          # Safe Supabase client initialization wrapper
-│   └── pages/                   # Application page views
+│   │   └── supabase.ts          # Supabase client initialization wrapper
+│   └── pages/                   # Application Page Views
+│       ├── index.ts             # Central barrel export for all application pages
 │       ├── Cart.tsx             # Curated shopping cart page with order summary
 │       ├── Checkout.tsx         # Standalone 3-step luxury accordion checkout page
-│       ├── Contact.tsx          # Brand atelier contact page
-│       ├── Home.tsx             # Homepage hero, brand narrative, & featured sarees
+│       ├── Contact.tsx          # Brand atelier contact page with validation
+│       ├── Home.tsx             # Homepage hero, brand narrative & featured sarees
 │       ├── OrderConfirmation.tsx# Post-purchase order success page
 │       ├── OurStory.tsx         # Brand heritage & artisanal philosophy page
 │       ├── Privacy.tsx          # Privacy policy legal document
 │       ├── ReturnPolicy.tsx     # Return & exchange policy legal document
 │       ├── ShippingPolicy.tsx   # Domestic & international shipping policy
-│       ├── Shop.tsx             # Complete wardrobe catalog with filters
+│       ├── Shop.tsx             # Complete wardrobe catalog with motif & price filters
 │       ├── SizeGuide.tsx        # Saree drape & blouse sizing guide
 │       ├── Terms.tsx            # Terms of service legal document
 │       └── Wishlist.tsx         # Saved items wishlist gallery
@@ -199,11 +253,32 @@ Mocha_And_Mogra_Website/
 │           ├── index.ts
 │           └── deno.json
 ├── tailwind.config.js           # Custom luxury color palette & typography tokens
-├── TECHNICAL_DEPENDENCIES_AND_ARCHITECTURE.md # Deep-dive technical specification
+├── TECHNICAL_DEPENDENCIES_AND_ARCHITECTURE.md # Technical reference manual
 ├── tsconfig.json                # TypeScript project configuration
-├── vercel.json                  # Vercel deployment SPA rewrite rules
-└── vite.config.ts               # Vite build tool configuration
+├── vercel.json                  # Vercel SPA routing rewrite rules
+└── vite.config.ts               # Vite build configuration
 ```
+
+---
+
+## ✨ Key Features & Technical Innovations
+
+### 1. Luxury Media & Product Discovery
+- **Arch-Shaped Media Carousels**: Custom aspect ratio image and WebM video carousels honoring traditional Indian architectural motifs.
+- **Multi-Faceted Catalog Filtering**: Filter sarees by category (`Saree` / `Underskirt`), motif themes (Fish, Pineapple, Owl, Elephant, Seahorse), and price ranges.
+- **Interactive Search Engine**: Instant keyboard-accessible modal overlay filtering products in real time across titles, motifs, and descriptions.
+
+### 2. Dual Currency Engine (INR ₹ / USD $)
+- Global currency switcher in `Navbar` updating prices across all catalog views, product modals, bag drawers, and checkout pages.
+- Dynamic complimentary shipping calculation: Complimentary shipping across India for orders above ₹5,000; international threshold dynamically adjusted according to live exchange rates.
+
+### 3. Headless Shopify Integration
+- Direct 1-click cart permalinks (`/cart/variant_id:qty`) linking straight into Shopify's checkout engine.
+- Fallback checkout mechanism ensuring smooth redirection even when numeric variant IDs are not present.
+
+### 4. Enterprise SEO & Analytics
+- Dynamic `JSON-LD` microdata injection (`Organization`, `Product`, `ItemList`, `BreadcrumbList`).
+- Dual event dispatching to Google Analytics 4 (`gtag`) and Meta Pixel (`fbq`) for `view_item`, `add_to_cart`, `initiate_checkout`, and `purchase`.
 
 ---
 
@@ -214,8 +289,6 @@ Mocha_And_Mogra_Website/
 - **npm**: v9.0.0 or higher
 
 ### 1. Installation
-
-Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/Nutricalboii/Mocha_And_Mogra_Website.git
@@ -249,7 +322,6 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 | `npm run build` | Builds optimized production bundle in `dist/` |
 | `npm run preview` | Previews production build locally |
 | `npm run typecheck` | Runs TypeScript type checking without emitting files |
-| `npm run lint` | Runs ESLint analysis across codebase |
 
 ---
 
@@ -266,28 +338,24 @@ https://1fieuf-bz.myshopify.com/cart/4567890123:1,4567890124:2
 https://1fieuf-bz.myshopify.com/checkout
 ```
 
-This bypasses custom payment gateway maintenance on the React side while retaining 100% of Shopify's native checkout capabilities (PCI compliance, Razorpay/Stripe, UPI, credit cards, automated order notifications).
+This bypasses custom payment gateway maintenance on the React side while retaining 100% of Shopify's native checkout capabilities (PCI compliance, Razorpay/Stripe, UPI, credit cards, automated order receipts).
 
 ### 2. Supabase + Mailchimp Newsletter Subsystem
 Newsletter subscriptions submitted in `Footer.tsx` trigger the Supabase Edge Function located at `supabase/functions/subscribe-mailchimp/index.ts`:
-
 1. Verifies CORS preflight headers (`OPTIONS`).
 2. Inserts the subscriber email into Supabase table `newsletter_subscribers`.
-3. Sends an authenticated `POST` request to Mailchimp API v3.0:
-   `https://{DC}.api.mailchimp.com/3.0/lists/{LIST_ID}/members`
-4. Handles duplicate subscription gracefully if Mailchimp returns `"Member Exists"`.
+3. Sends an authenticated `POST` request to Mailchimp API v3.0 (`https://{DC}.api.mailchimp.com/3.0/lists/{LIST_ID}/members`).
 
 ---
 
 ## 🎯 Comprehensive Launch Audit: What is Done vs. What is Left
-
-The table below outlines the completed platform capabilities vs. the final production launch tasks:
 
 | Component / Subsystem | Status | Details / Description | Action Required for Production |
 |---|---|---|---|
 | **Frontend UI & Styling** | ✅ **100% Complete** | Bespoke luxury aesthetic, warm cream/mocha palette, silk video loops, custom typography. | None. Fully verified. |
 | **Catalog & Product Modal** | ✅ **100% Complete** | Arch carousels, motif filters, story drawers, 1-click Buy Now. | Optional: Replace Cloudinary demo URLs with brand CDN if needed. |
 | **State Management** | ✅ **100% Complete** | Cart, Wishlist, and Currency Contexts with localStorage persistence. | None. Fully verified. |
+| **Modular Barrel Architecture** | ✅ **100% Complete** | Clean `index.ts` barrel exports for components, contexts, and pages. | None. Fully verified. |
 | **Shopify Integration** | ✅ **100% Complete** | Permalink checkout redirect helper & fallback mechanism implemented. | **Add real Shopify numeric Variant IDs** in `src/data/products.ts` for 1-click line item cart loading. |
 | **Shopify Admin Setup** | 🟡 **Pending Client Action** | Shopify store created (`1fieuf-bz.myshopify.com`). | **Disable password protection** in Shopify Admin -> Preferences, and **enable payment gateway** (Razorpay / Stripe). |
 | **Custom Domain Setup** | 🟡 **Pending Client Action** | Code ready for custom domain deployment. | Purchase domain (e.g. `mochanmogra.com`) and configure DNS records in Vercel & Shopify. |
