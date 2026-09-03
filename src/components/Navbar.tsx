@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X, Heart } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, Heart, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useCurrency, Currency } from '../context/CurrencyContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -25,6 +26,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
   const { totalItems } = useCart();
   const { currency, setCurrency } = useCurrency();
   const { totalWishlisted } = useWishlist();
+  const { user } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -109,6 +111,15 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               >
                 <Search size={18} strokeWidth={1.5} />
               </button>
+              
+              <button
+                onClick={() => navigate(user ? '/profile' : '/auth')}
+                aria-label="Profile"
+                className="text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block"
+              >
+                <User size={18} strokeWidth={1.5} />
+              </button>
+
               {/* Wishlist */}
               <button
                 onClick={() => navigate('/wishlist')}
