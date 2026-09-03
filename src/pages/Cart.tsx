@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { createDirectShopifyCheckout, SHOPIFY_STORE_DOMAIN } from '../lib/shopify';
+import { createShopifyCheckout, SHOPIFY_STORE_DOMAIN } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
 
 export default function Cart() {
@@ -24,7 +24,7 @@ export default function Cart() {
         variantId: item.product.shopifyVariantId || item.product.id,
         quantity: item.quantity,
       }));
-      const checkoutUrl = createDirectShopifyCheckout(itemsPayload);
+      const checkoutUrl = await createShopifyCheckout(itemsPayload);
       window.location.href = checkoutUrl;
     } catch (err) {
       console.warn('Redirecting to Shopify Checkout:', err);
