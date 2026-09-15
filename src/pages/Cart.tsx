@@ -1,23 +1,62 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2 } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2, CreditCard, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { createShopifyCheckout, SHOPIFY_STORE_DOMAIN } from '../lib/shopify';
+import { createShopifyCheckout } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
+import { initiateRazorpayPayment } from '../lib/razorpay';
+import { useAuth } from '../context/AuthContext';
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { items, removeItem, updateQuantity, subtotal } = useCart();
+  const { items, removeItem, updateQuantity, subtotal, clearCart } = useCart();
   const { currency, formatPrice, usdRate } = useCurrency();
+  const { user } = useAuth();
+
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const threshold = currency === 'USD' ? 200 * usdRate : 5000;
   const shippingFee = currency === 'USD' ? 25 * usdRate : 500;
   const shipping = subtotal >= threshold ? 0 : shippingFee;
   const total = subtotal + shipping;
 
-  const handleCheckout = async () => {
+  // Razorpay Standard Checkout Handler
+  const handleRazorpayCheckout = async () => {
+    setErrorMessage(null);
+    setIsCheckingOut(true);
+
+    await initiateRazorpayPayment({
+      amount: total,
+      name: 'Mocha & Mogra',
+      description: `Purchase of ${items.reduce((acc, item) => acc + item.quantity, 0)} item(s)`,
+      prefill: {
+        name: user?.user_metadata?.full_name || '',
+        email: user?.email || '',
+      },
+      onSuccess: (response) => {
+        setIsCheckingOut(false);
+        clearCart();
+        navigate('/order-confirmation', {
+          state: {
+            paymentId: response.payment_id,
+            orderId: response.order_id,
+          },
+        });
+      },
+      onError: (err) => {
+        setIsCheckingOut(false);
+        setErrorMessage(err);
+      },
+      onDismiss: () => {
+        setIsCheckingOut(false);
+      },
+    });
+  };
+
+  // Optional Shopify Checkout fallback
+  const handleShopifyCheckout = async () => {
     try {
       setIsCheckingOut(true);
       const itemsPayload = items.map((item) => ({
@@ -27,8 +66,8 @@ export default function Cart() {
       const checkoutUrl = await createShopifyCheckout(itemsPayload);
       window.location.href = checkoutUrl;
     } catch (err) {
-      console.warn('Redirecting to Shopify Checkout:', err);
-      window.location.href = `https://${SHOPIFY_STORE_DOMAIN}/checkout`;
+      console.warn('Redirecting to Razorpay checkout:', err);
+      handleRazorpayCheckout();
     } finally {
       setIsCheckingOut(false);
     }
@@ -150,6 +189,12 @@ export default function Cart() {
                   Order Summary
                 </h2>
 
+                {errorMessage && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 text-xs font-lora rounded">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between font-lora text-sm text-mocha-700">
                     <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
@@ -202,26 +247,41 @@ export default function Cart() {
                   </div>
                 </div>
 
+                {/* Primary Button: Pay with Razorpay */}
                 <button
-                  onClick={handleCheckout}
+                  onClick={handleRazorpayCheckout}
                   disabled={isCheckingOut}
-                  className="w-full btn-primary-filled justify-center py-4 text-sm flex items-center gap-2"
+                  className="w-full btn-primary-filled justify-center py-4 text-sm flex items-center gap-2 mb-3"
                 >
                   {isCheckingOut ? (
                     <>
-                      Processing...
+                      Processing Payment...
                       <Loader2 size={14} className="animate-spin" strokeWidth={1.5} />
                     </>
                   ) : (
                     <>
-                      Proceed to Checkout
+                      <CreditCard size={16} strokeWidth={1.5} />
+                      Pay with Razorpay
                       <ArrowRight size={14} strokeWidth={1.5} />
                     </>
                   )}
                 </button>
-                <p className="font-cinzel text-[9px] tracking-[0.2em] uppercase text-mocha-400 text-center mt-4">
-                  Secure &amp; Encrypted
-                </p>
+
+                {/* Secondary Button: Shopify Checkout */}
+                <button
+                  onClick={handleShopifyCheckout}
+                  disabled={isCheckingOut}
+                  className="w-full border border-mocha-300 text-mocha-800 hover:bg-mocha-50 font-cinzel text-xs tracking-[0.15em] uppercase justify-center py-3 text-center transition-colors block"
+                >
+                  Checkout via Shopify
+                </button>
+
+                <div className="flex items-center justify-center gap-2 text-mocha-400 mt-5">
+                  <ShieldCheck size={14} strokeWidth={1.5} />
+                  <p className="font-cinzel text-[9px] tracking-[0.2em] uppercase">
+                    256-Bit SSL Encrypted Razorpay Checkout
+                  </p>
+                </div>
               </div>
             </div>
           </div>

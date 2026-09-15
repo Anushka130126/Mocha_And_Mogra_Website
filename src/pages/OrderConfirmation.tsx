@@ -1,11 +1,15 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle, ArrowRight, Mail, Package } from 'lucide-react';
-
-const orderNumber = `MM-${Math.floor(100000 + Math.random() * 900000)}`;
+import { CheckCircle, ArrowRight, Mail, Package, ShieldCheck } from 'lucide-react';
 
 export default function OrderConfirmation() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const state = location.state as { paymentId?: string; orderId?: string } | null;
+  const paymentId = state?.paymentId;
+  const orderId = state?.orderId;
+  const orderNumber = orderId || `MM-${Math.floor(100000 + Math.random() * 900000)}`;
 
   return (
     <div className="pt-24 pb-20 min-h-screen flex items-center">
@@ -31,7 +35,7 @@ export default function OrderConfirmation() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="section-label mb-4"
           >
-            Order Confirmed
+            Order Confirmed &amp; Paid
           </motion.p>
 
           <motion.h1
@@ -49,7 +53,7 @@ export default function OrderConfirmation() {
             transition={{ delay: 0.55, duration: 0.6 }}
             className="font-lora text-base text-mocha-600 leading-relaxed mb-3"
           >
-            Your saree is on its way to you. It has been wrapped with care and packaged with the intention it was made with.
+            Your payment has been successfully verified. Your saree is on its way to you, wrapped with care and intention.
           </motion.p>
 
           <motion.p
@@ -66,17 +70,25 @@ export default function OrderConfirmation() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.5 }}
-            className="border border-mocha-200 p-8 mb-10 text-left"
+            className="border border-mocha-200 p-8 mb-10 text-left bg-mocha-50/50"
           >
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-2">
-                  Order Number
+                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-1">
+                  Razorpay Order ID
                 </p>
-                <p className="font-playfair text-lg text-mocha-900">{orderNumber}</p>
+                <p className="font-playfair text-base text-mocha-900">{orderNumber}</p>
               </div>
+              {paymentId && (
+                <div>
+                  <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-1">
+                    Payment ID
+                  </p>
+                  <p className="font-mono text-xs text-mocha-800 break-all">{paymentId}</p>
+                </div>
+              )}
               <div>
-                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-2">
+                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-1">
                   Date
                 </p>
                 <p className="font-lora text-sm text-mocha-700">
@@ -86,22 +98,12 @@ export default function OrderConfirmation() {
                 </p>
               </div>
               <div>
-                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-2">
-                  Estimated Delivery
-                </p>
-                <p className="font-lora text-sm text-mocha-700">
-                  {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', {
-                    year: 'numeric', month: 'long', day: 'numeric',
-                  })}
-                </p>
-              </div>
-              <div>
-                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-2">
-                  Status
+                <p className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400 mb-1">
+                  Payment Verification Status
                 </p>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-forest-500 animate-pulse" />
-                  <p className="font-lora text-sm text-mocha-700">Confirmed</p>
+                  <ShieldCheck size={14} className="text-forest-600" />
+                  <p className="font-lora text-sm text-forest-700 font-medium">HMAC-SHA256 Verified</p>
                 </div>
               </div>
             </div>
@@ -145,28 +147,6 @@ export default function OrderConfirmation() {
               Need Help? Contact Us
             </button>
           </motion.div>
-        </motion.div>
-
-        {/* Bottom image strip */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="mt-20 grid grid-cols-3 gap-3"
-        >
-          {[
-            'https://res.cloudinary.com/xtrw55ut/image/upload/ruby_doe.webp',
-            'https://res.cloudinary.com/xtrw55ut/image/upload/butter_mogra.webp',
-            'https://res.cloudinary.com/xtrw55ut/image/upload/sundowner_silk.webp',
-          ].map((src, i) => (
-            <div
-              key={i}
-              className="overflow-hidden bg-mocha-100"
-              style={{ borderRadius: '6px', aspectRatio: '3/4' }}
-            >
-              <img src={src} alt="" className="w-full h-full object-cover opacity-70" />
-            </div>
-          ))}
         </motion.div>
       </div>
     </div>
