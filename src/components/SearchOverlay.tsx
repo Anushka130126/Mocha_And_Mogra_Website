@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { products } from '../data/products';
 import type { Product } from '../data/products';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface SearchOverlayProps {
   open: boolean;
@@ -11,6 +12,7 @@ interface SearchOverlayProps {
 }
 
 export default function SearchOverlay({ open, onClose, onSelectProduct }: SearchOverlayProps) {
+  const { formatPrice } = useCurrency();
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -156,7 +158,7 @@ export default function SearchOverlay({ open, onClose, onSelectProduct }: Search
                               {product.name}
                             </p>
                             <p className="font-lora text-sm text-mocha-500">
-                              {product.motif} Motif · {product.priceDisplay}
+                              {product.motif} Motif · {formatPrice(product.price)}
                             </p>
                             <div className="flex gap-1 mt-1 flex-wrap">
                               {product.personality.slice(0, 2).map((t) => (
