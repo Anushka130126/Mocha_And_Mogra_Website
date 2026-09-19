@@ -15,7 +15,59 @@ const fadeUp = {
   }),
 };
 
-const motifIcons = ['Fish', 'Pineapple', 'Owl', 'Elephant', 'Seahorse'];
+const motifs = [
+  {
+    name: 'Fish',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 12C22 12 19 17 12 17C5 17 2 12 2 12C2 12 5 7 12 7C19 7 22 12 22 12Z"/>
+        <path d="M2 12L7 17M2 12L7 7"/>
+        <circle cx="16" cy="12" r="1" fill="currentColor"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Pineapple',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 9H16V16C16 18.2091 14.2091 20 12 20C9.79086 20 8 18.2091 8 16V9Z"/>
+        <path d="M12 9V2M9 5L12 9L15 5M9 9L12 5L15 9"/>
+        <path d="M8 12L16 16M16 12L8 16"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Owl',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 10C5 6.13401 8.13401 3 12 3C15.866 3 19 6.13401 19 10V18C19 19.1046 18.1046 20 17 20H7C5.89543 20 5 19.1046 5 18V10Z"/>
+        <circle cx="9" cy="11" r="2"/>
+        <circle cx="15" cy="11" r="2"/>
+        <path d="M12 14L11 16H13L12 14Z"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Elephant',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 18V10C4 6.68629 6.68629 4 10 4H14C17.3137 4 20 6.68629 20 10V14C20 16.2091 18.2091 18 16 18C14.8954 18 14 17.1046 14 16V14"/>
+        <path d="M4 18H8V14H4V18Z"/>
+        <path d="M16 10H20"/>
+        <circle cx="12" cy="10" r="1"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Seahorse',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10 4C8.89543 4 8 4.89543 8 6C8 7.10457 8.89543 8 10 8C11.1046 8 12 8.89543 12 10C12 11.1046 11.1046 12 10 12C8.89543 12 8 12.8954 8 14C8 15.1046 8.89543 16 10 16C12.2091 16 14 14.2091 14 12C14 10.3431 13 8.5 13 8C13 5.79086 11.2091 4 10 4Z"/>
+        <path d="M12 16V18C12 19.1046 11.1046 20 10 20C8.89543 20 8 19.1046 8 18"/>
+      </svg>
+    )
+  }
+];
 
 export default function Home() {
   const navigate = useNavigate();
@@ -168,12 +220,10 @@ export default function Home() {
       {/* Motif Strip */}
       <section className="border-y border-mocha-200 py-6 overflow-hidden">
         <div className="flex gap-0 items-center">
-          {[...motifIcons, ...motifIcons].map((motif, i) => (
-            <div key={i} className="flex items-center gap-6 px-8 flex-shrink-0">
-              <span className="font-cinzel text-[10px] tracking-[0.25em] uppercase text-mocha-400">
-                {motif}
-              </span>
-              {i < [...motifIcons, ...motifIcons].length - 1 && (
+          {[...motifs, ...motifs].map((motif, i) => (
+            <div key={i} className="flex items-center gap-6 px-8 flex-shrink-0 text-mocha-400 transition-colors">
+              {motif.icon}
+              {i < [...motifs, ...motifs].length - 1 && (
                 <span className="text-gold-400">·</span>
               )}
             </div>
