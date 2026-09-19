@@ -27,7 +27,7 @@ export const products: Product[] = [
       'The cage motif was my little way of playing with the idea of freedom — because what’s more fun than putting a cage on a saree and then wearing it exactly how you want?',
     wearFor: 'I see this one on the woman who likes her classics with a little bit of edge. Dinner dates, cocktails, gallery evenings — basically anywhere you want someone to stop and ask, “Wait, is that a cage on your saree?”',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelposing.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelwall.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm4_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm5.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelposing.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smmodelwall.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm4_2.webp'],
     color: '#8898B8',
     shopifyVariantId: '48988074541305', // SAPPHIRE MOGRA
   },
