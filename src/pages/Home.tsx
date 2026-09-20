@@ -137,7 +137,7 @@ export default function Home() {
               <div className="relative w-full max-w-sm">
                 <div
                   className="rounded-md w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
-                  style={{ aspectRatio: '3/4' }}
+                  style={{ aspectRatio: '4/3' }}
                 >
                   <img
                     src="/images/covermain.webp"
@@ -162,14 +162,14 @@ export default function Home() {
       </section>
 
       {/* Motif Strip */}
-      <section className="border-y border-mocha-200 overflow-hidden bg-[#FFFEF7]">
+      <section className="border-y border-mocha-200 overflow-hidden">
         <div className="flex items-center w-max">
           {[...Array(4)].map((_, i) => (
             <img 
               key={i}
               src="/images/motifs.webp" 
               alt="Brand Motifs" 
-              className="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-80" 
+              className="h-16 md:h-20 w-auto object-contain" 
             />
           ))}
         </div>
@@ -218,7 +218,7 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="https://res.cloudinary.com/xtrw55ut/video/upload/so_2/coverreel1.webm"
+                      src="https://res.cloudinary.com/xtrw55ut/video/upload/so_3,eo_7/coverreel1.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
                       style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                       autoPlay
