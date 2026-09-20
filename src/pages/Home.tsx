@@ -139,13 +139,10 @@ export default function Home() {
                   className="rounded-md w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
                   style={{ aspectRatio: '3/4' }}
                 >
-                  <video
-                    src="https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/rdmodelopeningscene.webm"
+                  <img
+                    src="/images/covermain.webp"
+                    alt="Hero Saree"
                     className="absolute inset-0 w-full h-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
                   />
                 </div>
                 {/* Floating tag */}
@@ -170,7 +167,7 @@ export default function Home() {
           {[...Array(4)].map((_, i) => (
             <img 
               key={i}
-              src="/images/motifs.png" 
+              src="/images/motifs.webp" 
               alt="Brand Motifs" 
               className="h-16 md:h-20 w-auto object-contain mix-blend-multiply opacity-80" 
             />
