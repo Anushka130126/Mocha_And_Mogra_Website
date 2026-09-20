@@ -210,7 +210,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <motion.div
                   className="rounded-md overflow-hidden bg-mocha-100 relative w-full"
-                  style={{ aspectRatio: '1/1' }}
+                  style={{ aspectRatio: '3/4' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "200px" }}
@@ -241,7 +241,7 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="https://res.cloudinary.com/xtrw55ut/video/upload/coverreel3.webm"
+                      src="https://res.cloudinary.com/xtrw55ut/video/upload/eo_4/coverreel3.webm"
                       className="absolute top-1/2 left-1/2 max-w-none"
                       style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
                       autoPlay
