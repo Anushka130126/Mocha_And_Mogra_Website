@@ -134,7 +134,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <div className="relative w-full max-w-sm">
+              <div className="relative w-full max-w-md lg:max-w-xl">
                 <div
                   className="rounded-md w-full overflow-hidden bg-mocha-100 shadow-2xl relative"
                   style={{ aspectRatio: '4/3' }}
@@ -169,7 +169,7 @@ export default function Home() {
               key={i}
               src="/images/motifs.webp" 
               alt="Brand Motifs" 
-              className="h-16 md:h-20 w-auto object-contain" 
+              className="h-20 md:h-28 lg:h-32 w-auto object-contain" 
             />
           ))}
         </div>
@@ -207,10 +207,10 @@ export default function Home() {
               </div>
 
               {/* Middle Column - coverreel1 (Highest) */}
-              <div className="flex flex-col mt-0">
+              <div className="flex flex-col justify-center h-full">
                 <motion.div
                   className="rounded-md overflow-hidden bg-mocha-100 relative w-full"
-                  style={{ aspectRatio: '9/16' }}
+                  style={{ aspectRatio: '1/1' }}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "200px" }}
@@ -218,9 +218,8 @@ export default function Home() {
                 >
                   {teaserInView && (
                     <video
-                      src="https://res.cloudinary.com/xtrw55ut/video/upload/so_3,eo_7/coverreel1.webm"
-                      className="absolute top-1/2 left-1/2 max-w-none"
-                      style={{ width: '177.77%', height: '56.25%', transform: 'translate(-50%, -50%) rotate(-90deg)' }}
+                      src="https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,so_3,eo_7/coverreel1.webm"
+                      className="absolute inset-0 w-full h-full object-cover object-[center_80%]"
                       autoPlay
                       muted
                       loop
