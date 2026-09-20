@@ -180,9 +180,9 @@ export default function Home() {
         <div className="max-w-[90rem] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
             {/* Image grid */}
-            <div className="lg:col-span-7 grid grid-cols-3 gap-2 md:gap-4 lg:gap-6 w-full">
+            <div className="lg:col-span-7 grid grid-cols-3 gap-2 md:gap-4 lg:gap-6 w-full items-center">
               {/* Left Column - coverreel2 (Symmetrical to Right) */}
-              <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
+              <div className="flex flex-col">
                 <motion.div
                   className="rounded-md overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '9/16' }}
@@ -207,7 +207,7 @@ export default function Home() {
               </div>
 
               {/* Middle Column - coverreel1 (Highest) */}
-              <div className="flex flex-col justify-center h-full">
+              <div className="flex flex-col">
                 <motion.div
                   className="rounded-md overflow-hidden bg-mocha-100 relative w-full"
                   style={{ aspectRatio: '1/1' }}
@@ -230,7 +230,7 @@ export default function Home() {
               </div>
 
               {/* Right Column - coverreel3 (Symmetrical to Left) */}
-              <div className="flex flex-col mt-16 md:mt-24 lg:mt-32">
+              <div className="flex flex-col">
                 <motion.div
                   className="rounded-md overflow-hidden bg-mocha-50 relative w-full"
                   style={{ aspectRatio: '9/16' }}
