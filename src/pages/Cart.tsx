@@ -5,7 +5,7 @@ import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2, CreditCard, Shie
 import { useCart } from '../context/CartContext';
 import { createShopifyCheckout } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
-import { initiateRazorpayPayment } from '../lib/razorpay';
+
 import { useAuth } from '../context/AuthContext';
 
 export default function Cart() {
@@ -22,42 +22,11 @@ export default function Cart() {
   const shipping = subtotal >= threshold ? 0 : shippingFee;
   const total = subtotal + shipping;
 
-  // Razorpay Standard Checkout Handler
-  const handleRazorpayCheckout = async () => {
-    setErrorMessage(null);
-    setIsCheckingOut(true);
 
-    await initiateRazorpayPayment({
-      amount: total,
-      name: 'Mocha & Mogra',
-      description: `Purchase of ${items.reduce((acc, item) => acc + item.quantity, 0)} item(s)`,
-      prefill: {
-        name: user?.user_metadata?.full_name || '',
-        email: user?.email || '',
-      },
-      onSuccess: (response) => {
-        setIsCheckingOut(false);
-        clearCart();
-        navigate('/order-confirmation', {
-          state: {
-            paymentId: response.payment_id,
-            orderId: response.order_id,
-          },
-        });
-      },
-      onError: (err) => {
-        setIsCheckingOut(false);
-        setErrorMessage(err);
-      },
-      onDismiss: () => {
-        setIsCheckingOut(false);
-      },
-    });
-  };
 
-  // Optional Shopify Checkout fallback
   const handleShopifyCheckout = async () => {
     try {
+      setErrorMessage(null);
       setIsCheckingOut(true);
       const itemsPayload = items.map((item) => ({
         variantId: item.product.shopifyVariantId || item.product.id,
@@ -66,8 +35,8 @@ export default function Cart() {
       const checkoutUrl = await createShopifyCheckout(itemsPayload);
       window.location.href = checkoutUrl;
     } catch (err) {
-      console.warn('Redirecting to Razorpay checkout:', err);
-      handleRazorpayCheckout();
+      console.warn('Redirecting to Shopify checkout failed:', err);
+      setErrorMessage('Checkout is currently unavailable. Please try again later.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -247,39 +216,29 @@ export default function Cart() {
                   </div>
                 </div>
 
-                {/* Primary Button: Pay with Razorpay */}
+                {/* Primary Button: Shopify Checkout */}
                 <button
-                  onClick={handleRazorpayCheckout}
+                  onClick={handleShopifyCheckout}
                   disabled={isCheckingOut}
                   className="w-full btn-primary-filled justify-center py-4 text-sm flex items-center gap-2 mb-3"
                 >
                   {isCheckingOut ? (
                     <>
-                      Processing Payment...
+                      Processing Checkout...
                       <Loader2 size={14} className="animate-spin" strokeWidth={1.5} />
                     </>
                   ) : (
                     <>
-                      <CreditCard size={16} strokeWidth={1.5} />
-                      Pay with Razorpay
+                      Checkout via Shopify
                       <ArrowRight size={14} strokeWidth={1.5} />
                     </>
                   )}
                 </button>
 
-                {/* Secondary Button: Shopify Checkout */}
-                <button
-                  onClick={handleShopifyCheckout}
-                  disabled={isCheckingOut}
-                  className="w-full border border-mocha-300 text-mocha-800 hover:bg-mocha-50 font-cinzel text-xs tracking-[0.15em] uppercase justify-center py-3 text-center transition-colors block"
-                >
-                  Checkout via Shopify
-                </button>
-
                 <div className="flex items-center justify-center gap-2 text-mocha-400 mt-5">
                   <ShieldCheck size={14} strokeWidth={1.5} />
                   <p className="font-cinzel text-[9px] tracking-[0.2em] uppercase">
-                    256-Bit SSL Encrypted Razorpay Checkout
+                    Secure Shopify Checkout
                   </p>
                 </div>
               </div>

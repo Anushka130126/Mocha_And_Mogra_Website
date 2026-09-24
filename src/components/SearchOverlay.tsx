@@ -16,13 +16,13 @@ export default function SearchOverlay({ open, onClose, onSelectProduct }: Search
 
   const results = query.trim().length > 0
     ? products.filter((p) => {
-        const q = query.toLowerCase();
-        return (
-          p.name.toLowerCase().includes(q) ||
-          p.motif.toLowerCase().includes(q) ||
-          p.personality.some((t) => t.toLowerCase().includes(q)) ||
-          p.category.toLowerCase().includes(q) ||
-          p.keywords.some((k) => k.toLowerCase().includes(q))
+        const searchTerms = query.toLowerCase().split(' ').filter(Boolean);
+        return searchTerms.every((term) =>
+          p.name.toLowerCase().includes(term) ||
+          p.motif.toLowerCase().includes(term) ||
+          p.personality.some((t) => t.toLowerCase().includes(term)) ||
+          p.category.toLowerCase().includes(term) ||
+          p.keywords.some((k) => k.toLowerCase().includes(term))
         );
       })
     : [];

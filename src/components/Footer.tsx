@@ -64,7 +64,7 @@ export default function Footer() {
                 <Mail size={18} strokeWidth={1.5} />
               </a>
               <a
-                href="https://www.instagram.com/mochanmogra/"
+                href="https://www.instagram.com/mocha.n.mogra/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"

@@ -112,13 +112,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                 <Search size={18} strokeWidth={1.5} />
               </button>
               
-              <button
-                onClick={() => navigate(user ? '/profile' : '/auth')}
-                aria-label="Profile"
-                className="text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block"
-              >
-                <User size={18} strokeWidth={1.5} />
-              </button>
+
 
               {/* Wishlist */}
               <button
