@@ -27,7 +27,7 @@ export const products: Product[] = [
       'The cage motif was my little way of playing with the idea of freedom — because what’s more fun than putting a cage on a saree and then wearing it exactly how you want?',
     wearFor: 'I see this one on the woman who likes her classics with a little bit of edge. Dinner dates, cocktails, gallery evenings — basically anywhere you want someone to stop and ask, “Wait, is that a cage on your saree?”',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/eo_4,q_auto,f_auto,w_800/sm2.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm1.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/eo_4,q_auto,f_auto,w_800/sm2.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/smsareefall.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/sm3.webp', '/images/sm5.webp'],
     color: '#8898B8',
     shopifyVariantId: '48988074541305', // SAPPHIRE MOGRA
   },
@@ -43,7 +43,7 @@ export const products: Product[] = [
       'Can we talk about how butter yellow is having such a moment right now? Gen Z, millennials — everyone seems to be obsessed with it. And then there’s the pineapple. Somehow, the two together just made perfect sense to me. It gives this saree that fresh, playful energy without making it feel too young.',
     wearFor: 'Haldi? Absolutely. Brunch date? Of course. Day wedding? Take her. She’s basically made for happy occasions.',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm4.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm4.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodelmehendi.webm', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodeltwirl.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm5_2.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm4.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/q_auto,f_auto,w_800/bmmodeltwirl.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/bm5_2.webp'],
     color: '#D4C08A',
     shopifyVariantId: '48991334367481', // BUTTER MOGRA
   },
@@ -91,7 +91,7 @@ export const products: Product[] = [
       'I wanted something soft and feminine, but then I thought — why should pretty always mean predictable? So came the owl. A little unusual, a little mysterious and definitely not the motif you expect to find on a saree.',
     wearFor: 'I see this one at intimate dinners, date nights, sundowners and those occasions where you want to look pretty but still have something interesting going on.',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm3_2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm4.webp'],
+    images: ['/images/rm1_new.webp', '/images/rm2_new.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/rm3_2.webp'],
     color: '#C9B5A8',
     shopifyVariantId: '48991405605113', // ROSÉ MOGRA
   },
@@ -107,7 +107,7 @@ export const products: Product[] = [
       'This one is very close to my heart. The elephant felt like the perfect place to start — deeply Indian, instantly recognisable, but playful enough to become something completely new through our patchwork. And you clearly agreed. Riwayaat is our best-seller. The saree that made people stop, ask questions and discover Mocha & Mogra for the first time.',
     wearFor: 'A little bit of our riwayaat, with a lot of our personality.',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri4.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri4.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,eo_4,q_auto,f_auto,w_800/coverreel3.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri5_2.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri4.webp', 'https://res.cloudinary.com/xtrw55ut/video/upload/a_-90,eo_4,q_auto,f_auto,w_800/coverreel3.webm', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri3.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ri1.webp', '/images/ri5_new.webp'],
     color: '#B8A898',
     shopifyVariantId: '48996869701881', // RIWAAYAT
   },
@@ -123,7 +123,7 @@ export const products: Product[] = [
       'Two little fish swimming across a silk saree. I don’t know — I just loved the idea. There’s something about this one that feels like holiday energy. A sunset dinner, a beachside celebration, a long evening with nowhere to be.',
     wearFor: 'Basically, the saree equivalent of saying, “Let’s stay for one more drink.”',
     image: 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss1.webp',
-    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss1.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss3.webp'],
+    images: ['https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss1.webp', '/images/ss2_new.webp', '/images/ss3_new.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss2.webp', 'https://res.cloudinary.com/xtrw55ut/image/upload/q_auto,f_auto,w_800/ss3.webp'],
     color: '#C4A882',
     shopifyVariantId: '48996873732345', // SUNDOWNER SILK
   },
