@@ -76,13 +76,20 @@ export default function Shop() {
       <ShopItemListJsonLd products={filtered} />
       <BreadcrumbJsonLd crumbs={[{ name: 'Home', path: '/' }, { name: 'Shop', path: '/shop' }]} />
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        {/* Header */}
         <div className="text-center mb-16">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="section-label mb-4"
+          >
+            Shop
+          </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="font-cinzel text-4xl md:text-5xl tracking-widest text-mocha-900 uppercase pt-4"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-cinzel text-4xl md:text-6xl tracking-widest text-mocha-900 uppercase"
           >
             THE WARDROBE
           </motion.h1>
