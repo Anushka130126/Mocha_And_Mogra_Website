@@ -1,25 +1,32 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function AgePrivacyPopup() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function AgePrivacyPopup({
+  isOpen,
+  onAccept,
+}: {
+  isOpen: boolean;
+  onAccept: () => void;
+}) {
   const [acceptedAge, setAcceptedAge] = useState(false);
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
   const [showPolicy, setShowPolicy] = useState(false);
 
   useEffect(() => {
-    const hasAccepted = localStorage.getItem('mocha_mogra_policy_accepted');
-    if (!hasAccepted) {
-      setIsOpen(true);
+    if (isOpen) {
       document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
-  }, []);
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const handleAccept = () => {
     if (acceptedAge && acceptedPrivacy) {
       localStorage.setItem('mocha_mogra_policy_accepted', 'true');
-      setIsOpen(false);
-      document.body.style.overflow = '';
+      onAccept();
     }
   };
 

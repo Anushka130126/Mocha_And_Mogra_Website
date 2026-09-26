@@ -45,7 +45,10 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
 
   const formatPrice = (inrAmount: number) => {
     if (currency === 'USD') {
-      const usdAmount = Math.round(inrAmount / USD_RATE);
+      let usdAmount = Math.round(inrAmount / USD_RATE);
+      if (inrAmount === 9500) usdAmount = 200;
+      else if (inrAmount === 3500) usdAmount = 75;
+
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',

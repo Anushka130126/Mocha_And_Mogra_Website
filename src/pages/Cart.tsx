@@ -1,30 +1,32 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2, CreditCard, ShieldCheck } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag, ArrowRight, Tag, Loader2, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { createShopifyCheckout } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
 
-import { useAuth } from '../context/AuthContext';
+import AgePrivacyPopup from '../components/AgePrivacyPopup';
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { items, removeItem, updateQuantity, subtotal, clearCart } = useCart();
+  const { items, removeItem, updateQuantity, subtotal } = useCart();
   const { currency, formatPrice, usdRate } = useCurrency();
-  const { user } = useAuth();
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showAgePopup, setShowAgePopup] = useState(false);
 
   const threshold = currency === 'USD' ? 200 * usdRate : 5000;
   const shippingFee = currency === 'USD' ? 25 * usdRate : 500;
   const shipping = subtotal >= threshold ? 0 : shippingFee;
-  const total = subtotal + shipping;
+  const total = subtotal + shipping;  const handleShopifyCheckout = async () => {
+    const hasAccepted = localStorage.getItem('mocha_mogra_policy_accepted');
+    if (!hasAccepted) {
+      setShowAgePopup(true);
+      return;
+    }
 
-
-
-  const handleShopifyCheckout = async () => {
     try {
       setErrorMessage(null);
       setIsCheckingOut(true);
@@ -69,13 +71,13 @@ export default function Cart() {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="border-b border-mocha-200 py-8 flex gap-6"
+                      className="border-b border-mocha-200 py-6 md:py-8 flex gap-4 md:gap-6"
                     >
                       {/* Arch image */}
                       <div
-                        className="flex-shrink-0 w-28 overflow-hidden bg-mocha-100 cursor-pointer"
+                        className="flex-shrink-0 w-24 md:w-28 overflow-hidden bg-mocha-100 cursor-pointer"
                         style={{ borderRadius: '6px', aspectRatio: '3/4' }}
-                        onClick={() => navigate('/shop')}
+                        onClick={() => navigate(`/shop?product=${item.product.id}`)}
                       >
                         <img
                           src={item.product.image}
@@ -88,10 +90,13 @@ export default function Cart() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <p className="font-cinzel text-xs tracking-[0.2em] uppercase text-mocha-500 mb-1">
+                            <p className="font-cinzel text-[10px] md:text-xs tracking-[0.2em] uppercase text-mocha-500 mb-1">
                               {item.product.category} · {item.product.motif} Motif
                             </p>
-                            <h3 className="font-playfair text-xl text-mocha-900 mb-1">
+                            <h3 
+                              className="font-playfair text-lg md:text-xl text-mocha-900 mb-1 cursor-pointer hover:underline"
+                              onClick={() => navigate(`/shop?product=${item.product.id}`)}
+                            >
                               {item.product.name}
                             </h3>
                             <p className="font-lora text-sm text-mocha-500 italic">
@@ -246,6 +251,14 @@ export default function Cart() {
           </div>
         )}
       </div>
+
+      <AgePrivacyPopup 
+        isOpen={showAgePopup} 
+        onAccept={() => {
+          setShowAgePopup(false);
+          handleShopifyCheckout();
+        }} 
+      />
     </div>
   );
 }
@@ -256,7 +269,7 @@ function EmptyCart({ onShop }: { onShop: () => void }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="flex flex-col items-center justify-center py-28 text-center"
+      className="flex flex-col items-center justify-center py-16 md:py-28 text-center"
     >
       <ShoppingBag size={40} className="text-mocha-300 mb-6" strokeWidth={1} />
       <h2 className="font-playfair text-3xl text-mocha-900 mb-4">Your cart is empty.</h2>

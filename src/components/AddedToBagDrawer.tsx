@@ -5,6 +5,8 @@ import { useCart } from '../context/CartContext';
 import { createDirectShopifyCheckout } from '../lib/shopify';
 import { useCurrency } from '../context/CurrencyContext';
 import type { Product } from '../data/products';
+import { useState } from 'react';
+import AgePrivacyPopup from './AgePrivacyPopup';
 
 interface AddedToBagDrawerProps {
   product: Product | null;
@@ -15,6 +17,16 @@ export default function AddedToBagDrawer({ product, onClose }: AddedToBagDrawerP
   const navigate = useNavigate();
   const { items, totalItems, subtotal } = useCart();
   const { formatPrice } = useCurrency();
+  const [showAgePopup, setShowAgePopup] = useState(false);
+
+  const handleCheckout = () => {
+    onClose();
+    const itemsPayload = items.map((item) => ({
+      variantId: item.product.shopifyVariantId || item.product.id,
+      quantity: item.quantity,
+    }));
+    window.location.href = createDirectShopifyCheckout(itemsPayload);
+  };
 
   return (
     <AnimatePresence>
@@ -126,12 +138,12 @@ export default function AddedToBagDrawer({ product, onClose }: AddedToBagDrawerP
               <button
                 id="drawer-checkout-btn"
                 onClick={() => {
-                  onClose();
-                  const itemsPayload = items.map((item) => ({
-                    variantId: item.product.id,
-                    quantity: item.quantity,
-                  }));
-                  window.location.href = createDirectShopifyCheckout(itemsPayload);
+                  const hasAccepted = localStorage.getItem('mocha_mogra_policy_accepted');
+                  if (!hasAccepted) {
+                    setShowAgePopup(true);
+                    return;
+                  }
+                  handleCheckout();
                 }}
                 className="w-full py-3.5 bg-mocha-900 text-gold-200 font-cinzel text-xs tracking-[0.25em] uppercase hover:bg-mocha-800 transition-colors flex items-center justify-center gap-2 shadow-md"
               >
@@ -160,6 +172,13 @@ export default function AddedToBagDrawer({ product, onClose }: AddedToBagDrawerP
               </div>
             </div>
           </motion.div>
+          <AgePrivacyPopup
+            isOpen={showAgePopup}
+            onAccept={() => {
+              setShowAgePopup(false);
+              handleCheckout();
+            }}
+          />
         </>
       )}
     </AnimatePresence>

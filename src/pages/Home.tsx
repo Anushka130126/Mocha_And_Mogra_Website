@@ -60,11 +60,11 @@ export default function Home() {
     <div className="pt-20">
       <OrganizationJsonLd />
       {/* Hero */}
-      <section className="min-h-[92vh] flex items-center">
+      <section className="min-h-[92vh] flex items-center py-16 lg:py-0">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Text */}
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-1 pb-16 lg:pb-0">
               <motion.div
                 custom={0}
                 variants={fadeUp}
@@ -162,7 +162,7 @@ export default function Home() {
       </section>
 
       {/* Motif Strip */}
-      <section className="border-y border-mocha-200 overflow-hidden">
+      <section className="border-y border-mocha-200 overflow-hidden py-8 md:py-0">
         <div className="flex items-center w-max">
           {[...Array(4)].map((_, i) => (
             <img 

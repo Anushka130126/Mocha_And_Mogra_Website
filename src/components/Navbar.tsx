@@ -87,9 +87,10 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
             </nav>
 
             {/* Icons */}
-            <div className="flex items-center gap-4 sm:gap-5">
+            <div className="flex items-center gap-3 sm:gap-5">
               {/* Currency Toggle */}
-              <div className="hidden sm:flex items-center gap-1 font-cinzel text-[10px] tracking-[0.1em] text-mocha-600 bg-mocha-50/50 rounded-full px-2 py-1 border border-mocha-200">
+              {location.pathname === '/shop' && (
+                <div className="flex items-center gap-1 font-cinzel text-[10px] tracking-[0.1em] text-mocha-600 bg-mocha-50/50 rounded-full px-2 py-1 border border-mocha-200">
                 <button
                   onClick={() => setCurrency('INR')}
                   className={`px-2 py-1 rounded-full transition-colors ${currency === 'INR' ? 'bg-mocha-800 text-gold-200' : 'hover:bg-mocha-100'}`}
@@ -103,11 +104,12 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
                   USD
                 </button>
               </div>
+              )}
 
               <button
                 onClick={onSearchOpen}
                 aria-label="Search"
-                className="text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block ml-2"
+                className="text-mocha-600 hover:text-mocha-900 transition-colors ml-1 sm:ml-2"
               >
                 <Search size={18} strokeWidth={1.5} />
               </button>
@@ -118,7 +120,7 @@ export default function Navbar({ onSearchOpen }: NavbarProps) {
               <button
                 onClick={() => navigate('/wishlist')}
                 aria-label="Wishlist"
-                className="relative text-mocha-600 hover:text-mocha-900 transition-colors hidden md:block"
+                className="relative text-mocha-600 hover:text-mocha-900 transition-colors"
               >
                 <Heart size={18} strokeWidth={1.5} />
                 {totalWishlisted > 0 && (

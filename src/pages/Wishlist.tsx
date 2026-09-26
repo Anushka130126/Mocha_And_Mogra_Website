@@ -54,7 +54,7 @@ export default function Wishlist() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
               {items.map((product) => (
                 <motion.div
                   key={product.id}
@@ -65,7 +65,10 @@ export default function Wishlist() {
                   className="group relative bg-white border border-mocha-100 hover:border-mocha-300 transition-colors"
                 >
                   {/* Product image */}
-                  <div className="relative aspect-[3/4] overflow-hidden">
+                  <div 
+                    className="relative aspect-[3/4] overflow-hidden cursor-pointer"
+                    onClick={() => window.location.href = `/shop?product=${product.id}`}
+                  >
                     <img
                       src={product.image}
                       alt={product.name}
@@ -83,11 +86,14 @@ export default function Wishlist() {
                   </div>
 
                   {/* Info */}
-                  <div className="p-5">
-                    <p className="font-cinzel text-xs tracking-[0.2em] text-mocha-400 uppercase mb-1">
+                  <div className="p-3 sm:p-5">
+                    <p className="font-cinzel text-[10px] sm:text-xs tracking-[0.2em] text-mocha-400 uppercase mb-1">
                       {product.motif} · {product.category}
                     </p>
-                    <h3 className="font-playfair text-lg text-mocha-900 mb-3">
+                    <h3 
+                      className="font-playfair text-base sm:text-lg text-mocha-900 mb-3 cursor-pointer hover:underline"
+                      onClick={() => window.location.href = `/shop?product=${product.id}`}
+                    >
                       {product.name}
                     </h3>
                     <div className="flex items-center justify-between">
